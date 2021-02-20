@@ -24,25 +24,23 @@ const logService = require('./services/logging/log.service');
 //
 //
 
-
 /**
  * @fileoverview Master bootsrap module.
- * 
+ *
  */
 
 const Discord = require('discord.js');
 
-
 const client = new Discord.Client();
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', msg => {
-    if (msg.content === 'ping') {
-        msg.channel.send('pong');
-    }
+client.on('message', (msg) => {
+  if (msg.content === 'ping') {
+    msg.channel.send('pong');
+  }
 });
 
 client.login('token');
@@ -71,45 +69,45 @@ let appServices;
  * @return {Promise} A Promise.
  */
 app.init = async (optOpts) => {
-    if (initialized) {
-        return;
-    }
-    initialized = true;
+  if (initialized) {
+    return;
+  }
+  initialized = true;
 
-    // Get user & default boot options.
-    const bootOpts = app._getBootOpts(optOpts);
+  // Get user & default boot options.
+  const bootOpts = app._getBootOpts(optOpts);
 
-    // if run as root, downgrade to the owner of this file
-    app._checkRoot();
+  // if run as root, downgrade to the owner of this file
+  app._checkRoot();
 
-    // Initialize logging service
-    logService.init(bootOpts);
+  // Initialize logging service
+  logService.init(bootOpts);
 
-    const log = logService.get();
+  const log = logService.get();
 
-    log.notice(
-        `Srop Core Initializing. standAlone: ${globals.isStandAlone}` +
-        ` :: System NODE_ENV: ${process.env.NODE_ENV} :: App Environment:` +
-        ` ${globals.env}`,
-        {
-            custom: {
-                stand_alone: globals.isStandAlone,
-                env_process: process.env.NODE_ENV,
-                env_application: globals.env,
-            },
-        },
-    );
+  log.notice(
+    `Srop Core Initializing. standAlone: ${globals.isStandAlone}` +
+      ` :: System NODE_ENV: ${process.env.NODE_ENV} :: App Environment:` +
+      ` ${globals.env}`,
+    {
+      custom: {
+        stand_alone: globals.isStandAlone,
+        env_process: process.env.NODE_ENV,
+        env_application: globals.env,
+      },
+    },
+  );
 
-    app._setupErrorHandlers(log);
+  app._setupErrorHandlers(log);
 
-    appServices = require('./app-services');
+  appServices = require('./app-services');
 
-    try {
-        await appServices.boot(bootOpts);
-    } catch (ex) {
-        log.emergency('Error on boot:', { error: ex });
-        throw ex;
-    }
+  try {
+    await appServices.boot(bootOpts);
+  } catch (ex) {
+    log.emergency('Error on boot:', { error: ex });
+    throw ex;
+  }
 };
 
 /**
@@ -123,27 +121,27 @@ app.init = async (optOpts) => {
  * @return {Promise<void>}
  */
 app.handleNodeExit = async ({ exit = true, exitCode = 0, type }, error) => {
-    const log = logService.get();
-    log.notice('Received exit code', {
-        custom: { type },
-    });
+  const log = logService.get();
+  log.notice('Received exit code', {
+    custom: { type },
+  });
 
-    if (error instanceof Error) {
-        log.alert('Node app exits with error', { error });
-    }
+  if (error instanceof Error) {
+    log.alert('Node app exits with error', { error });
+  }
 
-    await app.dispose();
+  await app.dispose();
 
-    if (exit) {
-        process.exit(exitCode);
-    }
+  if (exit) {
+    process.exit(exitCode);
+  }
 };
 
 /**
  * Local expose method.
  */
 app.dispose = async () => {
-    await appServices.dispose();
+  await appServices.dispose();
 };
 
 /**
@@ -153,28 +151,28 @@ app.dispose = async () => {
  * @private
  */
 app._setupErrorHandlers = function (log) {
-    process.on(
-        'SIGINT',
-        app.handleNodeExit.bind(null, {
-            type: 'SIGINT',
-        }),
-    );
-    process.on(
-        'SIGTERM',
-        app.handleNodeExit.bind(null, {
-            type: 'SIGTERM',
-        }),
-    );
-    process.on(
-        'uncaughtException',
-        app.handleNodeExit.bind(null, {
-            type: 'uncaughtException',
-            exitCode: 99,
-        }),
-    );
-    process.on('unhandledRejection', (error) => {
-        log.critical('Unhandled Promise Rejection', { error });
-    });
+  process.on(
+    'SIGINT',
+    app.handleNodeExit.bind(null, {
+      type: 'SIGINT',
+    }),
+  );
+  process.on(
+    'SIGTERM',
+    app.handleNodeExit.bind(null, {
+      type: 'SIGTERM',
+    }),
+  );
+  process.on(
+    'uncaughtException',
+    app.handleNodeExit.bind(null, {
+      type: 'uncaughtException',
+      exitCode: 99,
+    }),
+  );
+  process.on('unhandledRejection', (error) => {
+    log.critical('Unhandled Promise Rejection', { error });
+  });
 };
 
 /**
@@ -185,23 +183,23 @@ app._setupErrorHandlers = function (log) {
  * @private
  */
 app._getBootOpts = (optOpts) => {
-    let userOpts = {};
-    if (__.isObject(optOpts)) {
-        userOpts = optOpts;
-    }
+  let userOpts = {};
+  if (__.isObject(optOpts)) {
+    userOpts = optOpts;
+  }
 
-    /** @type {Object} define default options */
-    const bootOpts = __.defaults(userOpts, {
-        // launch webserver
-        webserver: true,
+  /** @type {Object} define default options */
+  const bootOpts = __.defaults(userOpts, {
+    // launch webserver
+    webserver: true,
 
-        // Suppress logging to console
-        suppressLogging: false,
+    // Suppress logging to console
+    suppressLogging: false,
 
-        appName: 'srop-core',
-    });
+    appName: 'srop-core',
+  });
 
-    return bootOpts;
+  return bootOpts;
 };
 
 /**
@@ -210,19 +208,19 @@ app._getBootOpts = (optOpts) => {
  * @private
  */
 app._checkRoot = () => {
-    if (process.getuid() === 0) {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        fs.stat(__filename, function (err, stats) {
-            if (err) {
-                // eslint-disable-next-line no-console
-                return console.error('Failed to downgrade from root. Error:', err);
-            }
-            process.setuid(stats.uid);
-        });
-    }
+  if (process.getuid() === 0) {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    fs.stat(__filename, function (err, stats) {
+      if (err) {
+        // eslint-disable-next-line no-console
+        return console.error('Failed to downgrade from root. Error:', err);
+      }
+      process.setuid(stats.uid);
+    });
+  }
 };
 
 // ignition
 if (globals.isStandAlone) {
-    app.init();
+  app.init();
 }

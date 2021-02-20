@@ -13,10 +13,10 @@ const globals = (module.exports = {});
  * @enum {string}
  */
 globals.Environments = {
-    CIRCLE: 'circleci',
-    LOCAL: 'localdev',
-    TESTING: 'test',
-    PRODUCTION: 'production',
+  CIRCLE: 'circleci',
+  LOCAL: 'localdev',
+  TESTING: 'test',
+  PRODUCTION: 'production',
 };
 
 /**
@@ -36,17 +36,17 @@ globals.isStandAlone = true;
  * @return {string} One of the supported environments.
  */
 globals.getEnvironment = function () {
-    const env = process.env.NODE_ENV || globals.Environments.LOCAL;
+  const env = process.env.NODE_ENV || globals.Environments.LOCAL;
 
-    let currentEnv = globals.Environments.LOCAL;
+  let currentEnv = globals.Environments.LOCAL;
 
-    Object.keys(globals.Environments).forEach(function (envIter) {
-        if (env === globals.Environments[envIter]) {
-            currentEnv = env;
-        }
-    });
+  Object.keys(globals.Environments).forEach(function (envIter) {
+    if (env === globals.Environments[envIter]) {
+      currentEnv = env;
+    }
+  });
 
-    return currentEnv;
+  return currentEnv;
 };
 
 /**
@@ -60,23 +60,23 @@ globals.env = globals.getEnvironment();
 globals.isLocal = [globals.Environments.LOCAL].indexOf(globals.env) >= 0;
 
 globals.isTest =
-    [globals.Environments.TESTING, globals.Environments.CIRCLE].indexOf(
-        globals.env,
-    ) >= 0;
+  [globals.Environments.TESTING, globals.Environments.CIRCLE].indexOf(
+    globals.env,
+  ) >= 0;
 
 /** @type {boolean} Determines if we are on Production environment. */
 globals.isProd = false;
 if ([globals.Environments.PRODUCTION].indexOf(globals.env) >= 0) {
-    globals.isProd = true;
+  globals.isProd = true;
 }
 
 //
 // Discover proper port
 //
 if (process.env.PORT) {
-    globals.port = process.env.PORT;
+  globals.port = process.env.PORT;
 } else {
-    globals.port = config.webserver.port;
+  globals.port = config.webserver.port;
 }
 
 /**
