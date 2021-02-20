@@ -17,7 +17,10 @@ const __ = require('lodash');
 
 require('./utils/jsdoc-type-definitions');
 const globals = require('./utils/globals');
-const logService = require('./services/logging/log.service');
+const logService = require('./services/log.service');
+
+const APPLICATION_NAME = 'skgbot';
+
 //
 // WARNING
 // do not include any more libraries before the log service is initialized.
@@ -86,7 +89,7 @@ app.init = async (optOpts) => {
   const log = logService.get();
 
   log.notice(
-    `Srop Core Initializing. standAlone: ${globals.isStandAlone}` +
+    `SKGBot Initializing. standAlone: ${globals.isStandAlone}` +
       ` :: System NODE_ENV: ${process.env.NODE_ENV} :: App Environment:` +
       ` ${globals.env}`,
     {
@@ -100,7 +103,7 @@ app.init = async (optOpts) => {
 
   app._setupErrorHandlers(log);
 
-  appServices = require('./app-services');
+  appServices = require('./services');
 
   try {
     await appServices.boot(bootOpts);
@@ -120,7 +123,9 @@ app.init = async (optOpts) => {
  * @param {Error=} error An error object.
  * @return {Promise<void>}
  */
-app.handleNodeExit = async ({ exit = true, exitCode = 0, type }, error) => {
+app.handleNodeExit = async (options, error) => {
+  const { exit = true, exitCode = 0, type } = options;
+
   const log = logService.get();
   log.notice('Received exit code', {
     custom: { type },
@@ -196,7 +201,7 @@ app._getBootOpts = (optOpts) => {
     // Suppress logging to console
     suppressLogging: false,
 
-    appName: 'srop-core',
+    appName: APPLICATION_NAME,
   });
 
   return bootOpts;
