@@ -140,7 +140,7 @@ expressService._expressError = (error, req, res, next) => {
 
   // If not an application generated error, mask it with a generic one.
   let useError = error;
-  if (!error.sropError) {
+  if (!error.botError) {
     log.info('Express Error Handler, not application generated error', {
       error,
       viewer: req.viewer,

@@ -22,7 +22,7 @@ errors.getError = (errorCode) => {
   error.description = errorItem.description;
   error.httpCode = errorItem.httpCode;
   error.noBacktrace = true;
-  error.sropError = true;
+  error.botError = true;
 
   return error;
 };
