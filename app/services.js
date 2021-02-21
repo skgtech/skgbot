@@ -6,7 +6,6 @@ const log = require('./services/log.service').get();
 
 const postgresService = require('./services/postgres.service');
 const expressService = require('./services/web/express.service');
-const dbConnService = require('./services/db-connection.service');
 const migrationService = require('./services/migration.service');
 
 /**
@@ -25,17 +24,11 @@ const appServices = (module.exports = {});
 appServices.boot = async (bootOpts) => {
   log.notice('Booting Services...');
 
-  await awsService.init();
-
-  await dbConnService.init();
-
   await postgresService.init();
 
   await migrationService.runHerokuMigration();
 
   await expressService.init(bootOpts);
-
-  await policies.init();
 
   log.notice('Service Boot Finished');
 };
@@ -47,5 +40,4 @@ appServices.boot = async (bootOpts) => {
  */
 appServices.dispose = async () => {
   await postgresService.dispose();
-  await redisService.disposeAll();
 };
