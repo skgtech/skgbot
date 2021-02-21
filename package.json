@@ -49,6 +49,7 @@
         "dont-sniff-mimetype": "1.1.0",
         "express": "4.17.1",
         "express-sslify": "1.2.0",
+        "http-shutdown": "1.2.2",
         "knex": "0.21.17",
         "lodash": "4.17.20",
         "logality": "3.0.2",
