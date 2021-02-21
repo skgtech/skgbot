@@ -1,6 +1,7 @@
-# SKGTech Slack Bot
+# SKGTech Discord Bot
 
-> Enables invitation to slack and various slack functions.
+> Enables onboarding of new users, implements a help screen and various
+    other functions.
 
 # How To Install
 
