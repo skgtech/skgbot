@@ -16,7 +16,7 @@ globals.Environments = {
   CIRCLE: 'circleci',
   LOCAL: 'localdev',
   TESTING: 'test',
-  PRODUCTION: 'production',
+  HEROKU_PROD: 'heroku_prod',
 };
 
 /**
@@ -66,9 +66,12 @@ globals.isTest =
 
 /** @type {boolean} Determines if we are on Production environment. */
 globals.isProd = false;
-if ([globals.Environments.PRODUCTION].indexOf(globals.env) >= 0) {
+if ([globals.Environments.HEROKU_PROD].indexOf(globals.env) >= 0) {
   globals.isProd = true;
 }
+
+/** @type {boolean} Determines if we are on heroku environment. */
+globals.isHeroku = [globals.Environments.HEROKU_PROD].indexOf(globals.env) >= 0;
 
 //
 // Discover proper port
