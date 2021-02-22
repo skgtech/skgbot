@@ -87,7 +87,7 @@ app.init = async (optOpts) => {
 
   app._setupErrorHandlers(log);
 
-  appServices = require('./services');
+  appServices = require('./services.boot');
 
   try {
     await appServices.boot(bootOpts);
