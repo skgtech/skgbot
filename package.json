@@ -53,7 +53,8 @@
         "knex": "0.21.17",
         "lodash": "4.17.20",
         "logality": "3.0.2",
-        "nocache": "2.1.0"
+        "nocache": "2.1.0",
+        "pg": "8.5.1"
     },
     "devDependencies": {
         "@types/jest": "26.0.20",

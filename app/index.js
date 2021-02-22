@@ -93,7 +93,9 @@ app.init = async (optOpts) => {
     await appServices.boot(bootOpts);
   } catch (ex) {
     log.emergency('Error on boot:', { error: ex });
-    throw ex;
+    if (!globals.isStandAlone) {
+      throw ex;
+    }
   }
 };
 

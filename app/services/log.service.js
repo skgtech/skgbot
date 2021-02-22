@@ -42,7 +42,6 @@ logger.init = function (bootOpts = {}) {
     appName,
     async: true,
     serializers,
-    output: logger._output.bind(null, bootOpts),
   });
 
   // Create the get method
