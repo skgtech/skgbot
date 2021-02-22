@@ -50,3 +50,9 @@
  *
  * @typedef {(Object)} Knex
  */
+
+/**
+ * Discord.js client instance.
+ *
+ * @typedef {(Object)} Discord
+ */

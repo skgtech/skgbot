@@ -1,0 +1,8 @@
+{
+    "postgres": {
+        "connection_string": "POSTGRES_URL"
+    },
+    "discord": {
+        "token": "DISCORD_BOT_TOKEN"
+    }
+}
