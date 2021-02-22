@@ -25,7 +25,7 @@ web.init = (app) => {
  * Start the webserver.
  *
  * @param {Express} app the Express instance.
- * @return {BPromise} A promise.
+ * @return {Promise} A promise.
  */
 web.start = (app) => {
   return new Promise((resolve, reject) => {
