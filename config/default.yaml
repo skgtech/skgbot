@@ -1,7 +1,4 @@
 {
-    "slack": {
-        "slackbot_webhook": ""
-    },
     "postgres": {
         "connection_string": "postgres://postgres:postgres@127.0.0.1:5432/slackbot",
         "connection_string_reset": "postgres://postgres:postgres@127.0.0.1:5432/postgres",
@@ -20,5 +17,8 @@
         "cors": {
             "allowed_origins": []
         }
+    },
+    "discord": {
+        "token": "DO NOT FILL IN - USE ENV VAR: DISCORD_BOT_TOKEN"
     }
 }

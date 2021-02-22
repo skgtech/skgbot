@@ -7,6 +7,7 @@ const log = require('./services/log.service').get();
 const postgresService = require('./services/postgres.service');
 const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
+const discordService = require('./services/discord.service');
 
 /**
  * Boots all the services of the application.
@@ -19,7 +20,7 @@ const appServices = (module.exports = {});
  * Triggers after all databases are connected.
  *
  * @param {Object} bootOpts A set of options.
- * @return {BPromise} a promise.
+ * @return {Promise} a promise.
  */
 appServices.boot = async (bootOpts) => {
   log.notice('Booting Services...');
@@ -29,6 +30,8 @@ appServices.boot = async (bootOpts) => {
   await migrationService.runHerokuMigration();
 
   await expressService.init(bootOpts);
+
+  await discordService.init();
 
   log.notice('Service Boot Finished');
 };
