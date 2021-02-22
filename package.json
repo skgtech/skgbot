@@ -20,7 +20,8 @@
     },
     "scripts": {
         "start": "node .",
-        "eslint": "eslint app test"
+        "eslint": "eslint app test",
+        "db:reset:local": "node scripts/db-local.script.js"
     },
     "jest": {
         "coverageReporters": [
@@ -54,7 +55,8 @@
         "lodash": "4.17.20",
         "logality": "3.0.2",
         "nocache": "2.1.0",
-        "pg": "8.5.1"
+        "pg": "8.5.1",
+        "uuid": "8.3.2"
     },
     "devDependencies": {
         "@types/jest": "26.0.20",
