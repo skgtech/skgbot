@@ -36,7 +36,7 @@ expressService.init = async function (bootOpts) {
   log.notice('Starting Express Service...', {
     custom: {
       cors_allowed_origins: config.webserver.cors.allowed_origins,
-      cors_base_url: config.backend_base_url,
+      cors_base_url: config.webserver.backend_base_url,
     },
   });
 
@@ -84,7 +84,7 @@ expressService.init = async function (bootOpts) {
       // permit GET and HEAD requests, even without an Origin header
       allowSafe: true,
       // the origin of the server
-      origin: config.backend_base_url,
+      origin: config.webserver.backend_base_url,
     }),
   );
 

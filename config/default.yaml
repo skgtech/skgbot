@@ -12,4 +12,13 @@
             "directory": "./migrations/"
         },
     },
+    "webserver": {
+        "port": 8000,
+        "backend_base_url": "http://localhost:8000",
+        "enforce_ssl": false,
+        "cookie_secure": false,
+        "cors": {
+            "allowed_origins": []
+        }
+    }
 }
