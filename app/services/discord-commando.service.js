@@ -2,6 +2,8 @@
  * @fileoverview Service that provides connectivity and authentication to the discord-commando API.
  */
 
+const path = require('path');
+
 const config = require('config');
 const Commando = require('discord.js-commando');
 
@@ -41,6 +43,12 @@ commandoService.init = async function () {
 
     client.on('ready', () => {
       log.notice(`Discord-Commando Connected as: ${client.user.tag}`);
+
+      client.registry
+        .registerGroups([['testing', 'Commands to test joining and leaving']])
+        .registerDefaults()
+        .registerCommandsIn(path.resolve(__dirname, '../commandos'));
+
       resolve();
     });
 
