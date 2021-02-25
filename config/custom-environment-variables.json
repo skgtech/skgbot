@@ -3,6 +3,9 @@
         "connection_string": "POSTGRES_URL"
     },
     "discord": {
-        "token": "DISCORD_BOT_TOKEN"
+        "token": "DISCORD_BOT_TOKEN",
+        "commando": {
+            "owner_uid": "DISCORD_COMMANDO_UID"
+        }
     }
 }

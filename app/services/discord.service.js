@@ -7,40 +7,50 @@ const Discord = require('discord.js');
 
 const log = require('./log.service').get();
 
-const discord = (module.exports = {});
+const discordService = (module.exports = {});
 
 /** @type {?Discord} Discord client */
-discord.client = null;
+discordService.client = null;
+
+discordService.getClient = () => {
+  if (!discordService.client) {
+    throw new Error(
+      'Discord Service not initialized yet - client does not exist',
+    );
+  }
+
+  return discordService.client;
+};
 
 /**
  * Initialize and connect to the Discord API.
  *
  * @return {Promise<void>} A Promise.
  */
-discord.init = async function () {
+discordService.init = async function () {
   return new Promise((resolve, reject) => {
     log.notice('Starting Discord Service...');
-    discord.client = new Discord.Client();
+    discordService.client = new Discord.Client();
 
-    discord.client.on('ready', () => {
-      log.notice(`Connected as: ${discord.client.user.tag}`);
+    discordService.client.on('ready', () => {
+      log.notice(`Discord Connected as: ${discordService.client.user.tag}`);
       resolve();
     });
 
-    discord.client.on('error', (error) => {
+    discordService.client.on('error', (error) => {
       log.warn(
-        `Discord Client Error. Connected at: ${discord.client.readyAt}`,
+        `Discord Client Error. Connected at: ${discordService.client.readyAt}`,
         {
           error,
         },
       );
 
       // When no connection has been established, the service is still in initialization mode
-      if (!discord.client.readyAt) {
+      if (!discordService.client.readyAt) {
         reject();
       }
     });
 
-    discord.client.login(config.discord.token);
+    discordService.client.login(config.discord.token);
   });
 };

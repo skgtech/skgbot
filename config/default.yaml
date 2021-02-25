@@ -19,6 +19,9 @@
         }
     },
     "discord": {
-        "token": "DO NOT FILL IN - USE ENV VAR: DISCORD_BOT_TOKEN"
+        "token": "DO NOT FILL - USE ENV VAR: DISCORD_BOT_TOKEN",
+        "commando": {
+          "owner_uid": "DO NOT FILL - USE ENV VAR: DISCORD_COMMANDO_UID"
+        },
     }
 }
