@@ -2,10 +2,10 @@
  * @fileoverview Service that provides connectivity and authentication to the discord-commando API.
  */
 
-const path = require('path');
-
 const config = require('config');
 const Commando = require('discord.js-commando');
+
+const simjoin = require('../commandos/testing/simjoin.cmd');
 
 const log = require('./log.service').get();
 
@@ -44,10 +44,13 @@ commandoService.init = async function () {
     client.on('ready', () => {
       log.notice(`Discord-Commando Connected as: ${client.user.tag}`);
 
+      // declare all custom commands.
+      const commands = [simjoin];
+
+      // Register custom commands.
       client.registry
         .registerGroups([['testing', 'Commands to test joining and leaving']])
-        .registerDefaults()
-        .registerCommandsIn(path.resolve(__dirname, '../commandos'));
+        .registerCommands(commands);
 
       resolve();
     });

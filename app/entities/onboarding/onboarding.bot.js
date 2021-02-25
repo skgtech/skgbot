@@ -17,7 +17,7 @@ onboarding.init = () => {
     console.log('ADD:', member);
     // Send the message to a designated channel on a server:
     const channel = member.guild.channels.cache.find(
-      (ch) => ch.name === 'member-log',
+      (ch) => ch.name === 'bot-test',
     );
 
     // Do nothing if the channel wasn't found on this server
