@@ -1,27 +1,46 @@
 /**
- * @fileoverview Service that provides connectivity and authentication to the discord-commando API.
+ * @fileoverview Service that provides connectivity and authentication to the
+ *  discord-commando API.
  */
 
 const config = require('config');
 const Commando = require('discord.js-commando');
 
-const simjoin = require('../commandos/testing/simjoin.cmd');
+const simjoin = require('../entities/onboarding/simjoin.cmd');
 
 const log = require('./log.service').get();
 
 const commandoService = (module.exports = {});
 
-/** @type {?Discord} Discord client */
-commandoService.client = null;
+/**
+ * @type {?Discord} Discord client
+ * @private
+ */
+commandoService._client = null;
 
+/**
+ * Returns the Discord Command instance.
+ *
+ * @return {Discord} Discord client.
+ * @throws {Error} when discord is disconnected.
+ */
 commandoService.getClient = () => {
-  if (!commandoService.client) {
+  if (!commandoService._client) {
     throw new Error(
       'Discord Service not initialized yet - client does not exist',
     );
   }
 
-  return commandoService.client;
+  return commandoService._client;
+};
+
+/**
+ * Checks if service is connected to Discord.
+ *
+ * @return {boolean}
+ */
+commandoService.isConnected = () => {
+  return !!commandoService._client;
 };
 
 /**
@@ -37,7 +56,7 @@ commandoService.init = async function () {
       },
     });
 
-    const client = (commandoService.client = new Commando.Client({
+    const client = (commandoService._client = new Commando.Client({
       owner: config.discord.commando.owner_uid,
     }));
 
@@ -63,7 +82,8 @@ commandoService.init = async function () {
         },
       );
 
-      // When no connection has been established, the service is still in initialization mode
+      // When no connection has been established, the service is still in
+      // initialization mode
       if (!client.readyAt) {
         reject();
       }

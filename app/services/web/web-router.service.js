@@ -2,7 +2,7 @@
  * @fileoverview The Web Router.
  */
 
-const { health } = require('../../controllers/health-check.ctrl');
+const { health } = require('../../entities/health-check/health-check.ctrl');
 
 const router = (module.exports = {});
 
