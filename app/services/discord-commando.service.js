@@ -29,7 +29,11 @@ commandoService.getClient = () => {
  */
 commandoService.init = async function () {
   return new Promise((resolve, reject) => {
-    log.notice('Starting Discord-Commando Service...');
+    log.notice('Starting Discord-Commando Service...', {
+      custom: {
+        owner_uid: config.discord.commando.owner_uid,
+      },
+    });
 
     const client = (commandoService.client = new Commando.Client({
       owner: config.discord.commando.owner_uid,
