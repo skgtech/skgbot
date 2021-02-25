@@ -8,7 +8,6 @@ const postgresService = require('./services/postgres.service');
 const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
 const discordService = require('./services/discord.service');
-const discordCommandoService = require('./services/discord-commando.service');
 const entities = require('./entities');
 
 /**
@@ -34,8 +33,6 @@ appServices.boot = async (bootOpts) => {
   await expressService.init(bootOpts);
 
   await discordService.init();
-
-  await discordCommandoService.init();
 
   await entities.init();
 
