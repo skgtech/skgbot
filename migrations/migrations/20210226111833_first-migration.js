@@ -15,6 +15,7 @@ exports.up = async function (knex) {
       'email',
       'bio',
       'nickname',
+      'email_verification',
       'member'
     );
   `);
