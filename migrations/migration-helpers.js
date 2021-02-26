@@ -4,11 +4,6 @@
 
 const mhelpers = (module.exports = {});
 
-// Stub knex's API
-mhelpers.up = mhelpers.down = function () {
-  return Promise.resolve();
-};
-
 /**
  * Adds default fields to a table:
  *

@@ -52,7 +52,27 @@
  */
 
 /**
+ * Local Member model representation.
+ *
+ * @typedef {(Object)} Member
+ */
+
+/**
  * Discord.js client instance.
  *
  * @typedef {(Object)} Discord
+ */
+
+/**
+ * Discord.js GuildMember instance.
+ *
+ * @typedef {(Object)} DiscordGuildMember
+ * @see https://discord.js.org/#/docs/main/stable/class/GuildMember
+ */
+
+/**
+ * Discord.js Message instance.
+ *
+ * @typedef {(Object)} DiscordMessage
+ * @see https://discord.js.org/#/docs/main/stable/class/Message
  */

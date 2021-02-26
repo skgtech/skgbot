@@ -21,14 +21,16 @@ exports.up = async function (knex) {
   // The Members Table
   //
   await knex.schema.createTable('members', function (table) {
-    table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
-    table.string('discord_uid', 20);
-    table.string('nickname');
-    table.boolean('is_active').defaultTo(true).notNullable();
-    table.timestamp('joined_at').defaultTo(knex.fn.now());
-    table.string('real_name');
+    table.string('discord_uid', 20).primary();
     table.string('email');
+    table.string('username');
+    table.string('nickname');
+    table.string('first_name');
+    table.string('last_name');
     table.text('bio');
+    table.timestamp('joined_at').defaultTo(knex.fn.now());
+    table.timestamp('left_at');
+    table.boolean('is_active').defaultTo(true).notNullable();
     table
       .specificType('member_onboarding_state', 'member_onboarding_state_enum')
       .defaultTo('joined')
@@ -36,8 +38,8 @@ exports.up = async function (knex) {
 
     defaultFields(table, knex);
 
-    table.unique('discord_uid');
     table.index('is_active');
+    table.index('nickname');
   });
 };
 
