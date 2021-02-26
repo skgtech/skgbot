@@ -31,6 +31,34 @@ onboarding.init = () => {
 };
 
 /**
+ * Reset the onboarding process for this member.
+ *
+ * @param {DiscordGuildMember} guildMember The guild Member.
+ * @return {Promise<Member>}
+ */
+onboarding.resetOnboarding = async (guildMember) => {
+  const localMember = await membersEnt.resetOnboarding(guildMember);
+  return localMember;
+};
+
+/**
+ * Manually register for non-registered members.
+ *
+ * @param {DiscordMessage} message The guild Member.
+ * @param {Member} localMember Local member record.
+ * @return {Promise<void>} A Promise.
+ */
+onboarding.startOnboarding = async (message, localMember) => {
+  if (localMember.onboarding_state === 'member') {
+    await message.channel.send(messages.alreadyRegistered());
+    return;
+  }
+
+  // Send the message, starting the onboarding process.
+  await message.channel.send(messages.welcome(message.member));
+};
+
+/**
  * Handles new member being added to the server, initiates onboarding
  * sequence.
  *
@@ -48,7 +76,7 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
   let localMember = await membersEnt.getById(guildMember.id);
 
   if (localMember) {
-    localMember = await onboarding._resetOnboarding(guildMember);
+    localMember = await onboarding.resetOnboarding(guildMember);
   } else {
     localMember = await membersEnt.createMember(guildMember);
   }
@@ -65,7 +93,7 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
     return;
   }
 
-  // Send the message, mentioning the member
+  // Send the message, starting the onboarding process.
   await channel.send(messages.welcome(guildMember));
 };
 
@@ -122,16 +150,4 @@ onboarding._onMessage = async (message) => {
       });
       break;
   }
-};
-
-/**
- * Reset the onboarding process for this member.
- *
- * @param {DiscordGuildMember} guildMember The guild Member.
- * @return {Promise<Member>}
- * @private
- */
-onboarding._resetOnboarding = async (guildMember) => {
-  const localMember = await membersEnt.resetOnboarding(guildMember);
-  return localMember;
 };

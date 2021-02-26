@@ -12,6 +12,10 @@ messages.cannotUnderstandYou = () =>
   'I am sorry, I did not undestand you.' +
   ' Please type `!help` for a list of commands';
 
+messages.alreadyRegistered = () =>
+  'You are already registered. If you want' +
+  ' to go through onboarding again, type the command !reset-onboarding';
+
 messages.step1Error = () =>
   'I am sorry, at this point you may only reply with a `yes`';
 
