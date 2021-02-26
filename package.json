@@ -21,7 +21,9 @@
     "scripts": {
         "start": "node .",
         "eslint": "eslint app test",
-        "db:reset:local": "node scripts/db-local.script.js"
+        "db:reset:local": "node scripts/db-local.script.js",
+        "knex:create_migration": "knex --knexfile ./migrations/knexfile.js --migrations-directory ./migrations/migrations/ migrate:make",
+        "knex:migrate": "knex --knexfile ./migrations/knexfile.js --migrations-directory ./migrations/migrations/ migrate:latest"
     },
     "jest": {
         "coverageReporters": [
