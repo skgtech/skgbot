@@ -4,7 +4,15 @@
 
 const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
+const messages = require('./messages');
 const log = require('../../services/log.service').get();
+
+const { handle1 } = require('./logic/onboarding-step1-approve.ent');
+const { handle2 } = require('./logic/onboarding-step2-first-name.ent');
+const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
+const { handle4 } = require('./logic/onboarding-step4-email.ent');
+const { handle5 } = require('./logic/onboarding-step5-bio.ent');
+const { handle6 } = require('./logic/onboarding-step6-nickname.ent');
 
 const onboarding = (module.exports = {});
 
@@ -58,7 +66,7 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
   }
 
   // Send the message, mentioning the member
-  await channel.send(`Welcome to the server, ${guildMember}`);
+  await channel.send(messages.welcome(guildMember));
 };
 
 /**
@@ -68,14 +76,51 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
  * @private
  */
 onboarding._onMessage = async (message) => {
-  if (message.content === 'ayy') {
-    message.channel.send('Ayy, lmao!');
+  // Ignore commands
+  if (message[0] === '!') {
+    return;
   }
-  if (message.content === 'wat') {
-    message.channel.send('Say what?');
+
+  const guildMember = message.member;
+
+  // Ignore non guild members
+  if (!guildMember) {
+    return;
   }
-  if (message.content === 'lol') {
-    message.channel.send('roflmaotntpmp');
+
+  // Get local member
+  const localMember = await membersEnt.getById(guildMember.id);
+
+  if (localMember.onboarding_state === 'member') {
+    message.channel.send(messages.cannotUnderstandYou());
+    return;
+  }
+
+  // Handle the message based on the member's current onboarding state.
+  switch (localMember.onboarding_state) {
+    case 'joined':
+      await handle1(message, localMember);
+      break;
+    case 'first_name':
+      await handle2(message, localMember);
+      break;
+    case 'last_name':
+      await handle3(message, localMember);
+      break;
+    case 'email':
+      await handle4(message, localMember);
+      break;
+    case 'bio':
+      await handle5(message, localMember);
+      break;
+    case 'nickname':
+      await handle6(message, localMember);
+      break;
+    default:
+      log.error('Bogus member "onboarding_state"', {
+        custom: { onboarding_state: localMember.onboarding_state },
+      });
+      break;
   }
 };
 

@@ -6,8 +6,9 @@
         "pool_min": 2,
         "pool_max": 10,
         "migrations": {
-            "directory": "./migrations/"
+            "directory": "./migrations/migrations/"
         },
+        "seed_directory": "./migrations/seeds"
     },
     "webserver": {
         "port": 8000,

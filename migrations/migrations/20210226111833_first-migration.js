@@ -10,9 +10,11 @@ exports.up = async function (knex) {
   await knex.raw(`
     CREATE TYPE member_onboarding_state_enum AS ENUM (
       'joined',
-      'full_name',
+      'first_name',
+      'last_name',
       'email',
       'bio',
+      'nickname',
       'member'
     );
   `);
@@ -32,7 +34,7 @@ exports.up = async function (knex) {
     table.timestamp('left_at');
     table.boolean('is_active').defaultTo(true).notNullable();
     table
-      .specificType('member_onboarding_state', 'member_onboarding_state_enum')
+      .specificType('onboarding_state', 'member_onboarding_state_enum')
       .defaultTo('joined')
       .notNullable();
 
