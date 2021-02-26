@@ -31,3 +31,28 @@ messages.step3Error = () =>
 
 messages.step3Success = (lastName) =>
   `"${lastName}", got it! Now can I please have your email?`;
+
+messages.step4Error = () =>
+  'Please type a proper email, max characters are 60.';
+
+messages.step4Success = (email) =>
+  `"${email}", got it! Now I need your bio. Feel free to add newlines and ` +
+  'links pointing to your public profiles. The idea is to let other members' +
+  ' know more about you, your profession, expertise and interests.' +
+  ' You may type up to 5 newlines and a total of 350 characters.';
+
+messages.step5Error = () =>
+  'Please write a proper bio. You may type up to 5 newlines and a max of 350 ' +
+  'charcets.';
+
+messages.step5Success = () =>
+  'Thank you for your bio, now the last thing I need from you is how you want' +
+  ' to be visible in this server, choose your nickname:';
+
+messages.step6Error = () =>
+  'Please write a nickname. Do not use newlines, only use latin (english) ' +
+  'characters, max characters are 32.';
+
+messages.step6Success = (nickname) =>
+  `Got it ${nickname}! You now have to check your mail application and verify` +
+  ' your email so you can enter the SKGTech Discord server';
