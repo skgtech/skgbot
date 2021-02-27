@@ -19,10 +19,11 @@ entity.getByEmail = memberSql.getByEmail;
  * @return {Promise<Member>} Returns the local member representation.
  */
 entity.createMember = async (guildMember) => {
+  const joined_at = new Date(guildMember.joinedTimestamp);
   const memberInput = {
     discord_uid: guildMember.user.id,
     username: guildMember.user.username,
-    joined_at: guildMember.joinedTimestamp,
+    joined_at,
   };
 
   await memberSql.create(memberInput);

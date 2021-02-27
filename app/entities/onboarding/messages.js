@@ -40,10 +40,10 @@ messages.step4Error = () =>
   'Please type a proper email, max characters are 60.';
 
 messages.step4Success = (email) =>
-  `"${email}", got it! Now I need your bio. Feel free to add newlines and ` +
-  'links pointing to your public profiles. The idea is to let other members' +
+  `"${email}", got it! Now I need your bio.\n\nFeel free to add newlines and ` +
+  'links pointing to your public profiles.\n\nThe idea is to let other members' +
   ' know more about you, your profession, expertise and interests.' +
-  ' You may type up to 5 newlines and a total of 350 characters.';
+  '\n\nYou may type up to 5 newlines and a total of 350 characters.';
 
 messages.step5Error = () =>
   'Please write a proper bio. You may type up to 5 newlines and a max of 350 ' +

@@ -28,20 +28,26 @@ messageRouter.init = () => {
  * @private
  */
 messageRouter._onMessage = async (message) => {
+  // only care for private messages. (public are "text").
+  if (message.channel.type !== 'dm') {
+    return;
+  }
+
+  const msg = message.content;
+
   // Only parse commands
-  if (message[0] !== '!') {
+  if (msg[0] !== '!') {
     return;
   }
-
-  const guildMember = message.member;
-
-  // Ignore non guild members
-  if (!guildMember) {
-    return;
-  }
+  const discordAuthor = message.author;
 
   // Get local member
-  const localMember = await membersEnt.getById(guildMember.id);
+  const localMember = await membersEnt.getById(discordAuthor.id);
+
+  if (!localMember) {
+    message.channel.send(messages.cannotFindYou(discordAuthor.username));
+    return;
+  }
 
   if (localMember.onboarding_state === 'member') {
     await messageRouter._handleMember(message, localMember);

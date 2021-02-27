@@ -19,7 +19,7 @@ const step = (module.exports = {});
 step.handle4 = async (message, localMember) => {
   const msg = message.content.trim();
 
-  if (validator.isEmail(msg)) {
+  if (!validator.isEmail(msg)) {
     message.channel.send(step4Error());
     return;
   }

@@ -27,7 +27,7 @@ sql.getSelect = () => {
       'members.last_name',
       'members.is_active',
       'members.bio',
-      'members.member_onboarding_state',
+      'members.onboarding_state',
       'members.joined_at',
       'members.left_at',
       'members.created_at',

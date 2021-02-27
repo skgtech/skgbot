@@ -81,11 +81,6 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
     localMember = await membersEnt.createMember(guildMember);
   }
 
-  // Send the message to a designated channel on a server:
-  // const channel = member.guild.channels.cache.find(
-  //   (ch) => ch.name === 'bot-test',
-  // );
-
   const channel = await guildMember.createDM();
 
   // Do nothing if the channel wasn't found on this server
@@ -109,15 +104,15 @@ onboarding._onMessage = async (message) => {
     return;
   }
 
-  const guildMember = message.member;
-
-  // Ignore non guild members
-  if (!guildMember) {
-    return;
-  }
+  const discordAuthor = message.author;
 
   // Get local member
-  const localMember = await membersEnt.getById(guildMember.id);
+  const localMember = await membersEnt.getById(discordAuthor.id);
+
+  // if not on the database, exit.
+  if (!localMember) {
+    return;
+  }
 
   if (localMember.onboarding_state === 'member') {
     message.channel.send(messages.cannotUnderstandYou());
@@ -145,9 +140,14 @@ onboarding._onMessage = async (message) => {
       await handle6(message, localMember);
       break;
     default:
-      log.error('Bogus member "onboarding_state"', {
-        custom: { onboarding_state: localMember.onboarding_state },
-      });
+      log.error(
+        `Bogus member "onboarding_state": ${localMember.onboarding_state}`,
+        {
+          custom: {
+            onboarding_state: localMember.onboarding_state,
+          },
+        },
+      );
       break;
   }
 };
