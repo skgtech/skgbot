@@ -68,6 +68,10 @@ messages.step7Success = () =>
   "Thank you for verifying your email and welcome to SKGTech's discord" +
   ' server!';
 
+messages.step7ErrorNoMatch = () =>
+  'The verification code does not match, or' +
+  'it has expired. Please type `!resend` to send a new email.';
+
 messages.onboardingSubject = () => 'Please verify your email for SKGTech';
 
 messages.onboardingEmail = (firstName, verificationCode) =>
