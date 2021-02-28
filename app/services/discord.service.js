@@ -92,3 +92,30 @@ commandoService.init = async function () {
     client.login(config.discord.token);
   });
 };
+
+/**
+ * Gets the guildmember instance from a discord message instance.
+ *
+ * @param {DiscordMessage} message A dicord member instance.
+ * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
+ */
+commandoService.getGuildMember = async (message) => {
+  const guildMember = await commandoService._client.guilds.cache
+    .get(config.discord.guild_id)
+    .members.fetch(message.author.id);
+
+  return guildMember;
+};
+
+/**
+ * Gets the Guild Object the bot is responsible for.
+ *
+ * @return {Promise<DiscordGuild>} Returns the guild instance.
+ */
+commandoService.getGuild = async () => {
+  const guild = await commandoService._client.guilds.cache.get(
+    config.discord.guild_id,
+  );
+
+  return guild;
+};

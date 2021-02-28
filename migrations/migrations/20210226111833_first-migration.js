@@ -33,15 +33,18 @@ exports.up = async function (knex) {
     table.text('bio');
     table.timestamp('joined_at').defaultTo(knex.fn.now());
     table.timestamp('left_at');
-    table.boolean('is_active').defaultTo(true).notNullable();
+    table.boolean('is_onboarded').defaultTo(false).notNullable();
+    table.timestamp('onboarded_at');
     table
       .specificType('onboarding_state', 'member_onboarding_state_enum')
       .defaultTo('joined')
       .notNullable();
+    table.uuid('verification_code');
+    table.timestamp('verification_code_expires_at');
 
     defaultFields(table, knex);
 
-    table.index('is_active');
+    table.index('is_onboarded');
     table.index('nickname');
   });
 };

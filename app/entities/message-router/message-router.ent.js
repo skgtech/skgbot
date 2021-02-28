@@ -75,6 +75,9 @@ messageRouter._handleMember = async (message, localMember) => {
       await startOnboarding(message, localMember);
       break;
 
+    // Resend the email verification code.
+    case '!resend':
+      break;
     default:
       await message.channel.send(messages.error());
       break;

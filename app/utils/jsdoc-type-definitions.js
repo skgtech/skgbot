@@ -27,19 +27,6 @@
  */
 
 /**
- * Defines a proper user data object.
- *
- * @typedef {(Object)} User
- * @property {string} id The user id.
- * @property {string} email User's email.
- * @property {string} first_name The first name.
- * @property {string} last_name The last name.
- * @property {boolean} is_active If the user is active.
- * @property {string} created_at When the user was created.
- * @property {string} updated_at Last time user was updated.
- */
-
-/**
  * Logality instance.
  *
  * @typedef {(Object)} Logality
@@ -68,6 +55,13 @@
  *
  * @typedef {(Object)} DiscordGuildMember
  * @see https://discord.js.org/#/docs/main/stable/class/GuildMember
+ */
+
+/**
+ * Discord.js Guild instance.
+ *
+ * @typedef {(Object)} DiscordGuild
+ * @see https://discord.js.org/#/docs/main/stable/class/Guild
  */
 
 /**

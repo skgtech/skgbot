@@ -2,11 +2,30 @@
  * @fileoverview Messages dispatched during the onboarding process.
  */
 
+const config = require('config');
+
 const messages = (module.exports = {});
 
-messages.welcome = (guildMember) => `Hello! Welcome ${guildMember}
+const serverName = config.discord.server_name;
 
-and there you go.`;
+messages.welcome = (guildMember) =>
+  `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
+
+We are a community of professionals and students passionate about technology.
+
+Everyone can use their desired nickname, however, we also use our real names` +
+  ` in this community. As such we'll kindly ask you of the following information` +
+  ` that will be available to everyone to see and check you out:
+
+* Your Real Name.
+* Your email for verification (will not be visible).
+* Your Bio.
+* Your Desired nickname.
+
+If you agree with that, please type \`yes\` to get started!
+
+Also, don't forget, I am a robot, so don't give me a hard time, if you ` +
+  "encounter any problems, don't hesitate to contact an Admin";
 
 messages.cannotUnderstandYou = () =>
   'I am sorry, I did not undestand you.' +
@@ -51,7 +70,7 @@ messages.step5Error = () =>
 
 messages.step5Success = () =>
   'Thank you for your bio, now the last thing I need from you is how you want' +
-  ' to be visible in this server.\n\nChoose your nickname:';
+  ' to be visible in this server.\n\nType your nickname:';
 
 messages.step6Error = () =>
   'Please write a nickname. Do not use newlines, only use latin (english) ' +
@@ -60,3 +79,36 @@ messages.step6Error = () =>
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
   ' verify your email.';
+
+messages.step7Error = () =>
+  'Please paste the appropriate code you have received on your email.';
+
+messages.step7Success = () =>
+  "Thank you for verifying your email and welcome to SKGTech's discord" +
+  ' server!';
+
+messages.step7ErrorNoMatch = () =>
+  'The verification code does not match, or' +
+  'it has expired. Please type `!resend` to send a new email.';
+
+messages.onboardingSubject = () => 'Please verify your email for SKGTech';
+
+messages.onboardingEmail = (firstName, verificationCode) =>
+  `Hello ${firstName}!
+
+Thank you for registering at SKGTech's Discord Server.
+
+To get into the server, you may copy & paste the code bellow to our bot:
+
+${verificationCode}
+
+or just click the link bellow:
+
+https://verify.skgtech.io/verify/${verificationCode}
+
+(you may need to copy and paste the above address into your browser).
+
+Looking forward to chatting with you!
+Beep bop!
+
+`;

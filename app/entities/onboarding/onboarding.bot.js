@@ -13,6 +13,7 @@ const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
 const { handle4 } = require('./logic/onboarding-step4-email.ent');
 const { handle5 } = require('./logic/onboarding-step5-bio.ent');
 const { handle6 } = require('./logic/onboarding-step6-nickname.ent');
+const { handle7 } = require('./logic/onboarding-step7-verification.ent');
 
 const onboarding = (module.exports = {});
 
@@ -138,6 +139,9 @@ onboarding._onMessage = async (message) => {
       break;
     case 'nickname':
       await handle6(message, localMember);
+      break;
+    case 'email_verification':
+      await handle7(message, localMember);
       break;
     default:
       log.error(
