@@ -8,6 +8,7 @@ const { v4: uuid, validate: uuidValidate } = require('uuid');
 
 const { db } = require('../../../services/postgres.service');
 const step6 = require('./onboarding-step6-nickname.ent');
+const { getGuildMember } = require('../../../services/discord.service');
 const { step7Error, step7Success, step7ErrorNoMatch } = require('../messages');
 const { update } = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
@@ -44,7 +45,7 @@ step.handle7 = async (message, localMember) => {
   }
 
   // Everything checks out, allow the member in.
-  await step._enableMember(localMember);
+  await step._enableMember(message, localMember);
 
   log.info('User verified, joins server', {
     localMember,
@@ -100,12 +101,13 @@ step._resetVerification = async (localMember) => {
 /**
  * Enable the member to use the discord server, add roles and update record.
  *
+ * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The local member record.
  * @return {Promise<void>} A Promise.
  * @private
  */
-step._enableMember = async (localMember) => {
-  await step._enableMemberDiscord(localMember);
+step._enableMember = async (message, localMember) => {
+  await step._enableMemberDiscord(message);
 
   await step._enableMemberUpdateRecord(localMember);
 };
@@ -113,11 +115,21 @@ step._enableMember = async (localMember) => {
 /**
  * Add discord roles to member.
  *
- * @param {Member} localMember The local member record.
+ * @param {DiscordMessage} message The incoming message.
  * @return {Promise<void>} A Promise.
  * @private
  */
-step._enableMemberDiscord = async (localMember) => {};
+step._enableMemberDiscord = async (message) => {
+  const guild = await getGuildMember(message);
+  const guildMember = await getGuildMember(message);
+
+  config.discord.roles_member.forEach((roleName) => {
+    const role = guild.roles.cache.find(
+      (roleItem) => roleItem.name === roleName,
+    );
+    guildMember.roles.add(role);
+  });
+};
 
 /**
  * Update the record of the member.
