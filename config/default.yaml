@@ -19,10 +19,18 @@
             "allowed_origins": []
         }
     },
+    "email": {
+      "smtp_host": "gx2s-kc87.accessdomain.com",
+      "smtp_port": 465,
+      "smtp_secure": true,
+      "from": "\"SKGTech Bot 🤖\" <hello@skgtech.io>",
+      "auth_user": "hello@skgtech.io",
+      "auth_password": "DO NOT SET - USE ENV VAR: SKGBOT_EMAIL_AUTH_PASSWORD"
+    },
     "discord": {
-        "token": "DO NOT FILL - USE ENV VAR: DISCORD_BOT_TOKEN",
+        "token": "DO NOT SET - USE ENV VAR: DISCORD_BOT_TOKEN",
         "commando": {
-          "owner_uid": "DO NOT FILL - USE ENV VAR: DISCORD_COMMANDO_UID"
+          "owner_uid": "DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID"
         },
     }
 }

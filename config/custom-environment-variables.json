@@ -2,6 +2,9 @@
     "postgres": {
         "connection_string": "POSTGRES_URL"
     },
+    "email": {
+        "auth_password": "SKGBOT_EMAIL_AUTH_PASSWORD"
+    },
     "discord": {
         "token": "DISCORD_BOT_TOKEN",
         "commando": {

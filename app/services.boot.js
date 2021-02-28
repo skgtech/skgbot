@@ -5,6 +5,7 @@
 const log = require('./services/log.service').get();
 
 const postgresService = require('./services/postgres.service');
+const emailService = require('./services/email.service');
 const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
 const discordService = require('./services/discord.service');
@@ -31,6 +32,8 @@ appServices.boot = async (bootOpts) => {
   await migrationService.runHerokuMigration();
 
   await expressService.init(bootOpts);
+
+  await emailService.init();
 
   await discordService.init();
 
