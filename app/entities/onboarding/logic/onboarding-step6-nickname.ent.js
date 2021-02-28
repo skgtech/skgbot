@@ -14,6 +14,7 @@ const {
   onboardingSubject,
   onboardingEmail,
 } = require('../messages');
+const { getGuildMember } = require('../../../services/discord.service');
 const { update } = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
 
@@ -39,6 +40,10 @@ step.handle6 = async (message, localMember) => {
     message.channel.send(step6Error());
     return;
   }
+
+  // Set the nickname on the server
+  const guildMember = await getGuildMember(message);
+  guildMember.setNickname(msg);
 
   // Update the database with the new state and verfication code
   const verification_code = uuid();

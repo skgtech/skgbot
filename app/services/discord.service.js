@@ -110,9 +110,9 @@ commandoService.getGuildMember = async (message) => {
 /**
  * Gets the Guild Object the bot is responsible for.
  *
- * @return {Promise<DiscordGuild>} Returns the guildmember instance.
+ * @return {Promise<DiscordGuild>} Returns the guild instance.
  */
-commandoService.getGuildMember = async () => {
+commandoService.getGuild = async () => {
   const guild = await commandoService._client.guilds.cache.get(
     config.discord.guild_id,
   );
