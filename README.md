@@ -26,6 +26,7 @@ environment the following environment variables are required:
 -   `POSTGRES_URL` A url with credentials pointing to the data store.
 -   `DISCORD_BOT_TOKEN` The Discord token of the bot.
 -   `DISCORD_COMMANDO_UID` Your user id, so you can invoke discord commands.
+-   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
 
 # Development Operations / Maintenance
 
