@@ -60,3 +60,21 @@ messages.step6Error = () =>
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
   ' verify your email.';
+
+messages.onboardingSubject = () => 'Please verify your email for SKGTech';
+
+messages.onboardingEmail = (firstName, verificationCode) =>
+  `Hello ${firstName}!
+
+Thank you for registering at SKGTech's Discord Server.
+
+To get into the server, please verify your email by clicking the link bellow:
+
+https://verify.skgtech.io/verify/${verificationCode}
+
+(you may need to copy and paste the above address into your browser).
+
+Looking forward to chatting with you!
+Beep bop!
+
+`;

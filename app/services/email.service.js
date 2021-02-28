@@ -39,7 +39,7 @@ service.init = async () => {
 service.send = async (recipient, subject, body) => {
   // send mail with defined transport object
   const info = await service.transporter.sendMail({
-    from: config.email.from, // sender address
+    from: config.onboarding.mail_from, // sender address
     to: recipient, // list of receivers
     subject, // Subject line
     text: body, // plain text body

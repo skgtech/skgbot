@@ -23,9 +23,12 @@
       "smtp_host": "gx2s-kc87.accessdomain.com",
       "smtp_port": 465,
       "smtp_secure": true,
-      "from": "\"SKGTech Bot 🤖\" <hello@skgtech.io>",
       "auth_user": "hello@skgtech.io",
       "auth_password": "DO NOT SET - USE ENV VAR: SKGBOT_EMAIL_AUTH_PASSWORD"
+    },
+    "onboarding": {
+      "mail_from": "\"SKGTech Bot 🤖\" <hello@skgtech.io>",
+      "verification_expires_days": 7,
     },
     "discord": {
         "token": "DO NOT SET - USE ENV VAR: DISCORD_BOT_TOKEN",
