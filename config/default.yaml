@@ -31,11 +31,12 @@
       "verification_expires_days": 7,
     },
     "discord": {
-        "guild_id": "DO NOT SET - USE ENV VAR: DISCORD_GUILD_ID",
-        "token": "DO NOT SET - USE ENV VAR: DISCORD_BOT_TOKEN",
-        "commando": {
-          "owner_uid": "DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID"
-        },
-        "roles_member": ["Member", "Product", "Investor", "Hobbies", "Engineer"]
+      "server_name": "SKGTech",
+      "guild_id": "DO NOT SET - USE ENV VAR: DISCORD_GUILD_ID",
+      "token": "DO NOT SET - USE ENV VAR: DISCORD_BOT_TOKEN",
+      "commando": {
+        "owner_uid": "DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID"
+      },
+      "roles_member": ["Member", "Product", "Investor", "Hobbies", "Engineer"]
     }
 }

@@ -2,11 +2,30 @@
  * @fileoverview Messages dispatched during the onboarding process.
  */
 
+const config = require('config');
+
 const messages = (module.exports = {});
 
-messages.welcome = (guildMember) => `Hello! Welcome ${guildMember}
+const serverName = config.discord.server_name;
 
-and there you go.`;
+messages.welcome = (guildMember) =>
+  `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
+
+We are a community of professionals and students passionate about technology.
+
+Everyone can use their desired nickname, however, we also use our real names` +
+  ` in this community. As such we'll kindly ask you of the following information` +
+  ` that will be available to everyone to see and check you out:
+
+* Your Real Name.
+* Your email for verification (will not be visible).
+* Your Bio.
+* Your Desired nickname.
+
+If you agree with that, please type \`yes\` to get started!
+
+Also, don't forget, I am a robot, so don't give me a hard time, if you ` +
+  "encounter any problems, don't hesitate to contact an Admin";
 
 messages.cannotUnderstandYou = () =>
   'I am sorry, I did not undestand you.' +
