@@ -2,8 +2,9 @@
  * @fileoverview Determines the health of the service.
  */
 
-const { db } = require('../services/postgres.service');
-const log = require('../services/log.service').get();
+const { db } = require('../../services/postgres.service');
+const log = require('../../services/log.service').get();
+const { isConnected } = require('../../services/discord.service');
 
 const ctrl = (module.exports = {});
 
@@ -31,7 +32,12 @@ ctrl._checkHealth = async () => {
   try {
     await db().raw('SELECT 1');
   } catch (error) {
-    log.error('healthcheck fail postgres', { error });
+    log.notice('Healthcheck failed on postgres', { error });
+    return false;
+  }
+
+  if (!isConnected()) {
+    log.notice('Healthcheck :: Discord not connected');
     return false;
   }
 

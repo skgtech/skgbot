@@ -8,6 +8,7 @@ const postgresService = require('./services/postgres.service');
 const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
 const discordService = require('./services/discord.service');
+const entities = require('./entities');
 
 /**
  * Boots all the services of the application.
@@ -32,6 +33,8 @@ appServices.boot = async (bootOpts) => {
   await expressService.init(bootOpts);
 
   await discordService.init();
+
+  await entities.init();
 
   log.notice('Service Boot Finished');
 };

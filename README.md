@@ -1,6 +1,7 @@
 # SKGTech Discord Bot
 
 > Enables onboarding of new users, implements a help screen and various
+
     other functions.
 
 # How To Install
@@ -23,6 +24,8 @@ For local development no environment variables are needed. For any other
 environment the following environment variables are required:
 
 -   `POSTGRES_URL` A url with credentials pointing to the data store.
+-   `DISCORD_BOT_TOKEN` The Discord token of the bot.
+-   `DISCORD_COMMANDO_UID` Your user id, so you can invoke discord commands.
 
 # Development Operations / Maintenance
 
@@ -30,6 +33,20 @@ environment the following environment variables are required:
 
 ```
 npm run db:reset:local
+```
+
+## Database Migration Commands
+
+### Create a New Migration Script
+
+```
+npm run knex:create_migration <name of migration>
+```
+
+### Run Migrations
+
+```
+npm run knex:migrate
 ```
 
 ## Running Tests Locally
