@@ -41,8 +41,8 @@ messages.step4Error = () =>
 
 messages.step4Success = (email) =>
   `"${email}", got it! Now I need your bio.\n\nFeel free to add newlines and ` +
-  'links pointing to your public profiles.\n\nThe idea is to let other members' +
-  ' know more about you, your profession, expertise and interests.' +
+  'links pointing to your public profile[s].\n\nThe idea is to let other' +
+  ' members know more about you, your profession, expertise and interests.' +
   '\n\nYou may type up to 5 newlines and a total of 350 characters.';
 
 messages.step5Error = () =>
@@ -51,12 +51,12 @@ messages.step5Error = () =>
 
 messages.step5Success = () =>
   'Thank you for your bio, now the last thing I need from you is how you want' +
-  ' to be visible in this server, choose your nickname:';
+  ' to be visible in this server.\n\nChoose your nickname:';
 
 messages.step6Error = () =>
   'Please write a nickname. Do not use newlines, only use latin (english) ' +
   'characters, max characters are 32.';
 
 messages.step6Success = (nickname) =>
-  `Got it ${nickname}! You now have to check your mail application and verify` +
-  ' your email so you can enter the SKGTech Discord server';
+  `Got it ${nickname}!\n\nYou now have to check your mail application and` +
+  ' verify your email.';
