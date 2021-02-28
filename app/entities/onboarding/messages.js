@@ -68,7 +68,11 @@ messages.onboardingEmail = (firstName, verificationCode) =>
 
 Thank you for registering at SKGTech's Discord Server.
 
-To get into the server, please verify your email by clicking the link bellow:
+To get into the server, you may copy & paste the code bellow to our bot:
+
+${verificationCode}
+
+or just click the link bellow:
 
 https://verify.skgtech.io/verify/${verificationCode}
 
