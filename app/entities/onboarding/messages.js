@@ -51,7 +51,7 @@ messages.step5Error = () =>
 
 messages.step5Success = () =>
   'Thank you for your bio, now the last thing I need from you is how you want' +
-  ' to be visible in this server.\n\nChoose your nickname:';
+  ' to be visible in this server.\n\nType your nickname:';
 
 messages.step6Error = () =>
   'Please write a nickname. Do not use newlines, only use latin (english) ' +
@@ -60,6 +60,13 @@ messages.step6Error = () =>
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
   ' verify your email.';
+
+messages.step7Error = () =>
+  'Please paste the appropriate code you have received on your email.';
+
+messages.step7Success = () =>
+  "Thank you for verifying your email and welcome to SKGTech's discord" +
+  ' server!';
 
 messages.onboardingSubject = () => 'Please verify your email for SKGTech';
 
