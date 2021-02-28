@@ -73,7 +73,10 @@ step.sendVerificationEmail = async (localMember, verificationCode) => {
     onboardingEmail(localMember.first_name, verificationCode),
   );
 
-  log.info(
-    `Sent email to user "${localMember.username}", message id: ${emailRes.messageId}`,
-  );
+  log.info('Sent verification email to member', {
+    localMember,
+    custom: {
+      message_id: emailRes.messageId,
+    },
+  });
 };
