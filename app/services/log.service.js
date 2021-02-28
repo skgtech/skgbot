@@ -16,6 +16,9 @@ const Logality = require('logality');
 
 const globals = require('../utils/globals');
 
+// Serializers
+const localMemberSerializer = require('./log-serializers/member.serializer');
+
 const logger = (module.exports = {});
 
 logger.logality = null;
@@ -35,7 +38,9 @@ logger.init = function (bootOpts = {}) {
 
   const appName = bootOpts.appName || 'skgbot';
 
-  const serializers = {};
+  const serializers = {
+    localMember: localMemberSerializer(),
+  };
 
   logger.logality = new Logality({
     prettyPrint: globals.isLocal || globals.isTest,
