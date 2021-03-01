@@ -17,6 +17,15 @@ const { handle7 } = require('./logic/onboarding-step7-verification.ent');
 
 const onboarding = (module.exports = {});
 
+// export the steps.
+onboarding.handle1 = handle1;
+onboarding.handle2 = handle2;
+onboarding.handle3 = handle3;
+onboarding.handle4 = handle4;
+onboarding.handle5 = handle5;
+onboarding.handle6 = handle6;
+onboarding.handle7 = handle7;
+
 /**
  * Initialize Discord event listeners for performing onboarding.
  *
@@ -27,8 +36,6 @@ onboarding.init = () => {
 
   // Create an event listener for new guild members
   client.on('guildMemberAdd', onboarding._onGuildMemberAdd);
-
-  client.on('message', onboarding._onMessage);
 };
 
 /**
@@ -91,67 +98,4 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
 
   // Send the message, starting the onboarding process.
   await channel.send(messages.welcome(guildMember));
-};
-
-/**
- * Handles incoming message from discord.
- *
- * @param {DiscordMessage} message Discord Message Object.
- * @private
- */
-onboarding._onMessage = async (message) => {
-  // Ignore commands
-  if (message[0] === '!') {
-    return;
-  }
-
-  const discordAuthor = message.author;
-
-  // Get local member
-  const localMember = await membersEnt.getById(discordAuthor.id);
-
-  // if not on the database, exit.
-  if (!localMember) {
-    return;
-  }
-
-  if (localMember.onboarding_state === 'member') {
-    message.channel.send(messages.cannotUnderstandYou());
-    return;
-  }
-
-  // Handle the message based on the member's current onboarding state.
-  switch (localMember.onboarding_state) {
-    case 'joined':
-      await handle1(message, localMember);
-      break;
-    case 'first_name':
-      await handle2(message, localMember);
-      break;
-    case 'last_name':
-      await handle3(message, localMember);
-      break;
-    case 'email':
-      await handle4(message, localMember);
-      break;
-    case 'bio':
-      await handle5(message, localMember);
-      break;
-    case 'nickname':
-      await handle6(message, localMember);
-      break;
-    case 'email_verification':
-      await handle7(message, localMember);
-      break;
-    default:
-      log.error(
-        `Bogus member "onboarding_state": ${localMember.onboarding_state}`,
-        {
-          custom: {
-            onboarding_state: localMember.onboarding_state,
-          },
-        },
-      );
-      break;
-  }
 };

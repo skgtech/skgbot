@@ -5,7 +5,7 @@
 const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
-const { startOnboarding } = require('../onboarding');
+const { handleMemberCommands } = require('./router-member-command.ent');
 const log = require('../../services/log.service').get();
 
 const messageRouter = (module.exports = {});
@@ -28,17 +28,13 @@ messageRouter.init = () => {
  * @private
  */
 messageRouter._onMessage = async (message) => {
-  // only care for private messages. (public are "text").
+  // only care for private messages. (public are  type === "text").
   if (message.channel.type !== 'dm') {
     return;
   }
 
   const msg = message.content;
 
-  // Only parse commands
-  if (msg[0] !== '!') {
-    return;
-  }
   const discordAuthor = message.author;
 
   // Get local member
@@ -49,37 +45,20 @@ messageRouter._onMessage = async (message) => {
     return;
   }
 
-  if (localMember.onboarding_state === 'member') {
-    await messageRouter._handleMember(message, localMember);
-  } else {
-    await messageRouter._handleOnboarding(message, localMember);
+  // Check if not command
+  if (msg[0] !== '!') {
+    if (localMember.onboarding_state !== 'member') {
+      // it's an onboarding member, go to onboarding message routes
+      await messageRouter._handleOnboardingMessage(message, localMember);
+    }
+
+    // in any way, stop execution here for non command messages.
+    return;
   }
-};
 
-/**
- * Handles commands from members.
- *
- * @param {DiscordMessage} message The incoming message.
- * @param {Member} localMember The local member.
- * @return {Promise(<void>)} A Promise.
- * @private
- */
-messageRouter._handleMember = async (message, localMember) => {
-  const parts = message.content.split(' ');
-
-  switch (parts[0]) {
-    case '!help':
-      await message.channel.send(messages.help());
-      break;
-    case '!register':
-      await startOnboarding(message, localMember);
-      break;
-
-    // Resend the email verification code.
-    case '!resend':
-      break;
-    default:
-      await message.channel.send(messages.error());
-      break;
+  if (localMember.onboarding_state === 'member') {
+    await handleMemberCommands(message, localMember);
+  } else {
+    await messageRouter._handleOnboardingCommands(message, localMember);
   }
 };
