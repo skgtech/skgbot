@@ -39,7 +39,7 @@ appServices.boot = async (bootOpts) => {
 
   await entities.init();
 
-  log.notice('Service Boot Finished');
+  log.notice('Service Boot Finished', { relay: true });
 };
 
 /**

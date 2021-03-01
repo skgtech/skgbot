@@ -17,7 +17,7 @@ const entity = (module.exports = {});
  */
 entity.loggerToAdmin = async (logContext) => {
   // only deal with logs to relay.
-  if (!logContext.context.relay) {
+  if (!logContext.relay) {
     return;
   }
 
@@ -36,11 +36,11 @@ entity.loggerToAdmin = async (logContext) => {
  * @private
  */
 entity._formatMessage = (lc) => {
-  let message = `[${lc.level}] ${lc.message} :: `;
+  let message = `[${lc.level}] ${lc.message}`;
 
   // serialize localUser if it exists
-  if (lc.context.localUser) {
-    const lu = lc.context.localUser;
+  if (lc.localUser) {
+    const lu = lc.localUser;
     message +=
       `\nuid: ${lu.discord_uid}, <${lu.email}>, Username: ` +
       `"${lu.username}", Nickname: "${lu.nickname}, Fullname: "${lu.first_name}` +
@@ -48,7 +48,7 @@ entity._formatMessage = (lc) => {
   }
 
   // check if bio is changing
-  if (lc.context.custom && lc.context.custom.old_bio) {
+  if (lc.custom && lc.custom.old_bio) {
     message +=
       `\nOld Bio: ${lc.context.custom.old_bio}\n\n` +
       `New Bio: ${lc.context.custom.new_bio}`;
