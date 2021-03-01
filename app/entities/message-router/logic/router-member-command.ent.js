@@ -35,7 +35,7 @@ router.handleMemberCommands = async (message, localMember) => {
       await changeNickname(message, localMember, cmdArgument);
       break;
     case '!bio': // Change member's bio.
-      await changeBio(message, localMember, cmdArgument);
+      await changeBio(message, localMember, message.content);
       break;
     case '!join': // Join a Category.
       categoryJoin(message, localMember, cmdArgument);

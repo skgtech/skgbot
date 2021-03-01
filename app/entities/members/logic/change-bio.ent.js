@@ -13,10 +13,12 @@ const entity = (module.exports = {});
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
- * @param {string} newBio New bio.
+ * @param {string} content Content of message including the command.
  * @return {Promise<void>}
  */
-entity.changeBio = async (message, localMember, newBio) => {
+entity.changeBio = async (message, localMember, content) => {
+  const newBio = content.substr(content.indexOf(' ') + 1);
+
   log.info(`Member changing their bio`, {
     localMember,
     custom: {
