@@ -28,7 +28,7 @@ router.handleOnboardingCommands = async (message, localMember) => {
 
     // Resend the email verification code.
     case '!resend':
-      await resendVerification(localMember);
+      await resendVerification(message, localMember);
       break;
     case '!reset':
       await resetOnboarding(guildMember);
