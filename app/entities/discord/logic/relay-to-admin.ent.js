@@ -5,7 +5,7 @@
 
 const config = require('config');
 
-const { getClient } = require('../../../services/discord.service');
+const { getClient, isConnected } = require('../../../services/discord.service');
 
 const entity = (module.exports = {});
 
@@ -16,14 +16,23 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.loggerToAdmin = async (logContext) => {
-  // only deal with logs to relay.
-  if (!logContext.relay) {
+  // Don't log when not connected to discord
+  if (!isConnected()) {
     return;
   }
 
-  const message = entity._formatMessage(logContext);
+  // only deal with logs to relay or errors.
+  let message;
+  if (logContext.relay) {
+    message = entity._formatMessage(logContext);
+  } else if (logContext.severity < 5) {
+    message = entity._formatError(logContext);
+  } else {
+    return;
+  }
 
   const client = getClient();
+
   const channel = await client.channels.fetch(config.discord.admin_channel_id);
   await channel.send(message);
 };
@@ -37,22 +46,34 @@ entity.loggerToAdmin = async (logContext) => {
  */
 entity._formatMessage = (lc) => {
   let message = `[${lc.level}] ${lc.message}`;
-
   // serialize localUser if it exists
-  if (lc.localUser) {
-    const lu = lc.localUser;
+  if (lc.context.localMember) {
+    const lm = lc.context.localMember;
     message +=
-      `\nuid: ${lu.discord_uid}, <${lu.email}>, Username: ` +
-      `"${lu.username}", Nickname: "${lu.nickname}, Fullname: "${lu.first_name}` +
-      ` ${lu.last_name}", State: ${lu.onboarding_state}`;
+      `\nuid: ${lm.discord_uid}, <${lm.email}>, Username: ` +
+      `"${lm.username}", Nickname: "${lm.nickname}", Fullname: "${lm.full_name}"` +
+      `, State: ${lm.onboarding_state}`;
   }
 
   // check if bio is changing
-  if (lc.custom && lc.custom.old_bio) {
+  if (lc.context.custom && lc.context.custom.old_bio) {
     message +=
       `\nOld Bio: ${lc.context.custom.old_bio}\n\n` +
       `New Bio: ${lc.context.custom.new_bio}`;
   }
+
+  return message;
+};
+
+/**
+ * Format log Error message to a string.
+ *
+ * @param {Object} lc Logality log context object.
+ * @return {string} The string message.
+ * @private
+ */
+entity._formatError = (lc) => {
+  const message = `[${lc.level}] ${lc.message}`;
 
   return message;
 };
