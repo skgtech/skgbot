@@ -13,11 +13,14 @@ const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
 const { handle4 } = require('./logic/onboarding-step4-email.ent');
 const { handle5 } = require('./logic/onboarding-step5-bio.ent');
 const { handle6 } = require('./logic/onboarding-step6-nickname.ent');
-const { handle7 } = require('./logic/onboarding-step7-verification.ent');
+const {
+  handle7,
+  resendVerification,
+} = require('./logic/onboarding-step7-verification.ent');
 
 const onboarding = (module.exports = {});
 
-// export the steps.
+// export the steps and methods
 onboarding.handle1 = handle1;
 onboarding.handle2 = handle2;
 onboarding.handle3 = handle3;
@@ -25,6 +28,7 @@ onboarding.handle4 = handle4;
 onboarding.handle5 = handle5;
 onboarding.handle6 = handle6;
 onboarding.handle7 = handle7;
+onboarding.resendVerification = resendVerification;
 
 /**
  * Initialize Discord event listeners for performing onboarding.
@@ -46,6 +50,9 @@ onboarding.init = () => {
  */
 onboarding.resetOnboarding = async (guildMember) => {
   const localMember = await membersEnt.resetOnboarding(guildMember);
+
+  await onboarding._sendFirstOnboardingDM(guildMember);
+
   return localMember;
 };
 
@@ -89,13 +96,19 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
     localMember = await membersEnt.createMember(guildMember);
   }
 
-  const channel = await guildMember.createDM();
+  await onboarding._sendFirstOnboardingDM(guildMember);
+};
 
-  // Do nothing if the channel wasn't found on this server
-  if (!channel) {
-    return;
-  }
+/**
+ * Send the initial onboarding private message to the member.
+ *
+ * @param {DiscordGuildMember} guildMember The guild Member.
+ * @return {Promise<void>}
+ * @private
+ */
+onboarding._sendFirstOnboardingDM = async (guildMember) => {
+  const dmChannel = await guildMember.createDM();
 
   // Send the message, starting the onboarding process.
-  await channel.send(messages.welcome(guildMember));
+  await dmChannel.send(messages.welcome(guildMember));
 };

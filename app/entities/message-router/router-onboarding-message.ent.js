@@ -23,7 +23,7 @@ const router = (module.exports = {});
  * @param {Member} localMember The local member.
  * @return {Promise<void>} A Promise.
  */
-router._onMessage = async (message, localMember) => {
+router.handleOnboardingMessage = async (message, localMember) => {
   // Handle the message based on the member's current onboarding state.
   switch (localMember.onboarding_state) {
     case 'joined':

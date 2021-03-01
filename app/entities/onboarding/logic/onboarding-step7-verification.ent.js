@@ -9,7 +9,12 @@ const { v4: uuid, validate: uuidValidate } = require('uuid');
 const { db } = require('../../../services/postgres.service');
 const step6 = require('./onboarding-step6-nickname.ent');
 const { getGuildMember } = require('../../../services/discord.service');
-const { step7Error, step7Success, step7ErrorNoMatch } = require('../messages');
+const {
+  step7Error,
+  step7Success,
+  step7ErrorNoMatch,
+  step7ErrorWrongState,
+} = require('../messages');
 const { update } = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
 
@@ -32,7 +37,7 @@ step.handle7 = async (message, localMember) => {
 
   // Check if verification token matches the one on record.
   if (msg !== localMember.verification_code) {
-    message.channel.send(step7ErrorNoMatch());
+    await message.channel.send(step7ErrorNoMatch());
     return;
   }
 
@@ -40,7 +45,7 @@ step.handle7 = async (message, localMember) => {
   const nowDt = new Date();
   const expireDt = new Date(localMember.verification_code_expires_at);
   if (nowDt > expireDt) {
-    message.channel.send(step7ErrorNoMatch());
+    await message.channel.send(step7ErrorNoMatch());
     return;
   }
 
@@ -50,17 +55,23 @@ step.handle7 = async (message, localMember) => {
   log.info('User verified, joins server', {
     localMember,
   });
-  message.channel.send(step7Success(msg));
+  await message.channel.send(step7Success(msg));
 };
 
 /**
  * Will resend the verification email, if needed it will reset the token
  * and update the expiration date.
  *
+ * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The local member record.
  * @return {Promise<void>} A Promise.
  */
-step.resendVerification = async (localMember) => {
+step.resendVerification = async (message, localMember) => {
+  if (localMember !== 'email_verification') {
+    await message.channel.send(step7ErrorWrongState());
+    return;
+  }
+
   log.info('Resend Verification requested.', localMember);
 
   const nowDt = new Date();

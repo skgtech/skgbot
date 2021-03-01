@@ -5,6 +5,7 @@
 const messages = (module.exports = {});
 
 messages.help = () => 'HELP!!!';
+messages.helpOnboarding = () => 'HELP Onboarding!!!';
 messages.error = () =>
   'Unknown command, type `!help` for a list of available commands.';
 messages.cannotFindYou = (username) =>

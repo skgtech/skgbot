@@ -6,6 +6,8 @@ const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
 const { handleMemberCommands } = require('./router-member-command.ent');
+const { handleOnboardingMessage } = require('./router-onboarding-message.ent');
+const { handleOnboardingCommands } = require('./router-onboarding-command.ent');
 const log = require('../../services/log.service').get();
 
 const messageRouter = (module.exports = {});
@@ -49,7 +51,7 @@ messageRouter._onMessage = async (message) => {
   if (msg[0] !== '!') {
     if (localMember.onboarding_state !== 'member') {
       // it's an onboarding member, go to onboarding message routes
-      await messageRouter._handleOnboardingMessage(message, localMember);
+      await handleOnboardingMessage(message, localMember);
     }
 
     // in any way, stop execution here for non command messages.
@@ -59,6 +61,6 @@ messageRouter._onMessage = async (message) => {
   if (localMember.onboarding_state === 'member') {
     await handleMemberCommands(message, localMember);
   } else {
-    await messageRouter._handleOnboardingCommands(message, localMember);
+    await handleOnboardingCommands(message, localMember);
   }
 };

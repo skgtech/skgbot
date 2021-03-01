@@ -13,9 +13,10 @@ messages.welcome = (guildMember) =>
 
 We are a community of professionals passionate about technology.
 
-Everyone can use their desired nickname, however, we also use our real names` +
-  ` in this community. As such we'll kindly ask you for the following information` +
-  ` that will be available to everyone:
+Everyone can use their desired nickname, however, we do not allow anonymous` +
+  ` accounts in this community. As such we'll kindly ask you for the` +
+  ` following information to build your personal profile, that information` +
+  ` will be available to everyone, except your email:
 
 * Your Real Name.
 * Your email for verification (will not be visible).
@@ -24,8 +25,9 @@ Everyone can use their desired nickname, however, we also use our real names` +
 
 If you agree with that, please type \`yes\` to get started!
 
-Also, don't forget, I am a robot, so don't give me a hard time, if you ` +
-  "encounter any problems, don't hesitate to contact an Admin";
+Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
+  "encounter any problems, don't hesitate to contact an Admin. You can" +
+  ' also type `!help` for a list of available commands.';
 
 messages.cannotUnderstandYou = () =>
   'I am sorry, I did not undestand you.' +
@@ -91,6 +93,11 @@ messages.step7Success = () =>
 messages.step7ErrorNoMatch = () =>
   'The verification code does not match, or' +
   'it has expired. Please type `!resend` to send a new email.';
+
+messages.step7ErrorWrongState = () =>
+  `You are not in the proper state for me` +
+  ' to resend a verification email to you. If you believe this is in error' +
+  ' please contant an administrator.';
 
 messages.onboardingSubject = () => 'Please verify your email for SKGTech';
 
