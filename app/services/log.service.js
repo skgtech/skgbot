@@ -18,6 +18,7 @@ const globals = require('../utils/globals');
 
 // Serializers
 const localMemberSerializer = require('./log-serializers/member.serializer');
+const relaySerializer = require('./log-serializers/relay.serializer');
 
 const logger = (module.exports = {});
 
@@ -40,6 +41,7 @@ logger.init = function (bootOpts = {}) {
 
   const serializers = {
     localMember: localMemberSerializer(),
+    relay: relaySerializer(),
   };
 
   logger.logality = new Logality({
@@ -51,4 +53,19 @@ logger.init = function (bootOpts = {}) {
 
   // Create the get method
   logger.get = logger.logality.get.bind(logger.logality);
+
+  // Add middleware
+  logger._addMiddleware();
+};
+
+/**
+ * Will add middleware to the logger.
+ *
+ * @private
+ */
+logger._addMiddleware = () => {
+  const { loggerToAdmin } = require('../entities/discord');
+
+  // Auditlog related middleware
+  logger.logality.use(loggerToAdmin);
 };

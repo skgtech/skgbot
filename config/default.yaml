@@ -38,6 +38,7 @@
       "commando": {
         "owner_uid": "DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID"
       },
+      "admin_channel_id": "DO NOT SET - USE ENV VAR: DISCORD_ADMIN_CHANNEL_ID",
       "roles_all_available": [
         "Member",
         "Product",

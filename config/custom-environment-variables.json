@@ -8,6 +8,7 @@
     "discord": {
         "guild_id": "DISCORD_GUILD_ID",
         "token": "DISCORD_BOT_TOKEN",
+        "admin_channel_id": "DISCORD_ADMIN_CHANNEL_ID",
         "commando": {
             "owner_uid": "DISCORD_COMMANDO_UID"
         }

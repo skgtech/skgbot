@@ -4,9 +4,12 @@
 
 const config = require('config');
 
+const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 const { getClient } = require('../../services/discord.service');
 
 const entity = (module.exports = {});
+
+entity.loggerToAdmin = loggerToAdmin;
 
 /**
  * Gets the guildmember instance from a discord message instance.

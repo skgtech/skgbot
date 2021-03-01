@@ -28,6 +28,7 @@ environment the following environment variables are required:
 -   `DISCORD_BOT_TOKEN` The Discord token of the bot.
 -   `DISCORD_COMMANDO_UID` Your user id, so you can invoke discord commands.
 -   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
+-   `DISCORD_ADMIN_CHANNEL_ID` Channel ID to relay messages to.
 
 # Development Operations / Maintenance
 
