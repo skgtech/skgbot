@@ -11,11 +11,11 @@ const serverName = config.discord.server_name;
 messages.welcome = (guildMember) =>
   `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
 
-We are a community of professionals and students passionate about technology.
+We are a community of professionals passionate about technology.
 
 Everyone can use their desired nickname, however, we also use our real names` +
-  ` in this community. As such we'll kindly ask you of the following information` +
-  ` that will be available to everyone to see and check you out:
+  ` in this community. As such we'll kindly ask you for the following information` +
+  ` that will be available to everyone:
 
 * Your Real Name.
 * Your email for verification (will not be visible).
@@ -78,7 +78,8 @@ messages.step6Error = () =>
 
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
-  ' verify your email.';
+  ' verify your email. You may paste the verification token here or just click' +
+  ' on the provided link in the email I sent you.';
 
 messages.step7Error = () =>
   'Please paste the appropriate code you have received on your email.';
