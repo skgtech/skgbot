@@ -4,7 +4,7 @@
 
 const messages = require('./messages');
 const { resendVerification, resetOnboarding } = require('../onboarding');
-const { getGuildMember } = require('../../services/discord.service');
+const { getGuildMember } = require('../discord');
 
 const router = (module.exports = {});
 

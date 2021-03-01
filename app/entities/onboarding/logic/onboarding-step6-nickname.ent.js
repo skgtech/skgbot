@@ -13,7 +13,7 @@ const {
   onboardingSubject,
   onboardingEmail,
 } = require('../messages');
-const { getGuildMember } = require('../../../services/discord.service');
+const { getGuildMember } = require('../../discord');
 const { update, validateEmail } = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
 
