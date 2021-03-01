@@ -7,11 +7,11 @@ const messages = (module.exports = {});
 messages.help = () => `Available commands to members:
 
 * \`!help\` :: This help screen.
-* \`!profile [username]\` Show the profile of another member.
-* \`!nickname [nickname]\` Update your nickname.
-* \`!bio [bio]\` Update your bio, multi-line inputs are allowed.
-* \`!join [Category]\` Join a topic category of channels (more bellow).
-* \`!part [Category]\` Leave a topic category of channels (more bellow).
+* \`!profile [username]\` :: Show the profile of another member.
+* \`!nickname [nickname]\` :: Update your nickname.
+* \`!bio [bio]\` :: Update your bio, multi-line inputs are allowed.
+* \`!join [Category]\` :: Join a topic category of channels (more bellow).
+* \`!part [Category]\` :: Leave a topic category of channels (more bellow).
 
 Available topic Categories in this server:
 
@@ -20,6 +20,12 @@ Available topic Categories in this server:
 * \`Hobbies\` Real-life hobbies, movies, music, space, IoT, gardening, etc.
 * \`Investor\` Channels related to investing and cryptos.
 * \`Politics\` Politics and Pandemic related channels.`;
+
+messages.helpOnboarding = () => `Available commands for onboarding:
+
+* \`!help\` :: This help screen.
+* \`!reset\` ::  Reset the onboarding process and start over.
+* \`!resend\` :: Resend the verification email.`;
 
 messages.helpOnboarding = () => 'HELP Onboarding!!!';
 messages.error = () =>
