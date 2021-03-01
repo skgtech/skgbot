@@ -135,7 +135,7 @@ step._enableMemberDiscord = async (message) => {
   const guildMember = await getGuildMember(message);
 
   const allPromises = [];
-  config.discord.roles_member.forEach((roleName) => {
+  config.discord.roles_for_new_member.forEach((roleName) => {
     const role = getRole(guild, roleName);
 
     allPromises.push(guildMember.roles.add(role));

@@ -1,68 +1,47 @@
 /**
  * @fileoverview Join a topic category.
  */
-const validator = require('validator');
 
-const memberSql = require('../sql/members.sql');
-const {
-  nicknameChanged,
-  nicknameChangeFail,
-  nicknameInvalid,
-} = require('../messages');
+const config = require('config');
+
+const { categoryJoined, categoryInvalid } = require('../messages');
+const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
 
 /**
- * Show a member's profile from the data store.
+ * Join a topic category.
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
- * @param {string} nickname The nickname to change to.
+ * @param {string} category The category to join.
  * @return {Promise<void>}
  */
-entity.categoryJoin = async (message, localMember, nickname) => {
-  log.info(
-    `Member changing their nickname from "${localMember.nickname}"` +
-      `to "${nickname}"`,
-    { localMember },
-  );
+entity.categoryJoin = async (message, localMember, category) => {
+  log.info(`Member wants to join new Category: "${category}"`, { localMember });
 
-  if (!entity.validateEmail(nickname)) {
-    message.channel.send(nicknameInvalid());
+  if (!entity.validateCategory(category)) {
+    message.channel.send(categoryInvalid());
     return;
   }
 
-  try {
-    await memberSql.update(localMember.discord_uid, { nickname });
-  } catch (ex) {
-    log.error('Error while changing nickname for member', {
-      localMember,
-      error: ex,
-    });
+  const guild = await getGuild(message);
+  const guildMember = await getGuildMember(message);
 
-    await message.channel.send(nicknameChangeFail());
-    return;
-  }
+  const role = getRole(guild, category);
 
-  message.channel.send(nicknameChanged(nickname));
+  await guildMember.roles.add(role);
+
+  message.channel.send(categoryJoined(category));
 };
 
 /**
- * Validates a nickname.
+ * Validates a category.
  *
- * @param {string} nickname The new nickname to validate.
+ * @param {string} category The category to validate.
  * @return {boolean} True if it passes validation.
  */
-entity.validateEmail = (nickname) => {
-  const seed = '-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  if (validator.contains(nickname, seed)) {
-    return false;
-  }
-
-  if (nickname.length > 32) {
-    return false;
-  }
-
-  return true;
+entity.validateCategory = (category) => {
+  return config.discord.roles_all_available.includes(category);
 };

@@ -38,6 +38,14 @@
       "commando": {
         "owner_uid": "DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID"
       },
-      "roles_member": ["Member", "Product", "Investor", "Hobbies", "Engineer"]
+      "roles_all_available": [
+        "Member",
+        "Product",
+        "Investor",
+        "Hobbies",
+        "Engineer",
+        "politics"
+      ],
+      "roles_for_new_member": ["Member", "Product", "Investor", "Hobbies", "Engineer"]
     }
 }

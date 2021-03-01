@@ -3,7 +3,13 @@
  */
 
 const messages = require('./messages');
-const { showProfile, changeNickname, changeBio } = require('../members');
+const {
+  showProfile,
+  changeNickname,
+  changeBio,
+  categoryJoin,
+  categoryPart,
+} = require('../members');
 
 const router = (module.exports = {});
 
@@ -32,10 +38,11 @@ router.handleMemberCommands = async (message, localMember) => {
       await changeBio(message, localMember, cmdArgument);
       break;
     case '!join': // Join a Category.
+      categoryJoin(message, localMember, cmdArgument);
       break;
     case '!part': // Part a Category.
+      categoryPart(message, localMember, cmdArgument);
       break;
-
     default:
       await message.channel.send(messages.error());
       break;
