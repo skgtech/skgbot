@@ -19,10 +19,12 @@ const entity = (module.exports = {});
  * @return {Promise<void>}
  */
 entity.categoryJoin = async (message, localMember, category) => {
-  log.info(`Member wants to join new Category: "${category}"`, { localMember });
+  await log.info(`Member wants to join new Category: "${category}"`, {
+    localMember,
+  });
 
   if (!entity.validateCategory(category)) {
-    message.channel.send(categoryInvalid());
+    await message.channel.send(categoryInvalid());
     return;
   }
 
@@ -33,7 +35,7 @@ entity.categoryJoin = async (message, localMember, category) => {
 
   await guildMember.roles.add(role);
 
-  message.channel.send(categoryJoined(category));
+  await message.channel.send(categoryJoined(category));
 };
 
 /**

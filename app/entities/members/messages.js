@@ -26,6 +26,8 @@ messages.bioInvalid = () => `${step5Error}`;
 
 messages.categoryJoined = (category) =>
   `You can joined the topic category "${category}"`;
+messages.categoryParted = (category) =>
+  `You have parted the topic category "${category}"`;
 messages.categoryInvalid = () =>
   `Invalid topic category. Type \`!help\` for` +
   ` a list of available categories.`;
