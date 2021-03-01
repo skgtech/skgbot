@@ -123,8 +123,9 @@ step._enableMemberDiscord = async (message) => {
   const guild = await getGuildMember(message);
   const guildMember = await getGuildMember(message);
 
+  // console.log('ROLES Count:', guild.roles.cache.length);
   config.discord.roles_member.forEach((roleName) => {
-    const role = guild.roles.cache.find(
+    const role = guild.roles.member.guild.roles.cache.find(
       (roleItem) => roleItem.name === roleName,
     );
     guildMember.roles.add(role);
