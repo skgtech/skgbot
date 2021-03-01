@@ -2,9 +2,9 @@
  * @fileoverview Handles commands avaialble during onboarding.
  */
 
-const messages = require('./messages');
-const { resendVerification, resetOnboarding } = require('../onboarding');
-const { getGuildMember } = require('../discord');
+const messages = require('../messages');
+const { resendVerification, resetOnboarding } = require('../../onboarding');
+const { getGuildMember } = require('../../discord');
 
 const router = (module.exports = {});
 

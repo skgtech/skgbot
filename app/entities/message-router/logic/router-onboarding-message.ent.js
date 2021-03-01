@@ -2,7 +2,7 @@
  * @fileoverview Handles onboarding messages.
  */
 
-const log = require('../../services/log.service').get();
+const log = require('../../../services/log.service').get();
 
 const {
   handle1,
@@ -12,7 +12,7 @@ const {
   handle5,
   handle6,
   handle7,
-} = require('../onboarding');
+} = require('../../onboarding');
 
 const router = (module.exports = {});
 

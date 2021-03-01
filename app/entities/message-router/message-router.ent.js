@@ -5,9 +5,13 @@
 const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
-const { handleMemberCommands } = require('./router-member-command.ent');
-const { handleOnboardingMessage } = require('./router-onboarding-message.ent');
-const { handleOnboardingCommands } = require('./router-onboarding-command.ent');
+const { handleMemberCommands } = require('./logic/router-member-command.ent');
+const {
+  handleOnboardingMessage,
+} = require('./logic/router-onboarding-message.ent');
+const {
+  handleOnboardingCommands,
+} = require('./logic/router-onboarding-command.ent');
 const log = require('../../services/log.service').get();
 
 const messageRouter = (module.exports = {});

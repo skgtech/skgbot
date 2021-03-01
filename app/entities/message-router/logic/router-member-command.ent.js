@@ -2,14 +2,14 @@
  * @fileoverview Handles Member commands.
  */
 
-const messages = require('./messages');
+const messages = require('../messages');
 const {
   showProfile,
   changeNickname,
   changeBio,
   categoryJoin,
   categoryPart,
-} = require('../members');
+} = require('../../members');
 
 const router = (module.exports = {});
 
