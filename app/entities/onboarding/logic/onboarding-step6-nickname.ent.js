@@ -36,7 +36,7 @@ step.handle6 = async (message, localMember) => {
   }
 
   // Set the nickname on the server
-  await step.setNickname(message, msg);
+  await step.setNickname(message, localMember, msg);
 
   // Update the database with the new state and verfication code
   const verification_code = uuid();
@@ -61,12 +61,21 @@ step.handle6 = async (message, localMember) => {
  * Set the member's nickname on discord.
  *
  * @param {DiscordMessage} message The discord message.
+ * @param {Member} localMember Local record of the member.
  * @param {string} nickname The nickname to set the user with.
  * @return {Promise<void>} A Promise.
  */
-step.setNickname = async (message, nickname) => {
+step.setNickname = async (message, localMember, nickname) => {
   const guildMember = await getGuildMember(message);
-  await guildMember.setNickname(nickname);
+  try {
+    await guildMember.setNickname(nickname);
+  } catch (ex) {
+    log.error('Failed to set nickname', {
+      localMember,
+      error: ex,
+      custom: { nickname },
+    });
+  }
 };
 
 /**
