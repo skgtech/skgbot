@@ -12,7 +12,7 @@ module.exports = class SimJoinCommand extends Commando.Command {
       name: 'simjoin',
       group: 'testing',
       memberName: 'simjoin',
-      userPermissions: ['ADMINISTRATOR'],
+      userPermissions: [],
       description: 'Simulates a join',
     });
   }
