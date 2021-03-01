@@ -3,7 +3,7 @@
  */
 
 const messages = require('./messages');
-const { startOnboarding } = require('../onboarding');
+const { showProfile } = require('../members');
 
 const router = (module.exports = {});
 
@@ -16,19 +16,16 @@ const router = (module.exports = {});
  * @private
  */
 router.handleMemberCommands = async (message, localMember) => {
-  const parts = message.content.split(' ');
+  const [command, cmdArgument] = message.content.split(' ');
 
-  switch (parts[0]) {
+  switch (command) {
     case '!help':
       await message.channel.send(messages.help());
       break;
-    case '!register':
-      await startOnboarding(message, localMember);
+    case '!profile':
+      await showProfile(message, localMember, cmdArgument);
       break;
 
-    // Resend the email verification code.
-    case '!resend':
-      break;
     default:
       await message.channel.send(messages.error());
       break;
