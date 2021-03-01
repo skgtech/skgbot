@@ -21,6 +21,7 @@ const entity = (module.exports = {});
 entity.categoryJoin = async (message, localMember, category) => {
   await log.info(`Member wants to join new Category: "${category}"`, {
     localMember,
+    relay: true,
   });
 
   if (!entity.validateCategory(category)) {

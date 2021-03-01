@@ -54,7 +54,7 @@ step.handle6 = async (message, localMember) => {
   // Prepare and dispatch the verification email
   await step.sendVerificationEmail(localMember, verification_code);
 
-  message.channel.send(step6Success(msg));
+  await message.channel.send(step6Success(msg));
 };
 
 /**
@@ -83,10 +83,14 @@ step.sendVerificationEmail = async (localMember, verificationCode) => {
     onboardingEmail(localMember.first_name, verificationCode),
   );
 
-  log.info('Sent verification email to member', {
-    localMember,
-    custom: {
-      message_id: emailRes.messageId,
+  await log.info(
+    'Nickname set on onboarding member and email verification sent',
+    {
+      localMember,
+      custom: {
+        message_id: emailRes.messageId,
+      },
+      relay: true,
     },
-  });
+  );
 };

@@ -54,6 +54,7 @@ step.handle7 = async (message, localMember) => {
 
   log.info('User verified, joins server', {
     localMember,
+    relay: true,
   });
   await message.channel.send(step7Success(msg));
 };
@@ -72,7 +73,10 @@ step.resendVerification = async (message, localMember) => {
     return;
   }
 
-  log.info('Resend Verification requested.', localMember);
+  await log.info('Resend Verification requested.', {
+    localMember,
+    relay: true,
+  });
 
   const nowDt = new Date();
   const expireDt = new Date(localMember.verification_code_expires_at);

@@ -23,6 +23,7 @@ entity.changeBio = async (message, localMember, newBio) => {
       old_bio: localMember.bio,
       new_bio: newBio,
     },
+    relay: true,
   });
 
   if (!entity.validateBio(newBio)) {

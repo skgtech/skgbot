@@ -25,7 +25,7 @@ entity.changeNickname = async (message, localMember, nickname) => {
   log.info(
     `Member changing their nickname from "${localMember.nickname}"` +
       `to "${nickname}"`,
-    { localMember },
+    { localMember, relay: true },
   );
 
   if (!entity.validateEmail(nickname)) {

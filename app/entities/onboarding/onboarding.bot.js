@@ -96,17 +96,22 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
     localMember = await membersEnt.createMember(guildMember);
   }
 
-  await onboarding._sendFirstOnboardingDM(guildMember);
+  await onboarding._sendFirstOnboardingDM(guildMember, localMember);
 };
 
 /**
  * Send the initial onboarding private message to the member.
  *
  * @param {DiscordGuildMember} guildMember The guild Member.
+ * @param {Member} localMember Local member record.
  * @return {Promise<void>}
  * @private
  */
-onboarding._sendFirstOnboardingDM = async (guildMember) => {
+onboarding._sendFirstOnboardingDM = async (guildMember, localMember) => {
+  await log.info('New member joined the guild!', {
+    localMember,
+    relay: true,
+  });
   const dmChannel = await guildMember.createDM();
 
   // Send the message, starting the onboarding process.

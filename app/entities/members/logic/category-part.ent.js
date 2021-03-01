@@ -20,6 +20,7 @@ const entity = (module.exports = {});
 entity.categoryPart = async (message, localMember, category) => {
   await log.info(`Member wants to part category: "${category}"`, {
     localMember,
+    relay: true,
   });
 
   if (!validateCategory(category)) {
