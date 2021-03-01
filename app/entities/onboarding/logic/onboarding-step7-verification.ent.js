@@ -8,7 +8,7 @@ const { v4: uuid, validate: uuidValidate } = require('uuid');
 
 const { db } = require('../../../services/postgres.service');
 const step6 = require('./onboarding-step6-nickname.ent');
-const { getGuildMember } = require('../../discord');
+const { getGuild, getGuildMember, getRole } = require('../../discord');
 const {
   step7Error,
   step7Success,
@@ -131,14 +131,13 @@ step._enableMember = async (message, localMember) => {
  * @private
  */
 step._enableMemberDiscord = async (message) => {
-  const guild = await getGuildMember(message);
+  const guild = await getGuild(message);
   const guildMember = await getGuildMember(message);
 
   const allPromises = [];
   config.discord.roles_member.forEach((roleName) => {
-    const role = guild.roles.member.guild.roles.cache.find(
-      (roleItem) => roleItem.name === roleName,
-    );
+    const role = getRole(guild, roleName);
+
     allPromises.push(guildMember.roles.add(role));
   });
 
