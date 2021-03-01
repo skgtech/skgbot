@@ -44,9 +44,7 @@ entity.getGuild = async () => {
  * @return {DiscordRole} Returns the discord role.
  */
 entity.getRole = (guild, roleName) => {
-  const role = guild.roles.member.guild.roles.cache.find(
-    (roleItem) => roleItem.name === roleName,
-  );
+  const role = guild.roles.cache.find((roleItem) => roleItem.name === roleName);
 
   return role;
 };
