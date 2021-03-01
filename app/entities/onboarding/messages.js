@@ -4,6 +4,8 @@
 
 const config = require('config');
 
+const { help: memberHelp } = require('../message-router/messages');
+
 const messages = (module.exports = {});
 
 const serverName = config.discord.server_name;
@@ -81,14 +83,16 @@ messages.step6Error = () =>
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
   ' verify your email. You may paste the verification token here or just click' +
-  ' on the provided link in the email I sent you.';
+  ' on the provided link in the email I sent you.\n\nMake sure you have' +
+  ' checked your SPAM folder.';
 
 messages.step7Error = () =>
   'Please paste the appropriate code you have received on your email.';
 
 messages.step7Success = () =>
-  "Thank you for verifying your email and welcome to SKGTech's discord" +
-  ' server!';
+  `Thank you for verifying your email 🎉 and welcome to ${serverName}'s discord` +
+  ` server! Find bellow a list of commands that are now available to you:\n\n` +
+  `${memberHelp()}`;
 
 messages.step7ErrorNoMatch = () =>
   'The verification code does not match, or' +
@@ -99,12 +103,12 @@ messages.step7ErrorWrongState = () =>
   ' to resend a verification email to you. If you believe this is in error' +
   ' please contant an administrator.';
 
-messages.onboardingSubject = () => 'Please verify your email for SKGTech';
+messages.onboardingSubject = () => `Please verify your email for ${serverName}`;
 
 messages.onboardingEmail = (firstName, verificationCode) =>
   `Hello ${firstName}!
 
-Thank you for registering at SKGTech's Discord Server.
+Thank you for registering at ${serverName}'s Discord Server.
 
 To get into the server, you may copy & paste the code bellow to our bot:
 
@@ -112,7 +116,7 @@ ${verificationCode}
 
 or just click the link bellow:
 
-https://verify.skgtech.io/verify/${verificationCode}
+${config.onboarding.verification_url}${verificationCode}
 
 (you may need to copy and paste the above address into your browser).
 
