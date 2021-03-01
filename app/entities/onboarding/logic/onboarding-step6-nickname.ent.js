@@ -4,7 +4,6 @@
 
 const addDt = require('date-fns/add');
 const config = require('config');
-const validator = require('validator');
 const { v4: uuid } = require('uuid');
 
 const emailService = require('../../../services/email.service');
@@ -15,7 +14,7 @@ const {
   onboardingEmail,
 } = require('../messages');
 const { getGuildMember } = require('../../../services/discord.service');
-const { update } = require('../../members/members.ent');
+const { update, validateEmail } = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
 
 const step = (module.exports = {});
@@ -30,13 +29,8 @@ const step = (module.exports = {});
 step.handle6 = async (message, localMember) => {
   const msg = message.content.trim();
 
-  const seed = '-abcdefghijklmnopqrstuvwxyz';
-  if (validator.contains(msg, seed)) {
-    message.channel.send(step6Error());
-    return;
-  }
-
-  if (msg.length > 32) {
+  // Validate nickname
+  if (!validateEmail(msg)) {
     message.channel.send(step6Error());
     return;
   }

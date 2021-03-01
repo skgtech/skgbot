@@ -2,7 +2,7 @@
  * @fileoverview Step 5, expect bio.
  */
 const { step5Error, step5Success } = require('../messages');
-const { update } = require('../../members/members.ent');
+const { update, validateBio } = require('../../members/members.ent');
 
 const step = (module.exports = {});
 
@@ -16,14 +16,7 @@ const step = (module.exports = {});
 step.handle5 = async (message, localMember) => {
   const msg = message.content.trim();
 
-  const newlineCount = (msg.match(/\n/g) || []).length;
-
-  if (newlineCount > 5) {
-    message.channel.send(step5Error());
-    return;
-  }
-
-  if (msg.length > 350) {
+  if (!validateBio(msg)) {
     message.channel.send(step5Error());
     return;
   }

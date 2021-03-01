@@ -69,16 +69,16 @@ messages.step4Success = (email) =>
   '\n\nYou may type up to 5 newlines and a total of 350 characters.';
 
 messages.step5Error = () =>
-  'Please write a proper bio. You may type up to 5 newlines and a max of 350 ' +
-  'charcets.';
+  'Please type a valid bio. You may type up to 5 newlines and a max of 350 ' +
+  'characters.';
 
 messages.step5Success = () =>
   'Thank you for your bio, now the last thing I need from you is how you want' +
   ' to be visible in this server.\n\nType your nickname:';
 
 messages.step6Error = () =>
-  'Please write a nickname. Do not use newlines, only use latin (english) ' +
-  'characters, max characters are 32.';
+  'Invalid nickname. Do not use newlines, only use latin (english) ' +
+  'characters and a dash (`-`), max characters are 32.';
 
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +

@@ -4,6 +4,11 @@
 
 const memberSql = require('./sql/members.sql');
 const { show } = require('./logic/show-profile.ent');
+const {
+  changeNickname,
+  validateEmail,
+} = require('./logic/change-nickname.ent');
+const { changeBio, validateBio } = require('./logic/change-bio.ent');
 
 const entity = (module.exports = {});
 
@@ -13,6 +18,10 @@ entity.create = memberSql.create;
 entity.update = memberSql.update;
 entity.getByEmail = memberSql.getByEmail;
 entity.showProfile = show;
+entity.changeNickname = changeNickname;
+entity.validateEmail = validateEmail;
+entity.changeBio = changeBio;
+entity.validateBio = validateBio;
 
 /**
  * Creates a new record in the database using the provided Discord GuildMember.
