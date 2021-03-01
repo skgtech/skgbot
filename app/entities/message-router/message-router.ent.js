@@ -2,7 +2,7 @@
  * @fileoverview Handle message commands to the bot.
  */
 
-const discordService = require('../../services/discord.service');
+const { getClient } = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
 const { handleMemberCommands } = require('./logic/router-member-command.ent');
@@ -22,7 +22,7 @@ const messageRouter = (module.exports = {});
  */
 messageRouter.init = () => {
   log.info('Initializing message router entity...');
-  const client = discordService.getClient();
+  const client = getClient();
 
   client.on('message', messageRouter._onMessage);
 };
@@ -39,9 +39,14 @@ messageRouter._onMessage = async (message) => {
     return;
   }
 
-  const msg = message.content;
-
   const discordAuthor = message.author;
+  const msg = message.content;
+  const client = getClient();
+
+  // ignore own messages
+  if (discordAuthor.id === client.user.id) {
+    return;
+  }
 
   // Get local member
   const localMember = await membersEnt.getById(discordAuthor.id);

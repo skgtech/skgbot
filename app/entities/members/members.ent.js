@@ -61,7 +61,7 @@ entity.resetOnboarding = async (guildMember) => {
     first_name: '',
     last_name: '',
     bio: '',
-    is_active: true,
+    is_onboarded: false,
     onboarding_state: 'joined',
   };
 

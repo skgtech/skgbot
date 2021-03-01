@@ -3,7 +3,11 @@
  */
 
 const messages = require('../messages');
-const { resendVerification, resetOnboarding } = require('../../onboarding');
+const {
+  resendVerification,
+  resetOnboarding,
+  sendFirstOnboardingDM,
+} = require('../../onboarding');
 const { getGuildMember } = require('../../discord');
 
 const router = (module.exports = {});
@@ -31,10 +35,22 @@ router.handleOnboardingCommands = async (message, localMember) => {
       await resendVerification(message, localMember);
       break;
     case '!reset':
-      await resetOnboarding(guildMember);
+      await router._handleResetOnboarding(guildMember);
       break;
     default:
       await message.channel.send(messages.error());
       break;
   }
+};
+
+/**
+ * Handle reset onboarding operation.
+ *
+ * @param {DiscordGuildMember} guildMember The guildmember object.
+ * @return {Promise<void>}
+ * @private
+ */
+router._handleResetOnboarding = async (guildMember) => {
+  const localMember = await resetOnboarding(guildMember);
+  await sendFirstOnboardingDM(guildMember, localMember);
 };

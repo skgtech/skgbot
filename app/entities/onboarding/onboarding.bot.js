@@ -51,8 +51,6 @@ onboarding.init = () => {
 onboarding.resetOnboarding = async (guildMember) => {
   const localMember = await membersEnt.resetOnboarding(guildMember);
 
-  await onboarding._sendFirstOnboardingDM(guildMember);
-
   return localMember;
 };
 
@@ -89,14 +87,13 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
 
   // check if member already registered
   let localMember = await membersEnt.getById(guildMember.id);
-
   if (localMember) {
     localMember = await onboarding.resetOnboarding(guildMember);
   } else {
     localMember = await membersEnt.createMember(guildMember);
   }
 
-  await onboarding._sendFirstOnboardingDM(guildMember, localMember);
+  await onboarding.sendFirstOnboardingDM(guildMember, localMember);
 };
 
 /**
@@ -105,9 +102,8 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
  * @param {DiscordGuildMember} guildMember The guild Member.
  * @param {Member} localMember Local member record.
  * @return {Promise<void>}
- * @private
  */
-onboarding._sendFirstOnboardingDM = async (guildMember, localMember) => {
+onboarding.sendFirstOnboardingDM = async (guildMember, localMember) => {
   await log.info('New member joined the guild!', {
     localMember,
     relay: true,
