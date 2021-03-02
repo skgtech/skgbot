@@ -13,7 +13,7 @@ const serverName = config.discord.server_name;
 messages.welcome = (guildMember) =>
   `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
 
-We are a community of professionals passionate about technology.
+We are a community of professionals, passionate about technology.
 
 Everyone can use their desired nickname, however, we do not allow anonymous` +
   ` accounts in this community. As such we'll kindly ask you for the` +

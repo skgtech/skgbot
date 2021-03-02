@@ -26,10 +26,12 @@ exports.up = async function (knex) {
   await knex.schema.createTable('members', function (table) {
     table.string('discord_uid', 20).primary();
     table.string('email');
-    table.string('username');
-    table.string('nickname');
-    table.string('first_name');
-    table.string('last_name');
+    table.string('username', 120);
+    table.string('nickname', 40);
+    table.string('first_name', 40);
+    table.string('last_name', 60);
+    table.string('twitter');
+    table.string('linkedin');
     table.text('bio');
     table.timestamp('joined_at').defaultTo(knex.fn.now());
     table.timestamp('left_at');
@@ -39,14 +41,16 @@ exports.up = async function (knex) {
       .specificType('onboarding_state', 'member_onboarding_state_enum')
       .defaultTo('joined')
       .notNullable();
-    table.uuid('verification_code');
+    table.string('verification_code', 60);
     table.timestamp('verification_code_expires_at');
 
     defaultFields(table, knex);
 
+    table.unique('nickname');
+    table.unique('email');
     table.index('is_onboarded');
     table.index('nickname');
-    table.unique('nickname');
+    table.index('email');
   });
 };
 

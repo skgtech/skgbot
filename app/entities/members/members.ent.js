@@ -8,12 +8,18 @@ const { changeNickname } = require('./logic/change-nickname.ent');
 const { changeBio, validateBio } = require('./logic/change-bio.ent');
 const { categoryJoin, validateCategory } = require('./logic/category-join.ent');
 const { categoryPart } = require('./logic/category-part.ent');
+const { enableMember } = require('./logic/enable-member.ent');
+const {
+  verifyMember,
+  verifyMemberToken,
+} = require('./logic/verify-member-web.ent.js');
 
 const entity = (module.exports = {});
 
 // Expose all related methods
 entity.getById = memberSql.getById;
 entity.create = memberSql.create;
+entity.enableMember = enableMember;
 entity.update = memberSql.update;
 entity.getByEmail = memberSql.getByEmail;
 entity.showProfile = show;
@@ -23,6 +29,8 @@ entity.validateBio = validateBio;
 entity.categoryJoin = categoryJoin;
 entity.categoryPart = categoryPart;
 entity.validateCategory = validateCategory;
+entity.verifyMember = verifyMember;
+entity.verifyMemberToken = verifyMemberToken;
 
 /**
  * Creates a new record in the database using the provided Discord GuildMember.
