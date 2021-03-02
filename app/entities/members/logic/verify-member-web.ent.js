@@ -24,6 +24,7 @@ const entity = (module.exports = {});
 entity.verifyMember = async (req, res, next) => {
   try {
     const response = await entity._verifyMember(req.params.token);
+    console.log('RES:', response);
     res.send(response);
   } catch (ex) {
     next(ex);
@@ -104,10 +105,12 @@ entity._verifyMember = async (token) => {
   await step7Success();
   await applyRoles(guildMember);
   await enableMember(localMember);
-  return render(
+  const response = render(
     'You are now Verified!',
     'Go back to discord and check the message you received from SKGBot',
   );
+
+  return response;
 };
 
 /**

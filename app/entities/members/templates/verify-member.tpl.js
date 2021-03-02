@@ -4,8 +4,7 @@
 
 const tpl = (module.exports = {});
 
-tpl.render = (header, body) =>
-  ```<!DOCTYPE html>
+tpl.render = (header, body) => `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -23,4 +22,4 @@ tpl.render = (header, body) =>
     <p>${body}</p>
   </body>
 </html>
-```;
+`;
