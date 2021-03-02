@@ -4,10 +4,7 @@
 
 const memberSql = require('./sql/members.sql');
 const { show } = require('./logic/show-profile.ent');
-const {
-  changeNickname,
-  validateEmail,
-} = require('./logic/change-nickname.ent');
+const { changeNickname } = require('./logic/change-nickname.ent');
 const { changeBio, validateBio } = require('./logic/change-bio.ent');
 const { categoryJoin, validateCategory } = require('./logic/category-join.ent');
 const { categoryPart } = require('./logic/category-part.ent');
@@ -21,7 +18,6 @@ entity.update = memberSql.update;
 entity.getByEmail = memberSql.getByEmail;
 entity.showProfile = show;
 entity.changeNickname = changeNickname;
-entity.validateEmail = validateEmail;
 entity.changeBio = changeBio;
 entity.validateBio = validateBio;
 entity.categoryJoin = categoryJoin;

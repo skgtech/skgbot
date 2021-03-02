@@ -27,7 +27,7 @@ describe('UNIT Validators', () => {
       expect(validators.isName('Kostas2')).toBeTrue();
     });
     test('"Kostas2_--- --" should pass', async () => {
-      expect(validators.isName('Kostas2')).toBeTrue();
+      expect(validators.isName('Kostas2_--- --')).toBeTrue();
     });
     test('"$$" should not pass', async () => {
       expect(validators.isName('$$')).toBeFalse();
@@ -37,6 +37,40 @@ describe('UNIT Validators', () => {
     });
     test('"Yank+" should not pass', async () => {
       expect(validators.isName('Yank+')).toBeFalse();
+    });
+  });
+
+  describe('isNickname()', () => {
+    test('"Thanasis" should pass', async () => {
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+    });
+    test('"Thanasis" should always pass', async () => {
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+      expect(validators.isNickname('Thanasis')).toBeTrue();
+    });
+    test('"Thanasis Iosif" should not pass', async () => {
+      expect(validators.isNickname('Thanasis Iosif')).toBeFalse();
+    });
+    test('"Kostas-Nikos" should pass', async () => {
+      expect(validators.isNickname('Kostas-Nikos')).toBeTrue();
+    });
+    test('"Kostas2" should pass', async () => {
+      expect(validators.isNickname('Kostas2')).toBeTrue();
+    });
+    test('"Kostas2_--- --" should not pass', async () => {
+      expect(validators.isNickname('Kostas2_--- --')).toBeFalse();
+    });
+    test('"$$" should not pass', async () => {
+      expect(validators.isNickname('$$')).toBeFalse();
+    });
+    test('"Pok/a" should not pass', async () => {
+      expect(validators.isNickname('Pok/a')).toBeFalse();
+    });
+    test('"Yank+" should not pass', async () => {
+      expect(validators.isNickname('Yank+')).toBeFalse();
     });
   });
 });

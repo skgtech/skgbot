@@ -1,9 +1,9 @@
 /**
  * @fileoverview Change the nickname of a user.
  */
-const validator = require('validator');
 
 const memberSql = require('../sql/members.sql');
+const { validateNickname } = require('../../../utils/validators');
 const {
   nicknameChanged,
   nicknameChangeFail,
@@ -28,7 +28,7 @@ entity.changeNickname = async (message, localMember, nickname) => {
     { localMember, relay: true },
   );
 
-  if (!entity.validateEmail(nickname)) {
+  if (!validateNickname(nickname)) {
     message.channel.send(nicknameInvalid());
     return;
   }
@@ -46,23 +46,4 @@ entity.changeNickname = async (message, localMember, nickname) => {
   }
 
   message.channel.send(nicknameChanged(nickname));
-};
-
-/**
- * Validates a nickname.
- *
- * @param {string} nickname The new nickname to validate.
- * @return {boolean} True if it passes validation.
- */
-entity.validateEmail = (nickname) => {
-  const seed = '-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  if (validator.contains(nickname, seed)) {
-    return false;
-  }
-
-  if (nickname.length > 32) {
-    return false;
-  }
-
-  return true;
 };

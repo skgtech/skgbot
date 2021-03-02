@@ -14,7 +14,8 @@ const {
   onboardingEmail,
 } = require('../messages');
 const { getGuildMember } = require('../../discord');
-const { update, validateEmail } = require('../../members/members.ent');
+const { update } = require('../../members/members.ent');
+const { validateNickname } = require('../../../utils/validators');
 const log = require('../../../services/log.service').get();
 
 const step = (module.exports = {});
@@ -30,7 +31,7 @@ step.handle6 = async (message, localMember) => {
   const msg = message.content.trim();
 
   // Validate nickname
-  if (!validateEmail(msg)) {
+  if (!validateNickname(msg)) {
     message.channel.send(step6Error());
     return;
   }
@@ -51,10 +52,10 @@ step.handle6 = async (message, localMember) => {
     verification_code_expires_at,
   });
 
+  await message.channel.send(step6Success(msg));
+
   // Prepare and dispatch the verification email
   await step.sendVerificationEmail(localMember, verification_code);
-
-  await message.channel.send(step6Success(msg));
 };
 
 /**
