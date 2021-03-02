@@ -24,7 +24,6 @@ const entity = (module.exports = {});
 entity.verifyMember = async (req, res, next) => {
   try {
     const response = await entity._verifyMember(req.params.token);
-    console.log('RES:', response);
     res.send(response);
   } catch (ex) {
     next(ex);
@@ -102,7 +101,7 @@ entity._verifyMember = async (token) => {
   });
 
   const guildMember = await getGuildMemberLocal(localMember);
-  await step7Success();
+  await guildMember.send(step7Success());
   await applyRoles(guildMember);
   await enableMember(localMember);
   const response = render(
