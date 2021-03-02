@@ -25,3 +25,16 @@ entity.applyRoles = (guild, guildMember) => {
 
   return Promise.all(allPromises);
 };
+
+/**
+ * Returns the role discord object.
+ *
+ * @param {DiscordGuild} guild The guild to look the role into.
+ * @param {string} roleName The role name to look for.
+ * @return {DiscordRole} Returns the discord role.
+ */
+entity.getRole = (guild, roleName) => {
+  const role = guild.roles.cache.find((roleItem) => roleItem.name === roleName);
+
+  return role;
+};
