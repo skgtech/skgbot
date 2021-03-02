@@ -64,8 +64,8 @@ entity._formatMessage = (lc) => {
   // check if bio is changing
   if (lc.context.custom && lc.context.custom.old_bio) {
     message +=
-      `\nOld Bio: ${lc.context.custom.old_bio}\n\n` +
-      `New Bio: ${lc.context.custom.new_bio}`;
+      `\nOld Bio:\n\`\`\`${lc.context.custom.old_bio}\`\`\`\n\n` +
+      `New Bio:\n\`\`\`${lc.context.custom.new_bio}\`\`\``;
   }
 
   return message;

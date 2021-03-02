@@ -12,6 +12,7 @@ const { getGuild, getGuildMember, getRole } = require('../../discord');
 const {
   step7Error,
   step7Success,
+  step7ResendVerification,
   step7ErrorNoMatch,
   step7ErrorWrongState,
 } = require('../messages');
@@ -68,7 +69,7 @@ step.handle7 = async (message, localMember) => {
  * @return {Promise<void>} A Promise.
  */
 step.resendVerification = async (message, localMember) => {
-  if (localMember !== 'email_verification') {
+  if (localMember.onboarding_state !== 'email_verification') {
     await message.channel.send(step7ErrorWrongState());
     return;
   }
@@ -86,6 +87,8 @@ step.resendVerification = async (message, localMember) => {
     // Verification Expired, issue a new one.
     verificationCode = await step._resetVerification(localMember);
   }
+
+  await message.channel.send(step7ResendVerification(localMember.email));
 
   // Prepare and dispatch the verification email
   await step6.sendVerificationEmail(localMember, verificationCode);

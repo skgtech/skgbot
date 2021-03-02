@@ -94,14 +94,18 @@ messages.step7Success = () =>
   ` server! Find bellow a list of commands that are now available to you:\n\n` +
   `${memberHelp()}`;
 
+messages.step7ResendVerification = (email) =>
+  `Ok, I am sending a new email to` +
+  ` "${email}". Make sure to check your SPAM folder...`;
+
 messages.step7ErrorNoMatch = () =>
   'The verification code does not match, or' +
-  'it has expired. Please type `!resend` to send a new email.';
+  ' it has expired. Please type `!resend` to send a new email.';
 
 messages.step7ErrorWrongState = () =>
   `You are not in the proper state for me` +
   ' to resend a verification email to you. If you believe this is in error' +
-  ' please contant an administrator.';
+  ' please contact an administrator.';
 
 messages.onboardingSubject = () => `Please verify your email for ${serverName}`;
 
