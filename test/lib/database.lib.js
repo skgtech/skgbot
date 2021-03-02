@@ -27,7 +27,7 @@ testDb.recreateDatabase = async (targetDb = 'skgbot-test') => {
     const timeDiff = Date.now() - startTime;
 
     console.log(
-      '\n\n💾 Databases nuked and created, migrations applied, seeds run. ' +
+      `\n\n💾 Database ${targetDb} nuked and created, migrations applied, seeds run. ` +
         `Total time: ${timeDiff}ms\n\n`,
     );
   } catch (ex) {
