@@ -17,6 +17,12 @@ const entity = (module.exports = {});
  * @return {Promise<void>}
  */
 entity.changeBio = async (message, localMember, content) => {
+  // Do not allow an empty bio.
+  const trimmedBio = content.trim();
+  if (trimmedBio === '!bio') {
+    message.channel.send(bioInvalid());
+    return;
+  }
   const newBio = content.substr(content.indexOf(' ') + 1);
 
   log.info(`Member changing their bio`, {
