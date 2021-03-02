@@ -39,7 +39,7 @@ exports.up = async function (knex) {
       .specificType('onboarding_state', 'member_onboarding_state_enum')
       .defaultTo('joined')
       .notNullable();
-    table.uuid('verification_code');
+    table.string('verification_code', 60);
     table.timestamp('verification_code_expires_at');
 
     defaultFields(table, knex);

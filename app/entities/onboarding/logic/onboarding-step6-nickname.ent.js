@@ -40,7 +40,7 @@ step.handle6 = async (message, localMember) => {
   await step.setNickname(message, localMember, msg);
 
   // Update the database with the new state and verfication code
-  const verification_code = uuid();
+  const verification_code = `${localMember.discord_uid}_${uuid()}`;
   const nowDt = new Date();
   const verification_code_expires_at = addDt(nowDt, {
     days: config.onboarding.verification_expires_days,
