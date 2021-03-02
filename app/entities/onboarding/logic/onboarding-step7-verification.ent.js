@@ -4,19 +4,21 @@
 
 const addDt = require('date-fns/add');
 const config = require('config');
-const { v4: uuid, validate: uuidValidate } = require('uuid');
+const { v4: uuid } = require('uuid');
 
-const { db } = require('../../../services/postgres.service');
 const step6 = require('./onboarding-step6-nickname.ent');
-const { getGuild, getGuildMember, getRole } = require('../../discord');
+const { getGuild, getGuildMember, applyRoles } = require('../../discord');
 const {
   step7Error,
   step7Success,
   step7ResendVerification,
-  step7ErrorNoMatch,
   step7ErrorWrongState,
 } = require('../messages');
-const { update } = require('../../members/members.ent');
+const {
+  update,
+  verifyMemberToken,
+  enableMember,
+} = require('../../members/members.ent');
 const log = require('../../../services/log.service').get();
 
 const step = (module.exports = {});
@@ -29,24 +31,11 @@ const step = (module.exports = {});
  * @return {Promise<void>}
  */
 step.handle7 = async (message, localMember) => {
-  const msg = message.content.trim();
+  const token = message.content.trim();
 
-  if (!uuidValidate(msg)) {
-    message.channel.send(step7Error());
-    return;
-  }
-
-  // Check if verification token matches the one on record.
-  if (msg !== localMember.verification_code) {
-    await message.channel.send(step7ErrorNoMatch());
-    return;
-  }
-
-  // Check if verification token has expired.
-  const nowDt = new Date();
-  const expireDt = new Date(localMember.verification_code_expires_at);
-  if (nowDt > expireDt) {
-    await message.channel.send(step7ErrorNoMatch());
+  const verified = verifyMemberToken(localMember, token);
+  if (!verified) {
+    await message.channel.send(step7Error());
     return;
   }
 
@@ -57,7 +46,7 @@ step.handle7 = async (message, localMember) => {
     localMember,
     relay: true,
   });
-  await message.channel.send(step7Success(msg));
+  await message.channel.send(step7Success());
 };
 
 /**
@@ -125,44 +114,9 @@ step._resetVerification = async (localMember) => {
  * @private
  */
 step._enableMember = async (message, localMember) => {
-  await step._enableMemberDiscord(message);
-
-  await step._enableMemberUpdateRecord(localMember);
-};
-
-/**
- * Add discord roles to member.
- *
- * @param {DiscordMessage} message The incoming message.
- * @return {Promise<void>} A Promise.
- * @private
- */
-step._enableMemberDiscord = async (message) => {
   const guild = await getGuild(message);
   const guildMember = await getGuildMember(message);
+  await applyRoles(guild, guildMember);
 
-  const allPromises = [];
-  config.discord.roles_for_new_member.forEach((roleName) => {
-    const role = getRole(guild, roleName);
-
-    allPromises.push(guildMember.roles.add(role));
-  });
-
-  return Promise.all(allPromises);
-};
-
-/**
- * Update the record of the member.
- *
- * @param {Member} localMember The local member record.
- * @return {Promise<void>} A Promise.
- * @private
- */
-step._enableMemberUpdateRecord = async (localMember) => {
-  const updateData = {
-    onboarding_state: 'member',
-    is_onboarded: true,
-    onboarded_at: db().fn.now(),
-  };
-  await update(localMember.discord_uid, updateData);
+  await enableMember(localMember);
 };

@@ -4,11 +4,13 @@
 
 const config = require('config');
 
+const { applyRoles } = require('./logic/apply-roles.ent');
 const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 const { getClient } = require('../../services/discord.service');
 
 const entity = (module.exports = {});
 
+entity.applyRoles = applyRoles;
 entity.loggerToAdmin = loggerToAdmin;
 
 /**
