@@ -70,3 +70,10 @@
  * @typedef {(Object)} DiscordMessage
  * @see https://discord.js.org/#/docs/main/stable/class/Message
  */
+
+/**
+ * Discord.js Role instance.
+ *
+ * @typedef {(Object)} DiscordRole
+ * @see https://discord.js.org/#/docs/main/stable/class/Role
+ */

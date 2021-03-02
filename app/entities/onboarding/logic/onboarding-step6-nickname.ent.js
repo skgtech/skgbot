@@ -4,7 +4,6 @@
 
 const addDt = require('date-fns/add');
 const config = require('config');
-const validator = require('validator');
 const { v4: uuid } = require('uuid');
 
 const emailService = require('../../../services/email.service');
@@ -14,8 +13,9 @@ const {
   onboardingSubject,
   onboardingEmail,
 } = require('../messages');
-const { getGuildMember } = require('../../../services/discord.service');
+const { getGuildMember } = require('../../discord');
 const { update } = require('../../members/members.ent');
+const { validateNickname } = require('../../../utils/validators');
 const log = require('../../../services/log.service').get();
 
 const step = (module.exports = {});
@@ -30,19 +30,14 @@ const step = (module.exports = {});
 step.handle6 = async (message, localMember) => {
   const msg = message.content.trim();
 
-  const seed = '-abcdefghijklmnopqrstuvwxyz';
-  if (validator.contains(msg, seed)) {
-    message.channel.send(step6Error());
-    return;
-  }
-
-  if (msg.length > 32) {
+  // Validate nickname
+  if (!validateNickname(msg)) {
     message.channel.send(step6Error());
     return;
   }
 
   // Set the nickname on the server
-  await step.setNickname(message, msg);
+  await step.setNickname(message, localMember, msg);
 
   // Update the database with the new state and verfication code
   const verification_code = uuid();
@@ -57,22 +52,31 @@ step.handle6 = async (message, localMember) => {
     verification_code_expires_at,
   });
 
+  await message.channel.send(step6Success(msg));
+
   // Prepare and dispatch the verification email
   await step.sendVerificationEmail(localMember, verification_code);
-
-  message.channel.send(step6Success(msg));
 };
 
 /**
  * Set the member's nickname on discord.
  *
  * @param {DiscordMessage} message The discord message.
+ * @param {Member} localMember Local record of the member.
  * @param {string} nickname The nickname to set the user with.
  * @return {Promise<void>} A Promise.
  */
-step.setNickname = async (message, nickname) => {
+step.setNickname = async (message, localMember, nickname) => {
   const guildMember = await getGuildMember(message);
-  await guildMember.setNickname(nickname);
+  try {
+    await guildMember.setNickname(nickname);
+  } catch (ex) {
+    log.error('Failed to set nickname', {
+      localMember,
+      error: ex,
+      custom: { nickname },
+    });
+  }
 };
 
 /**
@@ -89,10 +93,14 @@ step.sendVerificationEmail = async (localMember, verificationCode) => {
     onboardingEmail(localMember.first_name, verificationCode),
   );
 
-  log.info('Sent verification email to member', {
-    localMember,
-    custom: {
-      message_id: emailRes.messageId,
+  await log.info(
+    'Nickname set on onboarding member and email verification sent',
+    {
+      localMember,
+      custom: {
+        message_id: emailRes.messageId,
+      },
+      relay: true,
     },
-  });
+  );
 };

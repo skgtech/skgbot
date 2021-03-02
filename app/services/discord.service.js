@@ -48,7 +48,7 @@ commandoService.isConnected = () => {
  *
  * @return {Promise<void>} A Promise.
  */
-commandoService.init = async function () {
+commandoService.init = function () {
   return new Promise((resolve, reject) => {
     log.notice('Starting Discord-Commando Service...', {
       custom: {
@@ -94,28 +94,13 @@ commandoService.init = async function () {
 };
 
 /**
- * Gets the guildmember instance from a discord message instance.
+ * Disposes discord service.
  *
- * @param {DiscordMessage} message A dicord member instance.
- * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
+ * @return {Promise<void>}
  */
-commandoService.getGuildMember = async (message) => {
-  const guildMember = await commandoService._client.guilds.cache
-    .get(config.discord.guild_id)
-    .members.fetch(message.author.id);
-
-  return guildMember;
-};
-
-/**
- * Gets the Guild Object the bot is responsible for.
- *
- * @return {Promise<DiscordGuild>} Returns the guild instance.
- */
-commandoService.getGuild = async () => {
-  const guild = await commandoService._client.guilds.cache.get(
-    config.discord.guild_id,
-  );
-
-  return guild;
+commandoService.dispose = async () => {
+  if (!commandoService.isConnected()) {
+    return;
+  }
+  await commandoService._client.destroy();
 };

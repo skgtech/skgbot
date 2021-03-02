@@ -39,7 +39,7 @@ appServices.boot = async (bootOpts) => {
 
   await entities.init();
 
-  log.notice('Service Boot Finished');
+  log.notice('Service Boot Finished', { relay: true });
 };
 
 /**
@@ -49,4 +49,6 @@ appServices.boot = async (bootOpts) => {
  */
 appServices.dispose = async () => {
   await postgresService.dispose();
+  await expressService.dispose();
+  await discordService.dispose();
 };

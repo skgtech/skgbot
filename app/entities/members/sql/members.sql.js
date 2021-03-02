@@ -123,3 +123,23 @@ sql.getByEmail = async (email, tx) => {
   const [result] = await statement;
   return result || null;
 };
+
+/**
+ * Fetch a member by nickname.
+ *
+ * @param {string} nickname nickname to filter with.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>}
+ */
+sql.getByNickname = async (nickname, tx) => {
+  const statement = sql.getSelect();
+
+  statement.whereRaw(`LOWER(nickname) LIKE '${nickname.toLowerCase()}'`);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const [result] = await statement;
+  return result || null;
+};

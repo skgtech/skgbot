@@ -114,15 +114,6 @@ expressService.init = async function (bootOpts) {
 };
 
 /**
- * Disposes Express service and all related services.
- *
- * @return {Promise<void>}
- */
-expressService.dispose = async () => {
-  await webService.dispose();
-};
-
-/**
  * Express Error Handler.
  *
  * @param {Error} error The error that happened.
@@ -162,4 +153,13 @@ expressService._expressError = (error, req, res, next) => {
   }
 
   res.status(httpCode).json(sanitizedError);
+};
+
+/**
+ * Disposes Express service and all related services.
+ *
+ * @return {Promise<void>}
+ */
+expressService.dispose = async () => {
+  await webService.dispose();
 };

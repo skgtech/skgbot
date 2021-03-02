@@ -13,9 +13,22 @@ const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
 const { handle4 } = require('./logic/onboarding-step4-email.ent');
 const { handle5 } = require('./logic/onboarding-step5-bio.ent');
 const { handle6 } = require('./logic/onboarding-step6-nickname.ent');
-const { handle7 } = require('./logic/onboarding-step7-verification.ent');
+const {
+  handle7,
+  resendVerification,
+} = require('./logic/onboarding-step7-verification.ent');
 
 const onboarding = (module.exports = {});
+
+// export the steps and methods
+onboarding.handle1 = handle1;
+onboarding.handle2 = handle2;
+onboarding.handle3 = handle3;
+onboarding.handle4 = handle4;
+onboarding.handle5 = handle5;
+onboarding.handle6 = handle6;
+onboarding.handle7 = handle7;
+onboarding.resendVerification = resendVerification;
 
 /**
  * Initialize Discord event listeners for performing onboarding.
@@ -27,8 +40,6 @@ onboarding.init = () => {
 
   // Create an event listener for new guild members
   client.on('guildMemberAdd', onboarding._onGuildMemberAdd);
-
-  client.on('message', onboarding._onMessage);
 };
 
 /**
@@ -39,6 +50,7 @@ onboarding.init = () => {
  */
 onboarding.resetOnboarding = async (guildMember) => {
   const localMember = await membersEnt.resetOnboarding(guildMember);
+
   return localMember;
 };
 
@@ -75,83 +87,29 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
 
   // check if member already registered
   let localMember = await membersEnt.getById(guildMember.id);
-
   if (localMember) {
     localMember = await onboarding.resetOnboarding(guildMember);
   } else {
     localMember = await membersEnt.createMember(guildMember);
   }
 
-  const channel = await guildMember.createDM();
-
-  // Do nothing if the channel wasn't found on this server
-  if (!channel) {
-    return;
-  }
-
-  // Send the message, starting the onboarding process.
-  await channel.send(messages.welcome(guildMember));
+  await onboarding.sendFirstOnboardingDM(guildMember, localMember);
 };
 
 /**
- * Handles incoming message from discord.
+ * Send the initial onboarding private message to the member.
  *
- * @param {DiscordMessage} message Discord Message Object.
- * @private
+ * @param {DiscordGuildMember} guildMember The guild Member.
+ * @param {Member} localMember Local member record.
+ * @return {Promise<void>}
  */
-onboarding._onMessage = async (message) => {
-  // Ignore commands
-  if (message[0] === '!') {
-    return;
-  }
+onboarding.sendFirstOnboardingDM = async (guildMember, localMember) => {
+  await log.info('New member joined the guild!', {
+    localMember,
+    relay: true,
+  });
+  const dmChannel = await guildMember.createDM();
 
-  const discordAuthor = message.author;
-
-  // Get local member
-  const localMember = await membersEnt.getById(discordAuthor.id);
-
-  // if not on the database, exit.
-  if (!localMember) {
-    return;
-  }
-
-  if (localMember.onboarding_state === 'member') {
-    message.channel.send(messages.cannotUnderstandYou());
-    return;
-  }
-
-  // Handle the message based on the member's current onboarding state.
-  switch (localMember.onboarding_state) {
-    case 'joined':
-      await handle1(message, localMember);
-      break;
-    case 'first_name':
-      await handle2(message, localMember);
-      break;
-    case 'last_name':
-      await handle3(message, localMember);
-      break;
-    case 'email':
-      await handle4(message, localMember);
-      break;
-    case 'bio':
-      await handle5(message, localMember);
-      break;
-    case 'nickname':
-      await handle6(message, localMember);
-      break;
-    case 'email_verification':
-      await handle7(message, localMember);
-      break;
-    default:
-      log.error(
-        `Bogus member "onboarding_state": ${localMember.onboarding_state}`,
-        {
-          custom: {
-            onboarding_state: localMember.onboarding_state,
-          },
-        },
-      );
-      break;
-  }
+  // Send the message, starting the onboarding process.
+  await dmChannel.send(messages.welcome(guildMember));
 };

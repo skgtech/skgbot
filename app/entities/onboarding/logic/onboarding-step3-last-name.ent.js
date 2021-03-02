@@ -2,10 +2,9 @@
  * @fileoverview Step 3, expect last name.
  */
 
-const validator = require('validator');
-
-const { step3Error, step3Success } = require('../messages');
+const { isName } = require('../../../utils/validators');
 const { update } = require('../../members/members.ent');
+const { step3Error, step3Success } = require('../messages');
 
 const step = (module.exports = {});
 
@@ -19,8 +18,7 @@ const step = (module.exports = {});
 step.handle3 = async (message, localMember) => {
   const msg = message.content.trim();
 
-  const seed = ' -abcdefghijklmnopqrstuvwxyz';
-  if (validator.contains(msg, seed)) {
+  if (!isName(msg)) {
     message.channel.send(step3Error());
     return;
   }

@@ -3,6 +3,11 @@
  */
 
 const memberSql = require('./sql/members.sql');
+const { show } = require('./logic/show-profile.ent');
+const { changeNickname } = require('./logic/change-nickname.ent');
+const { changeBio, validateBio } = require('./logic/change-bio.ent');
+const { categoryJoin, validateCategory } = require('./logic/category-join.ent');
+const { categoryPart } = require('./logic/category-part.ent');
 
 const entity = (module.exports = {});
 
@@ -11,6 +16,13 @@ entity.getById = memberSql.getById;
 entity.create = memberSql.create;
 entity.update = memberSql.update;
 entity.getByEmail = memberSql.getByEmail;
+entity.showProfile = show;
+entity.changeNickname = changeNickname;
+entity.changeBio = changeBio;
+entity.validateBio = validateBio;
+entity.categoryJoin = categoryJoin;
+entity.categoryPart = categoryPart;
+entity.validateCategory = validateCategory;
 
 /**
  * Creates a new record in the database using the provided Discord GuildMember.
@@ -45,7 +57,7 @@ entity.resetOnboarding = async (guildMember) => {
     first_name: '',
     last_name: '',
     bio: '',
-    is_active: true,
+    is_onboarded: false,
     onboarding_state: 'joined',
   };
 

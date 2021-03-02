@@ -46,6 +46,7 @@ exports.up = async function (knex) {
 
     table.index('is_onboarded');
     table.index('nickname');
+    table.unique('nickname');
   });
 };
 
