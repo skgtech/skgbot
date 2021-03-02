@@ -27,7 +27,11 @@ messages.helpOnboarding = () => `Available commands for onboarding:
 * \`!reset\` ::  Reset the onboarding process and start over.
 * \`!resend\` :: Resend the verification email.`;
 
-messages.helpOnboarding = () => 'HELP Onboarding!!!';
+messages.helpOnboarding = () => `Available commands for onboarding:
+
+* \`!help\` :: This help screen.
+* \`!reset\` :: Restart the onboarding process.
+* \`!resend\` :: Resend the verification email.`;
 messages.error = () =>
   'Unknown command, type `!help` for a list of available commands.';
 messages.cannotFindYou = (username) =>
