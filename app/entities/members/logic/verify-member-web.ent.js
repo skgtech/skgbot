@@ -4,8 +4,11 @@
 
 const { validate: uuidValidate } = require('uuid');
 
+const { getGuildMemberLocal, applyRoles } = require('../../discord');
 const { getById } = require('../sql/members.sql');
+const { enableMember } = require('./enable-member.ent');
 const { render } = require('../templates/verify-member.tpl');
+const { step7Success } = require('../../onboarding/messages');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -90,6 +93,21 @@ entity._verifyMember = async (token) => {
     log.info('_verifyMember() Verification failed for member', { localMember });
     return entity._failPage();
   }
+
+  // Checks out, member has verified, activate them.
+  log.info('User verified via web, joins server', {
+    localMember,
+    relay: true,
+  });
+
+  const guildMember = await getGuildMemberLocal(localMember);
+  await step7Success();
+  await applyRoles(guildMember);
+  await enableMember(localMember);
+  return render(
+    'You are now Verified!',
+    'Go back to discord and check the message you received from SKGBot',
+  );
 };
 
 /**

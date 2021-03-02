@@ -3,7 +3,11 @@
  */
 
 const { applyRoles, getRole } = require('./logic/apply-roles.ent');
-const { getGuild, getGuildMember } = require('./logic/guild.ent');
+const {
+  getGuild,
+  getGuildMember,
+  getGuildMemberLocal,
+} = require('./logic/guild.ent');
 const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 
 const entity = (module.exports = {});
@@ -12,4 +16,5 @@ entity.applyRoles = applyRoles;
 entity.loggerToAdmin = loggerToAdmin;
 entity.getGuild = getGuild;
 entity.getGuildMember = getGuildMember;
+entity.getGuildMemberLocal = getGuildMemberLocal;
 entity.getRole = getRole;

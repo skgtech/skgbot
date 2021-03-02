@@ -42,7 +42,7 @@ step.handle7 = async (message, localMember) => {
   // Everything checks out, allow the member in.
   await step._enableMember(message, localMember);
 
-  log.info('User verified, joins server', {
+  log.info('User verified via bot, joins server', {
     localMember,
     relay: true,
   });
