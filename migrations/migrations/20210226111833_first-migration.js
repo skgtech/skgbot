@@ -44,9 +44,11 @@ exports.up = async function (knex) {
 
     defaultFields(table, knex);
 
+    table.unique('nickname');
+    table.unique('email');
     table.index('is_onboarded');
     table.index('nickname');
-    table.unique('nickname');
+    table.index('email');
   });
 };
 
