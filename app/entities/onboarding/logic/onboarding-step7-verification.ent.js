@@ -7,7 +7,7 @@ const config = require('config');
 const { v4: uuid } = require('uuid');
 
 const step6 = require('./onboarding-step6-nickname.ent');
-const { getGuild, getGuildMember, applyRoles } = require('../../discord');
+const { getGuildMember, applyRoles } = require('../../discord');
 const {
   step7Error,
   step7Success,
@@ -114,9 +114,8 @@ step._resetVerification = async (localMember) => {
  * @private
  */
 step._enableMember = async (message, localMember) => {
-  const guild = await getGuild(message);
   const guildMember = await getGuildMember(message);
-  await applyRoles(guild, guildMember);
+  await applyRoles(guildMember);
 
   await enableMember(localMember);
 };
