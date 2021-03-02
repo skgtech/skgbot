@@ -17,12 +17,12 @@ messages.nicknameChanged = (nickname) => `Your nickname is now ${nickname}!`;
 
 messages.nicknameChangeFail = () =>
   'Failed to update your nickname... Maybe it is already taken?';
-messages.nicknameInvalid = () => `${step6Error}`;
+messages.nicknameInvalid = () => `${step6Error()}`;
 
 messages.bioChanged = (bio) => `Your Bio has now changed to:
 ${bio}`;
 messages.bioChangeFail = () => 'I am sorry, I could not update your bio';
-messages.bioInvalid = () => `${step5Error}`;
+messages.bioInvalid = () => `${step5Error()}`;
 
 messages.categoryJoined = (category) =>
   `You can joined the topic category "${category}"`;
