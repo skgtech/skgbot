@@ -6,6 +6,7 @@
 const config = require('config');
 
 const { getClient, isConnected } = require('../../../services/discord.service');
+const globals = require('../../../utils/globals');
 
 const entity = (module.exports = {});
 
@@ -18,6 +19,11 @@ const entity = (module.exports = {});
 entity.loggerToAdmin = async (logContext) => {
   // Don't log when not connected to discord
   if (!isConnected()) {
+    return;
+  }
+
+  // don't relay when testing
+  if (globals.isTest) {
     return;
   }
 

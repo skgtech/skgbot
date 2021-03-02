@@ -2,11 +2,10 @@
  * @fileoverview Test validators.
  */
 
-const testLib = require('../lib/test.lib');
+// const testLib = require('../lib/test.lib');
 const validators = require('../../app/utils/validators');
 
 describe('UNIT Validators', () => {
-  testLib.init();
   describe('isName()', () => {
     test('"Thanasis" should pass', async () => {
       expect(validators.isName('Thanasis')).toBeTrue();

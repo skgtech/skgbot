@@ -48,7 +48,7 @@ commandoService.isConnected = () => {
  *
  * @return {Promise<void>} A Promise.
  */
-commandoService.init = async function () {
+commandoService.init = function () {
   return new Promise((resolve, reject) => {
     log.notice('Starting Discord-Commando Service...', {
       custom: {
@@ -91,4 +91,16 @@ commandoService.init = async function () {
 
     client.login(config.discord.token);
   });
+};
+
+/**
+ * Disposes discord service.
+ *
+ * @return {Promise<void>}
+ */
+commandoService.dispose = async () => {
+  if (!commandoService.isConnected()) {
+    return;
+  }
+  await commandoService._client.destroy();
 };
