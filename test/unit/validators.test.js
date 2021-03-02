@@ -17,15 +17,17 @@ describe('UNIT Validators', () => {
       expect(validators.isName('Thanasis')).toBeTrue();
       expect(validators.isName('Thanasis')).toBeTrue();
     });
-
     test('"Thanasis Iosif" should pass', async () => {
       expect(validators.isName('Thanasis Iosif')).toBeTrue();
     });
     test('"Kostas-Nikos" should pass', async () => {
       expect(validators.isName('Kostas-Nikos')).toBeTrue();
     });
-    test('"Kostas2" should not pass', async () => {
-      expect(validators.isName('Kostas2')).toBeFalse();
+    test('"Kostas2" should pass', async () => {
+      expect(validators.isName('Kostas2')).toBeTrue();
+    });
+    test('"Kostas2_--- --" should pass', async () => {
+      expect(validators.isName('Kostas2')).toBeTrue();
     });
     test('"$$" should not pass', async () => {
       expect(validators.isName('$$')).toBeFalse();

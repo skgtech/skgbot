@@ -5,7 +5,7 @@
 const valid = (module.exports = {});
 
 /** @type {RegExp} Regexp for validating name type input */
-valid.RE_NAME = /^[a-zA-Z-0-9 ]+$/g;
+valid.RE_NAME = /^[\w\-\s]+$/;
 
 /**
  * Checks if a string passes first or last name validations.
@@ -14,5 +14,5 @@ valid.RE_NAME = /^[a-zA-Z-0-9 ]+$/g;
  * @return {boolean} if it passes validations.
  */
 valid.isName = (name) => {
-  return valid.RE_NAME.test(name);
+  return !!valid.RE_NAME.test(name);
 };
