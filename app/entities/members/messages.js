@@ -31,3 +31,7 @@ messages.categoryParted = (category) =>
 messages.categoryInvalid = () =>
   `Invalid topic category. Type \`!help\` for` +
   ` a list of available categories.`;
+
+messages.alreadyJoined = (category) => `You are already joined to ${category}`;
+messages.alreadyParted = (category) =>
+  `You are not in the ${category} category`;

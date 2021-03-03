@@ -4,7 +4,11 @@
 
 const config = require('config');
 
-const { categoryJoined, categoryInvalid } = require('../messages');
+const {
+  categoryJoined,
+  categoryInvalid,
+  alreadyJoined,
+} = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
 
@@ -37,6 +41,12 @@ entity.categoryJoin = async (message, localMember, cmdArgument) => {
   const canonicalCategory = entity.getCanonical(category);
 
   const role = getRole(guild, canonicalCategory);
+
+  // Check if member already joined
+  if (guildMember.roles.cache.has(role.id)) {
+    await message.channel.send(alreadyJoined(canonicalCategory));
+    return;
+  }
 
   await guildMember.roles.add(role);
 
