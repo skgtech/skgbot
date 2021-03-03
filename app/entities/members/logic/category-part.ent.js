@@ -5,7 +5,11 @@
 const { categoryParted, categoryInvalid } = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
-const { validateCategory } = require('./category-join.ent');
+const {
+  validateCategory,
+  sanitize,
+  getCanonical,
+} = require('./category-join.ent');
 
 const entity = (module.exports = {});
 
@@ -14,10 +18,11 @@ const entity = (module.exports = {});
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
- * @param {string} category The category to part.
+ * @param {string} cmdArgument User input for category to join.
  * @return {Promise<void>}
  */
-entity.categoryPart = async (message, localMember, category) => {
+entity.categoryPart = async (message, localMember, cmdArgument) => {
+  const category = sanitize(cmdArgument);
   await log.info(`Member wants to part category: "${category}"`, {
     localMember,
     relay: true,
@@ -31,9 +36,12 @@ entity.categoryPart = async (message, localMember, category) => {
   const guild = await getGuild(message);
   const guildMember = await getGuildMember(message);
 
-  const role = getRole(guild, category);
+  // Get the actual string literal of the category name
+  const canonicalCategory = getCanonical(category);
+
+  const role = getRole(guild, canonicalCategory);
 
   await guildMember.roles.remove(role);
 
-  await message.channel.send(categoryParted(category));
+  await message.channel.send(categoryParted(canonicalCategory));
 };

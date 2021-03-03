@@ -42,6 +42,15 @@
             "Engineer",
             "Politics"
         ],
+        "roles_all_available_lowercase": [
+            "member",
+            "product",
+            "investor",
+            "hobbies",
+            "engineer",
+            "politics"
+        ],
+
         "roles_for_new_member": [
             "Member",
             "Product",
