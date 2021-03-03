@@ -8,7 +8,7 @@ const log = require('./log.service').get();
 
 const sqldb = (module.exports = {});
 
-/** @type {Knex?} Will store the knex instance reference for Core connection */
+/** @type {Knex?} Will store the knex instance reference */
 sqldb.knexCore = null;
 
 /**
