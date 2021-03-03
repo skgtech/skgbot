@@ -50,15 +50,10 @@ sqldb._connect = async (connOpts, dbOpts) => {
       min: dbOpts.pool_min,
       max: dbOpts.pool_max,
     },
-    userParams: {
-      ssl: { rejectUnauthorized: false },
-      rejectUnauthorized: false,
-    },
-    ssl: { rejectUnauthorized: false },
   });
 
   // verify that SQL connection has been established
-  await db.raw('SELECT 1');
+  // await db.raw('SELECT 1');
 
   return db;
 };
