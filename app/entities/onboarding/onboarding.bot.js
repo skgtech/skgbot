@@ -92,8 +92,10 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
   // check if member already registered
   let localMember = await membersEnt.getById(guildMember.id);
   if (localMember) {
+    log.info('_onGuildMemberAdd() :: Member already exists', { localMember });
     localMember = await onboarding.resetOnboarding(guildMember);
   } else {
+    log.info('_onGuildMemberAdd() :: Member does not exist, creating...');
     localMember = await membersEnt.createMember(guildMember);
   }
 
