@@ -20,14 +20,23 @@ sqldb.init = async () => {
   //
   // Connect to Main Data Store
   //
-  const connectionCore = config.postgres.connection_string;
-  const dbOptsCore = {
-    pool_min: config.postgres.pool_min,
-    pool_max: config.postgres.pool_max,
-  };
-  sqldb._logConnect(connectionCore, 'Core');
-  sqldb.knexCore = await sqldb._connect(connectionCore, dbOptsCore);
-  log.notice('Connected to Postgres Main Store.');
+  const connString = config.postgres.connection_string;
+
+  sqldb._logConnect(connString, 'Core');
+  sqldb.knexCore = knex({
+    client: 'pg',
+    connection: connString,
+    migrations: {
+      directory: config.postgres.migrations.directory,
+    },
+    debug: false,
+    pool: {
+      min: config.postgres.pool_min,
+      max: config.postgres.pool_max,
+    },
+  });
+
+  log.notice('Connected to Postgres.');
 };
 
 /**

@@ -18,7 +18,7 @@ migrationService.runHerokuMigration = async () => {
     return;
   }
   log.info('runHerokuMigration() Init');
-  const knex = await migrationService.getKnexCore();
+  const knex = db();
 
   try {
     await knex.migrate.latest();
@@ -38,7 +38,7 @@ migrationService.runHerokuMigration = async () => {
  * @return {Promise<Knex>} knex instance.
  */
 migrationService.getKnexCore = async () => {
-  const connection = await db();
+  const connection = db();
 
   const knexOpts = {
     client: 'postgresql',
