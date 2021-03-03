@@ -88,7 +88,7 @@ entity.sanitize = (cmdArgument) => {
  */
 entity.getCanonical = (category) => {
   const index = config.discord.roles_all_available_lowercase.findIndex(
-    category,
+    (item) => item === category,
   );
 
   return config.discord.roles_all_available[index];
