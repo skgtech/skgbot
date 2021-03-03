@@ -16,7 +16,7 @@ globals.Environments = {
   CIRCLE: 'circleci',
   LOCAL: 'localdev',
   TESTING: 'test',
-  HEROKU_PROD: 'heroku_prod',
+  HEROKU_PROD: 'production',
 };
 
 /**

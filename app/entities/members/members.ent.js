@@ -13,6 +13,7 @@ const {
   verifyMember,
   verifyMemberToken,
 } = require('./logic/verify-member-web.ent.js');
+const log = require('../../services/log.service').get();
 
 const entity = (module.exports = {});
 
@@ -46,7 +47,22 @@ entity.createMember = async (guildMember) => {
     joined_at,
   };
 
-  await memberSql.create(memberInput);
+  const logCustom = {
+    discord_uid: memberInput.discord_uid,
+    username: memberInput.username,
+  };
+
+  log.info('createMember() :: Creating new Member', { custom: logCustom });
+
+  try {
+    await memberSql.create(memberInput);
+  } catch (ex) {
+    log.error('createMember() :: Failed to create new member', {
+      error: ex,
+      custom: logCustom,
+    });
+    throw ex;
+  }
 
   const localMember = await memberSql.getById(guildMember.user.id);
 
