@@ -11,7 +11,7 @@ const sqldb = (module.exports = {});
 /** @type {Knex?} Will store the knex instance reference */
 sqldb.knexCore = null;
 
-/** @type Object Knex configuration */
+/** @type {Object} Knex configuration */
 sqldb.knexConfig = {
   client: 'pg',
   connection: config.postgres.connection_string,
