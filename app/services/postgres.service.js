@@ -50,6 +50,7 @@ sqldb._connect = async (connOpts, dbOpts) => {
       min: dbOpts.pool_min,
       max: dbOpts.pool_max,
     },
+    ssl: { rejectUnauthorized: false },
   });
 
   // verify that SQL connection has been established
