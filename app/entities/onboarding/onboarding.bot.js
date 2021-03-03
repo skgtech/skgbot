@@ -80,6 +80,10 @@ onboarding.startOnboarding = async (message, localMember) => {
  * @private
  */
 onboarding._onGuildMemberAdd = async (guildMember) => {
+  log.info(
+    `_onGuildMemberAdd() :: New guildmember added. Has guildMember: ${!!guildMember}`,
+  );
+
   // Make sure member exists.
   if (!guildMember) {
     return;
