@@ -50,6 +50,10 @@ sqldb._connect = async (connOpts, dbOpts) => {
       min: dbOpts.pool_min,
       max: dbOpts.pool_max,
     },
+    userParams: {
+      ssl: { rejectUnauthorized: false },
+      rejectUnauthorized: false,
+    },
     ssl: { rejectUnauthorized: false },
   });
 
