@@ -40,7 +40,7 @@
         { 'owner_uid': 'DO NOT SET - USE ENV VAR: DISCORD_COMMANDO_UID' },
       'admin_channel_id': 'DO NOT SET - USE ENV VAR: DISCORD_ADMIN_CHANNEL_ID',
       'roles_all_available':
-        ['Member', 'Product', 'Investor', 'Hobbies', 'Engineer', 'politics'],
+        ['Member', 'Product', 'Investor', 'Hobbies', 'Engineer', 'Politics'],
       'roles_for_new_member':
         ['Member', 'Product', 'Investor', 'Hobbies', 'Engineer'],
     },
