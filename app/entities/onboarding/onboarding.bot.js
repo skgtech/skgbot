@@ -2,6 +2,8 @@
  * @fileoverview Onboarding of Discord users.
  */
 
+const config = require('config');
+
 const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
@@ -82,7 +84,10 @@ onboarding.startOnboarding = async (message, localMember) => {
  */
 onboarding._onGuildMemberAdd = async (guildMember) => {
   // Do not onboard members when on local development
-  if (globals.isLocal) {
+  if (
+    globals.isLocal &&
+    guildMember.user.id !== config.discord.commando.owner_uid
+  ) {
     return;
   }
   log.info(
