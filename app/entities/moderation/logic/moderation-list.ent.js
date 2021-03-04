@@ -35,7 +35,7 @@ entity.moderationList = async (message, localMember) => {
     await message.channel.send(formattedMessage);
   } catch (ex) {
     await message.channel.send(failed());
-    await log.error('moderationBan() Failed', {
+    await log.error('moderationList() Failed', {
       error: ex,
       localMember,
     });
@@ -64,19 +64,14 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
     message += `Member "${localMember.nickname}" <${localMember.email}>,``"${localMember.first_name} ${localMember.last_name}" bans:`;
   }
 
-  // Fetch banning Moderator records
-  const moderatorsAr = [];
-  allRecords.forEach((banRecord) => {
-    if (!moderatorsAr.includes(banRecord.discord_uid)) {
-      moderatorsAr.push(banRecord.discord_uid);
-    }
-  });
-
-  const moderatorRecords = await asyncMapCap(moderatorsAr, async (modId) => {
+  // Fetch banning Moderator records, get unique Mod Ids first
+  const moderatorsIds = _.uniqBy(allRecords, 'moderator_discord_uid');
+  // Now query for all the unique IDs
+  const moderatorRecords = await asyncMapCap(moderatorsIds, async (modId) => {
     return memberGetById(modId);
   });
 
-  message += allRecords.map((banRecord) => {
+  const messageAr = allRecords.map((banRecord) => {
     const dt = new Date(banRecord.created_at);
     const dtStr = formatDate(dt, 'dd/LLL/yyyy HH:mm');
     const modRecord = _.find(moderatorRecords, [
@@ -85,6 +80,8 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
     ]);
     return `\n * [${dtStr}] "${banRecord.category}" by ${modRecord.nickname}`;
   });
+
+  message += '\n' + messageAr.join('\n');
 
   return message;
 };
