@@ -79,7 +79,7 @@ entity._formatMessage = (lc) => {
  * @private
  */
 entity._formatError = (lc) => {
-  let message = `[${lc.level}] ${lc.message} :: `;
+  let message = `:octagonal_sign: [${lc.level}] ${lc.message} :: `;
 
   if (lc.event.error) {
     message += `${lc.event.error.name} :: ${lc.event.error.message}`;
