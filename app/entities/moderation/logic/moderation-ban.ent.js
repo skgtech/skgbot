@@ -34,6 +34,7 @@ entity.moderationBan = async (message, localMember) => {
       error: ex,
       localMember,
     });
+    return;
   }
 
   await message.channel.send(banSuccess(memberDiscordId, category));

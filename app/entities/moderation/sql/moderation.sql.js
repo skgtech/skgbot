@@ -88,3 +88,26 @@ sql.getByModeratorMemberId = async (memberId, tx) => {
   const result = await statement;
   return result;
 };
+
+/**
+ * Delete a record based on member id and category.
+ *
+ * @param {string} memberId Discord member id of banned member.
+ * @param {string} category The category to remove the ban from.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>} A Promise with the number of deleted records.
+ */
+sql.deleteCombined = async (memberId, category, tx) => {
+  const statement = db()
+    .table(TABLE)
+    .where({ discord_uid: memberId, category })
+    .del();
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+
+  return result;
+};
