@@ -36,6 +36,9 @@ router.handleMemberCommands = async (message, localMember) => {
   switch (command) {
     case '!help':
       await message.channel.send(messages.help());
+      if (isMod) {
+        await message.channel.send(messages.helpMods());
+      }
       break;
     case '!profile': // show a member's profile
       await showProfile(message, localMember, cmdArgument);

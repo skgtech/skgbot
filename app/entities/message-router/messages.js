@@ -21,6 +21,24 @@ Available topic Categories in this server:
 * \`Investor\` Channels related to investing and cryptos.
 * \`Politics\` Politics and Pandemic related channels.`;
 
+messages.helpMods = () =>
+  `\n\n **Moderators Help**
+
+You need to enable "developer mode" on discord in order to view the IDs of users.
+
+To do that: Open your Discord settings (the next to your name at the bottom` +
+  ` left) and click on Appearance. There you will find Developer Mode. Click the` +
+  ` toggle to enable it.
+
+* \`!ban [discord_member_id] [Category] [reason]\` Ban a member from joining` +
+  ` the \`[Category]\`. Use \`*\` to force them to be only in the welcome` +
+  ` channel. **NOTE**: the \`[Category]\` field is case sensitive.
+* \`!unban [discord_member_id] [Category]\` Remove a particular ban of that` +
+  ` member with the specific \`[Category]\`
+* \`!banlist [discord_member_id]\` Get a list of bans for that member.
+* \`!banlistall\` Get all bans on the bot.
+`;
+
 messages.helpOnboarding = () => `Available commands for onboarding:
 
 * \`!help\` :: This help screen.
