@@ -12,7 +12,12 @@ const {
   isModerator,
 } = require('../../members');
 
-const { moderationBan, moderationUnban } = require('../../moderation');
+const {
+  moderationBan,
+  moderationUnban,
+  moderationList,
+  moderationListAll,
+} = require('../../moderation');
 
 const router = (module.exports = {});
 
@@ -57,6 +62,17 @@ router.handleMemberCommands = async (message, localMember) => {
         await moderationUnban(message, localMember);
       }
       break;
+    case '!banlist': // List bans for a member.
+      if (isMod) {
+        await moderationList(message, localMember);
+      }
+      break;
+    case '!banlistall': // List all bans.
+      if (isMod) {
+        await moderationListAll(message, localMember);
+      }
+      break;
+
     default:
       await message.channel.send(messages.error());
       break;
