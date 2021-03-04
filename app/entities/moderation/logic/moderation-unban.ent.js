@@ -11,14 +11,14 @@ const entity = (module.exports = {});
 /**
  * Will remove an added category topic ban.
  *
- * Access Control has been already performed.
+ * Access Control has already been performed.
  *
  * @param {DiscordMessage} message incoming private discord message.
  * @param {Member} localMember The local member.
  * @return {Promise<void>} A Promise.
  */
 entity.moderationUnban = async (message, localMember) => {
-  const [, memberDiscordId, category] = message.content;
+  const [, memberDiscordId, category] = message.content.split(' ');
 
   let deleted;
   try {
