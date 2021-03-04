@@ -3,6 +3,11 @@
  */
 
 const {
+  sanitize,
+  validateCategory,
+  getCanonical,
+} = require('../../categories');
+const {
   categoryParted,
   categoryInvalid,
   alreadyParted,
@@ -10,11 +15,6 @@ const {
 } = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
-const {
-  validateCategory,
-  sanitize,
-  getCanonical,
-} = require('./category-join.ent');
 
 const entity = (module.exports = {});
 

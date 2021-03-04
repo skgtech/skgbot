@@ -1,9 +1,9 @@
 /**
  * @fileoverview The Member entity.
  */
-const { createMember } = require('./logic/create-member.ent');
+const { categoryJoin } = require('./logic/category-join.ent');
 const { categoryPart } = require('./logic/category-part.ent');
-const { categoryJoin, validateCategory } = require('./logic/category-join.ent');
+const { createMember } = require('./logic/create-member.ent');
 const { changeBio, validateBio } = require('./logic/change-bio.ent');
 const { changeNickname } = require('./logic/change-nickname.ent');
 const { enableMember } = require('./logic/enable-member.ent');
@@ -33,6 +33,5 @@ entity.resetOnboarding = resetOnboarding;
 entity.showProfile = show;
 entity.update = memberSql.update;
 entity.validateBio = validateBio;
-entity.validateCategory = validateCategory;
 entity.verifyMember = verifyMember;
 entity.verifyMemberToken = verifyMemberToken;

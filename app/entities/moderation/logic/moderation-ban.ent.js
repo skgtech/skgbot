@@ -22,6 +22,7 @@ entity.moderationBan = async (message, localMember) => {
   const [, memberDiscordId, category, ...reasonAr] = message.content.split(' ');
 
   const reason = reasonAr.join(' ');
+
   try {
     const createData = {
       discord_uid: memberDiscordId,
