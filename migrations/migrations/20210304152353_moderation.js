@@ -9,8 +9,15 @@ exports.up = async function (knex) {
    */
   await knex.schema.createTable('moderation', function (table) {
     table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
-    table.string('discord_uid', 20);
+    table
+      .string('discord_uid', 20)
+      .references('members.discord_uid')
+      .onDelete('NO ACTION');
     table.string('category').notNullable();
+    table
+      .string('moderator_discord_uid', 20)
+      .references('members.discord_uid')
+      .onDelete('NO ACTION');
 
     defaultFields(table, knex);
 
