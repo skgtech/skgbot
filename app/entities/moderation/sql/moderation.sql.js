@@ -23,6 +23,7 @@ sql.getSelect = () => {
       `${TABLE}.discord_uid`,
       `${TABLE}.moderator_discord_uid`,
       `${TABLE}.category`,
+      `${TABLE}.reason`,
       `${TABLE}.created_at`,
       `${TABLE}.updated_at`,
     )

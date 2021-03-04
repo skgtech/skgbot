@@ -18,7 +18,7 @@ exports.up = async function (knex) {
       .string('moderator_discord_uid', 20)
       .references('members.discord_uid')
       .onDelete('NO ACTION');
-
+    table.string('reason');
     defaultFields(table, knex);
 
     table.index('discord_uid');

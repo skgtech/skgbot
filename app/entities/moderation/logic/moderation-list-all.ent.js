@@ -86,7 +86,7 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
 
     return (
       `* [${dtStr}] ${targetMember} "${banRecord.category}"` +
-      ` by ${modRecord.nickname}`
+      ` by ${modRecord.nickname} :: Reason: ${banRecord.reason}`
     );
   });
 
