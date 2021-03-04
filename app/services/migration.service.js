@@ -22,7 +22,7 @@ migrationService.runHerokuMigration = async () => {
   try {
     await db.migrate.latest();
   } catch (ex) {
-    log.error('runHerokuMigration() Failed to run.', { error: ex });
+    await log.error('runHerokuMigration() Failed to run.', { error: ex });
   }
 
   await db.destroy();

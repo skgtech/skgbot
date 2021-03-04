@@ -25,7 +25,7 @@ entity.changeBio = async (message, localMember, content) => {
   }
   const newBio = content.substr(content.indexOf(' ') + 1);
 
-  log.info(`Member changing their bio`, {
+  await log.info(`Member changing their bio`, {
     localMember,
     custom: {
       old_bio: localMember.bio,

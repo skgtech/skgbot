@@ -39,7 +39,7 @@ appServices.boot = async (bootOpts) => {
 
   await entities.init();
 
-  log.notice('Service Boot Finished', {
+  await log.notice('Service Boot Finished', {
     relay: true,
     emoji: ':information_source:',
   });

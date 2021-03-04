@@ -20,7 +20,7 @@ entity.setNickname = async (message, localMember, nickname) => {
   try {
     await guildMember.setNickname(nickname);
   } catch (ex) {
-    log.error('Failed to set nickname', {
+    await log.error('Failed to set nickname', {
       localMember,
       error: ex,
       custom: { nickname },

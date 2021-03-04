@@ -54,7 +54,7 @@ entity.categoryJoin = async (message, localMember, cmdArgument) => {
     await guildMember.roles.add(role);
     await message.channel.send(categoryJoined(canonicalCategory));
   } catch (ex) {
-    log.error('categoryJoin() :: Failed to add role', {
+    await log.error('categoryJoin() :: Failed to add role', {
       localMember,
       error: ex,
       custom: {

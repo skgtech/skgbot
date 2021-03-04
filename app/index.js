@@ -93,7 +93,7 @@ app.init = async (optOpts) => {
   try {
     await appServices.boot(bootOpts);
   } catch (ex) {
-    log.emergency('Error on boot:', { error: ex });
+    await log.emergency('Error on boot:', { error: ex });
     if (!globals.isStandAlone) {
       throw ex;
     }
@@ -119,7 +119,7 @@ app.handleNodeExit = async (options, error) => {
   });
 
   if (error instanceof Error) {
-    log.alert('Node app exits with error', { error });
+    await log.alert('Node app exits with error', { error });
   }
 
   await app.dispose();
@@ -162,8 +162,8 @@ app._setupErrorHandlers = function (log) {
       exitCode: 99,
     }),
   );
-  process.on('unhandledRejection', (error) => {
-    log.critical('Unhandled Promise Rejection', { error });
+  process.on('unhandledRejection', async (error) => {
+    await log.critical('Unhandled Promise Rejection', { error });
   });
 };
 

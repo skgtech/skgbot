@@ -57,7 +57,7 @@ entity.categoryPart = async (message, localMember, cmdArgument) => {
     await guildMember.roles.remove(role);
     await message.channel.send(categoryParted(canonicalCategory));
   } catch (ex) {
-    log.error('categoryPart() :: Failed to add role', {
+    await log.error('categoryPart() :: Failed to add role', {
       localMember,
       error: ex,
       custom: {

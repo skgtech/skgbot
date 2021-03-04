@@ -29,9 +29,12 @@ entity.applyRoles = async (guildMember) => {
     promiseReturn = Promise.all(allPromises);
   } catch (ex) {
     const user = guildMember.user.username;
-    log.error(`applyRoles() :: Error on applying roles for user ${user}`, {
-      error: ex,
-    });
+    await log.error(
+      `applyRoles() :: Error on applying roles for user ${user}`,
+      {
+        error: ex,
+      },
+    );
   }
 
   return promiseReturn;
