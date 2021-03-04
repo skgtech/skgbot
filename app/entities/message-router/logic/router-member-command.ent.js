@@ -11,6 +11,8 @@ const {
   categoryPart,
 } = require('../../members');
 
+const { moderationBan, moderationUnban } = require('../../moderation');
+
 const router = (module.exports = {});
 
 /**
@@ -38,10 +40,16 @@ router.handleMemberCommands = async (message, localMember) => {
       await changeBio(message, localMember, message.content);
       break;
     case '!join': // Join a Category.
-      categoryJoin(message, localMember, cmdArgument);
+      await categoryJoin(message, localMember, cmdArgument);
       break;
     case '!part': // Part a Category.
-      categoryPart(message, localMember, cmdArgument);
+      await categoryPart(message, localMember, cmdArgument);
+      break;
+    case '!ban': // Do not allow a user from joining the specified topic category.
+      await moderationBan(message, localMember);
+      break;
+    case '!unban': // Allow a user from joining the specified topic category.
+      await moderationUnban(message, localMember);
       break;
     default:
       await message.channel.send(messages.error());
