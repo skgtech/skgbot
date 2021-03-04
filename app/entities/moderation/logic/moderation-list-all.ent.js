@@ -40,14 +40,13 @@ entity.moderationListAll = async (message, localMember) => {
 /**
  * Will format the response message to the moderator.
  *
- * @param {string} memberDiscordId The discord id of the target user.
  * @param {?Array.<Object>} allRecords All relevant records for that member.
  * @return {Promise<string>} A Promise with a formatted message to be returned
  *    to the moderator.
  */
-entity._formatMessage = async (memberDiscordId, allRecords) => {
+entity._formatMessage = async (allRecords) => {
   let message = '';
-  if (!allRecords || allRecords.length === 0) {
+  if (allRecords.length === 0) {
     message = 'No ban records found';
     return message;
   }
@@ -60,9 +59,10 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
       return memberGetById(memberId);
     },
   );
-
   // Fetch banning Moderator records, get unique Mod Ids first
-  const moderatorsIds = _.uniqBy(allRecords, 'moderator_discord_uid');
+  const moderatorsIds = _.uniqBy(allRecords, 'moderator_discord_uid').map(
+    (record) => record.moderator_discord_uid,
+  );
   // Now query for all the unique IDs
   const moderatorRecords = await asyncMapCap(moderatorsIds, async (modId) => {
     return memberGetById(modId);
@@ -75,14 +75,20 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
       'discord_uid',
       banRecord.discord_uid,
     ]);
+
     const modRecord = _.find(moderatorRecords, [
       'discord_uid',
       banRecord.moderator_discord_uid,
     ]);
 
-    const targetMember =
-      `"${targetRecord.nickname}" <${targetRecord.email}>` +
-      ` "${targetRecord.first_name} ${targetRecord.last_name}"`;
+    let targetMember = '';
+    if (targetRecord) {
+      targetMember +=
+        `"${targetRecord.nickname}" <${targetRecord.email}>` +
+        ` "${targetRecord.first_name} ${targetRecord.last_name}"`;
+    } else {
+      targetMember += ` ${banRecord.discord_uid} `;
+    }
 
     return (
       `* [${dtStr}] ${targetMember} "${banRecord.category}"` +

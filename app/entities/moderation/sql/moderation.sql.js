@@ -104,6 +104,7 @@ sql.getAll = async (tx) => {
   }
 
   const result = await statement;
+
   return result;
 };
 

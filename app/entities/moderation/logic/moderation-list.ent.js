@@ -61,11 +61,17 @@ entity._formatMessage = async (memberDiscordId, allRecords) => {
   const localMember = await memberGetById(memberDiscordId);
 
   if (localMember) {
-    message += `Member "${localMember.nickname}" <${localMember.email}>,``"${localMember.first_name} ${localMember.last_name}" bans:`;
+    message +=
+      `Member "${localMember.nickname}" <${localMember.email}>,` +
+      `"${localMember.first_name} ${localMember.last_name}" bans:`;
+  } else {
+    message += ` ${memberDiscordId} `;
   }
 
   // Fetch banning Moderator records, get unique Mod Ids first
-  const moderatorsIds = _.uniqBy(allRecords, 'moderator_discord_uid');
+  const moderatorsIds = _.uniqBy(allRecords, 'moderator_discord_uid').map(
+    (record) => record.moderator_discord_uid,
+  );
   // Now query for all the unique IDs
   const moderatorRecords = await asyncMapCap(moderatorsIds, async (modId) => {
     return memberGetById(modId);
