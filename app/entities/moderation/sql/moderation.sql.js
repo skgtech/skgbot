@@ -21,7 +21,7 @@ sql.getSelect = () => {
     .select(
       `${TABLE}.id`,
       `${TABLE}.discord_uid`,
-      `${TABLE}`,
+      `${TABLE}.moderator_discord_uid`,
       `${TABLE}.category`,
       `${TABLE}.created_at`,
       `${TABLE}.updated_at`,
