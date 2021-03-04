@@ -3,9 +3,8 @@
  */
 
 const { sanitizeAndValidate } = require('../../categories');
-
 const { categoryJoined, alreadyJoined, failed } = require('../messages');
-const { getGuild, getGuildMember, getRole } = require('../../discord');
+const { addRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -26,26 +25,20 @@ entity.categoryJoin = async (message, localMember, categoryRaw) => {
   });
 
   const category = await sanitizeAndValidate(categoryRaw);
-  const guild = await getGuild(message);
-  const guildMember = await getGuildMember(message);
-
-  const role = getRole(guild, category);
-
-  // Check if member already joined
-  if (guildMember.roles.cache.has(role.id)) {
-    await message.channel.send(alreadyJoined(category));
-    return;
-  }
 
   try {
-    await guildMember.roles.add(role);
-    await message.channel.send(categoryJoined(category));
+    const hasRole = await addRole(localMember.discord_uid, category);
+    if (hasRole) {
+      await message.channel.send(alreadyJoined(category));
+    } else {
+      await message.channel.send(categoryJoined(category));
+    }
   } catch (ex) {
     await log.error('categoryJoin() :: Failed to add role', {
       localMember,
       error: ex,
       custom: {
-        role,
+        category,
       },
     });
     await message.channel.send(failed());

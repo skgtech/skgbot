@@ -4,7 +4,7 @@
 
 const config = require('config');
 
-const { getGuild } = require('./guild.ent');
+const { getGuild, getGuildMemberUid } = require('./guild.ent');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -51,4 +51,46 @@ entity.getRole = (guild, roleName) => {
   const role = guild.roles.cache.find((roleItem) => roleItem.name === roleName);
 
   return role;
+};
+
+/**
+ * Adds role to discord member.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord member id.
+ * @param {string} category Case Sensitive cannonical category name (role).
+ * @return {Promise<boolean>} False if member does already has that role.
+ */
+entity.addRole = async (discordMemberId, category) => {
+  const guild = await getGuild();
+  const guildMember = await getGuildMemberUid(discordMemberId);
+
+  const role = entity.getRole(guild, category);
+
+  // Check if member already joined
+  if (guildMember.roles.cache.has(role.id)) {
+    return false;
+  }
+
+  await guildMember.roles.add(role);
+};
+
+/**
+ * Removes role from discord member.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord member id.
+ * @param {string} category Case Sensitive cannonical category name (role).
+ * @return {Promise<boolean>} False if member does not have that role.
+ */
+entity.removeRole = async (discordMemberId, category) => {
+  const guild = await getGuild();
+  const guildMember = await getGuildMemberUid(discordMemberId);
+
+  const role = entity.getRole(guild, category);
+
+  // Check if member already joined
+  if (!guildMember.roles.cache.has(role.id)) {
+    return false;
+  }
+
+  await guildMember.roles.remove(role);
 };
