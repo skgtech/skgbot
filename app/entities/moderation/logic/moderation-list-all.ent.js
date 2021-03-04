@@ -41,13 +41,13 @@ entity.moderationListAll = async (message, localMember) => {
  * Will format the response message to the moderator.
  *
  * @param {string} memberDiscordId The discord id of the target user.
- * @param {Array.<Object>} allRecords All relevant records for that member.
+ * @param {?Array.<Object>} allRecords All relevant records for that member.
  * @return {Promise<string>} A Promise with a formatted message to be returned
  *    to the moderator.
  */
 entity._formatMessage = async (memberDiscordId, allRecords) => {
   let message = '';
-  if (allRecords.length === 0) {
+  if (!allRecords || allRecords.length === 0) {
     message = 'No ban records found';
     return message;
   }
