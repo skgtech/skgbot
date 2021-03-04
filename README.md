@@ -20,15 +20,18 @@ docker-compose up
 
 ## Needed Environment Variables
 
-For local development no environment variables are needed. For any other
-environment the following environment variables are required:
+All targets require the following environment variables:
 
 -   `POSTGRES_URL` A url with credentials pointing to the data store.
 -   `DISCORD_GUILD_ID` The guild id of your server.
 -   `DISCORD_BOT_TOKEN` The Discord token of the bot.
 -   `DISCORD_COMMANDO_UID` Your user id, so you can invoke discord commands.
--   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
 -   `DISCORD_ADMIN_CHANNEL_ID` Channel ID to relay messages to.
+-   `DISCORD_MODERATOR_ROLE_ID` The role id of the moderator role.
+-   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
+
+This project also supports a [`.env` file][dotenv] which is on `.gitignore`
+for your convenience when developing on your local.
 
 # Development Operations / Maintenance
 
@@ -75,3 +78,4 @@ Copyright © SKGTech and Authors, Licensed under ISC.
 
 [docker-compose]: https://docs.docker.com/compose/reference/overview/
 [docker-desktop]: https://www.docker.com/products/docker-desktop
+[dotenv]: https://github.com/motdotla/dotenv#readme
