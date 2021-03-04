@@ -13,7 +13,7 @@ const {
   onboardingSubject,
   onboardingEmail,
 } = require('../messages');
-const { getGuildMember } = require('../../discord');
+const { setNickname } = require('../../discord');
 const { update } = require('../../members/members.ent');
 const { validateNickname } = require('../../../utils/validators');
 const log = require('../../../services/log.service').get();
@@ -36,8 +36,8 @@ step.handle6 = async (message, localMember) => {
     return;
   }
 
-  // Set the nickname on the server
-  await step.setNickname(message, localMember, msg);
+  // Set the nickname on the discord server
+  await setNickname(message, localMember, msg);
 
   // Update the database with the new state and verfication code
   const verification_code = `${localMember.discord_uid}_${uuid()}`;
@@ -56,27 +56,6 @@ step.handle6 = async (message, localMember) => {
 
   // Prepare and dispatch the verification email
   await step.sendVerificationEmail(localMember, verification_code);
-};
-
-/**
- * Set the member's nickname on discord.
- *
- * @param {DiscordMessage} message The discord message.
- * @param {Member} localMember Local record of the member.
- * @param {string} nickname The nickname to set the user with.
- * @return {Promise<void>} A Promise.
- */
-step.setNickname = async (message, localMember, nickname) => {
-  const guildMember = await getGuildMember(message);
-  try {
-    await guildMember.setNickname(nickname);
-  } catch (ex) {
-    log.error('Failed to set nickname', {
-      localMember,
-      error: ex,
-      custom: { nickname },
-    });
-  }
 };
 
 /**

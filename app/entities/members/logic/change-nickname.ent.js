@@ -4,6 +4,7 @@
 
 const memberSql = require('../sql/members.sql');
 const { validateNickname } = require('../../../utils/validators');
+const { setNickname } = require('../../discord');
 const {
   nicknameChanged,
   nicknameChangeFail,
@@ -44,6 +45,9 @@ entity.changeNickname = async (message, localMember, nickname) => {
     await message.channel.send(nicknameChangeFail());
     return;
   }
+
+  // Set the nickname on the discord server
+  await setNickname(message, localMember, nickname);
 
   message.channel.send(nicknameChanged(nickname));
 };
