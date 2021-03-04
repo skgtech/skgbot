@@ -79,6 +79,7 @@ step.sendVerificationEmail = async (localMember, verificationCode) => {
       custom: {
         message_id: emailRes.messageId,
       },
+      emoji: ':envelope_with_arrow:',
       relay: true,
     },
   );

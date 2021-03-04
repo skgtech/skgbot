@@ -113,6 +113,7 @@ onboarding.sendFirstOnboardingDM = async (guildMember, localMember) => {
   await log.info('New member joined the guild!', {
     localMember,
     relay: true,
+    emoji: ':egg:',
   });
   const dmChannel = await guildMember.createDM();
 
