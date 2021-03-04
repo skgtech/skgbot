@@ -98,7 +98,7 @@ entity._verifyMember = async (token) => {
   log.info('User verified via web, joins server', {
     localMember,
     relay: true,
-    emoji: ':plusone: :computer:',
+    emoji: ':ballot_box_with_check: :computer:',
   });
 
   const guildMember = await getGuildMemberLocal(localMember);

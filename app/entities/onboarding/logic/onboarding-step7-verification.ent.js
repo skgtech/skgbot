@@ -45,7 +45,7 @@ step.handle7 = async (message, localMember) => {
   log.info('User verified via bot, joins server', {
     localMember,
     relay: true,
-    emoji: ':plusone: :robot:',
+    emoji: ':ballot_box_with_check: :robot:',
   });
   await message.channel.send(step7Success());
 };
