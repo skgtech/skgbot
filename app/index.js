@@ -14,6 +14,7 @@
 const fs = require('fs');
 
 const __ = require('lodash');
+require('dotenv').config();
 
 require('./utils/jsdoc-type-definitions');
 const globals = require('./utils/globals');
