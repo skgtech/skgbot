@@ -19,7 +19,7 @@ exports.up = async function (knex) {
     defaultFields(table, knex);
 
     table.index('discord_uid');
-    table.unique('discord_uid', 'category');
+    table.unique(['discord_uid', 'category']);
   });
 };
 

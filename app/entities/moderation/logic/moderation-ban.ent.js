@@ -19,15 +19,17 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.moderationBan = async (message, localMember) => {
-  const [, memberDiscordId, category, ...reason] = message.content.split(' ');
+  const [, memberDiscordId, category, ...reasonAr] = message.content.split(' ');
 
+  const reason = reasonAr.join(' ');
   try {
     const createData = {
       discord_uid: memberDiscordId,
-      moderator_discord_uid: memberDiscordId,
+      moderator_discord_uid: localMember.discord_uid,
       category,
       reason,
     };
+
     await create(createData);
   } catch (ex) {
     await message.channel.send(failed());
