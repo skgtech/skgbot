@@ -32,6 +32,7 @@ entity.changeBio = async (message, localMember, content) => {
       new_bio: newBio,
     },
     relay: true,
+    emoji: ':pencil:',
   });
 
   if (!entity.validateBio(newBio)) {

@@ -41,6 +41,8 @@ entity.loggerToAdmin = async (logContext) => {
 
   const channel = await client.channels.fetch(config.discord.admin_channel_id);
   await channel.send(message);
+
+  delete logContext.emoji;
 };
 
 /**
@@ -51,7 +53,7 @@ entity.loggerToAdmin = async (logContext) => {
  * @private
  */
 entity._formatMessage = (lc) => {
-  let message = `[${lc.level}] ${lc.message}`;
+  let message = `${lc.emoji} [${lc.level}] ${lc.message}`;
   // serialize localUser if it exists
   if (lc.context.localMember) {
     const lm = lc.context.localMember;
@@ -79,9 +81,11 @@ entity._formatMessage = (lc) => {
  * @private
  */
 entity._formatError = (lc) => {
-  const message =
-    `[${lc.level}] ${lc.message} :: ${lc.event.error.name}` +
-    ` :: ${lc.event.error.message}`;
+  let message = `:octagonal_sign: [${lc.level}] ${lc.message} :: `;
+
+  if (lc.event.error) {
+    message += `${lc.event.error.name} :: ${lc.event.error.message}`;
+  }
 
   return message;
 };

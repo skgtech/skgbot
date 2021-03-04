@@ -45,6 +45,7 @@ step.handle7 = async (message, localMember) => {
   log.info('User verified via bot, joins server', {
     localMember,
     relay: true,
+    emoji: ':plusone: :robot:',
   });
   await message.channel.send(step7Success());
 };
@@ -66,6 +67,7 @@ step.resendVerification = async (message, localMember) => {
   await log.info('Resend Verification requested.', {
     localMember,
     relay: true,
+    emoji: ':envelope_with_arrow: :arrows_counterclockwise:',
   });
 
   const nowDt = new Date();

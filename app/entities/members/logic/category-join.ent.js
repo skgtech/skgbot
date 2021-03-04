@@ -25,10 +25,14 @@ const entity = (module.exports = {});
  */
 entity.categoryJoin = async (message, localMember, cmdArgument) => {
   const category = entity.sanitize(cmdArgument);
-  await log.info(`Member wants to join new Category: "${category}"`, {
-    localMember,
-    relay: true,
-  });
+  await log.info(
+    `:thumbsup: Member wants to join new Category: "${category}"`,
+    {
+      localMember,
+      relay: true,
+      emoji: ':thumbsup:',
+    },
+  );
 
   if (!entity.validateCategory(category)) {
     await message.channel.send(categoryInvalid());

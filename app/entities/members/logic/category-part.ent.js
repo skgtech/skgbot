@@ -31,6 +31,7 @@ entity.categoryPart = async (message, localMember, cmdArgument) => {
   await log.info(`Member wants to part category: "${category}"`, {
     localMember,
     relay: true,
+    emoji: ':thumbsdown:',
   });
 
   if (!validateCategory(category)) {

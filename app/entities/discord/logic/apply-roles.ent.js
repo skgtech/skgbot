@@ -5,13 +5,13 @@
 const config = require('config');
 
 const { getGuild } = require('./guild.ent');
+const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
 
 /**
  * Apply roles to a new member.
  *
- * @param {DiscordGuild} guild The guild to apply the roles to.
  * @param {DiscordGuildMember} guildMember The member to apply the roles on.
  * @return {Promise<void>} A Promise.
  */
@@ -24,7 +24,17 @@ entity.applyRoles = async (guildMember) => {
     allPromises.push(guildMember.roles.add(role));
   });
 
-  return Promise.all(allPromises);
+  let promiseReturn;
+  try {
+    promiseReturn = Promise.all(allPromises);
+  } catch (ex) {
+    const user = guildMember.user.username;
+    log.error(`applyRoles() :: Error on applying roles for user ${user}`, {
+      error: ex,
+    });
+  }
+
+  return promiseReturn;
 };
 
 /**
