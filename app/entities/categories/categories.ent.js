@@ -4,7 +4,30 @@
 
 const config = require('config');
 
+const { categoryInvalid } = require('./messages');
+
 const entity = (module.exports = {});
+
+/**
+ * Sanitizes, validates and returns canonical category name.
+ *
+ * Combines all methods bellow.
+ *
+ * @param {DiscordMessage} message The incoming private message.
+ * @param {string} categoryRaw The category raw membber input.
+ * @return {sring} Canonical category name.
+ */
+entity.sanitizeAndValidate = async (message, categoryRaw) => {
+  const category = entity.sanitize(categoryRaw);
+  if (!entity.validateCategory(category)) {
+    await message.channel.send(categoryInvalid());
+    return;
+  }
+  // Get the actual string literal of the category name
+  const canonicalCategory = entity.getCanonical(category);
+
+  return canonicalCategory;
+};
 
 /**
  * Validates a category.

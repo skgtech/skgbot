@@ -2,6 +2,7 @@
  * @fileoverview Will prevent a member from joining the topic category defined.
  */
 
+const { sanitizeAndValidate } = require('../../categories');
 const { create } = require('../sql/moderation.sql');
 const { failed, banSuccess } = require('../messages');
 const log = require('../../../services/log.service').get();
@@ -19,9 +20,12 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.moderationBan = async (message, localMember) => {
-  const [, memberDiscordId, category, ...reasonAr] = message.content.split(' ');
-
+  const [, memberDiscordId, categoryRaw, ...reasonAr] = message.content.split(
+    ' ',
+  );
   const reason = reasonAr.join(' ');
+
+  const category = await sanitizeAndValidate(categoryRaw);
 
   try {
     const createData = {

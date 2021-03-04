@@ -2,17 +2,8 @@
  * @fileoverview Part a topic category.
  */
 
-const {
-  sanitize,
-  validateCategory,
-  getCanonical,
-} = require('../../categories');
-const {
-  categoryParted,
-  categoryInvalid,
-  alreadyParted,
-  failed,
-} = require('../messages');
+const { sanitizeAndValidate } = require('../../categories');
+const { categoryParted, alreadyParted, failed } = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
 
@@ -23,39 +14,31 @@ const entity = (module.exports = {});
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
- * @param {string} cmdArgument User input for category to join.
+ * @param {string} categoryRaw User input for category to join.
  * @return {Promise<void>}
  */
-entity.categoryPart = async (message, localMember, cmdArgument) => {
-  const category = sanitize(cmdArgument);
-  await log.info(`Member wants to part category: "${category}"`, {
+entity.categoryPart = async (message, localMember, categoryRaw) => {
+  await log.info(`Member wants to part category: "${categoryRaw}"`, {
     localMember,
     relay: true,
     emoji: ':thumbsdown:',
   });
-
-  if (!validateCategory(category)) {
-    await message.channel.send(categoryInvalid());
-    return;
-  }
+  const category = await sanitizeAndValidate(categoryRaw);
 
   const guild = await getGuild(message);
   const guildMember = await getGuildMember(message);
 
-  // Get the actual string literal of the category name
-  const canonicalCategory = getCanonical(category);
-
-  const role = getRole(guild, canonicalCategory);
+  const role = getRole(guild, category);
 
   // Check if member already joined
   if (!guildMember.roles.cache.has(role.id)) {
-    await message.channel.send(alreadyParted(canonicalCategory));
+    await message.channel.send(alreadyParted(category));
     return;
   }
 
   try {
     await guildMember.roles.remove(role);
-    await message.channel.send(categoryParted(canonicalCategory));
+    await message.channel.send(categoryParted(category));
   } catch (ex) {
     await log.error('categoryPart() :: Failed to add role', {
       localMember,
