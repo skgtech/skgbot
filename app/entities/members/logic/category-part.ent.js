@@ -6,6 +6,7 @@ const {
   categoryParted,
   categoryInvalid,
   alreadyParted,
+  failed,
 } = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
@@ -51,7 +52,17 @@ entity.categoryPart = async (message, localMember, cmdArgument) => {
     return;
   }
 
-  await guildMember.roles.remove(role);
-
-  await message.channel.send(categoryParted(canonicalCategory));
+  try {
+    await guildMember.roles.remove(role);
+    await message.channel.send(categoryParted(canonicalCategory));
+  } catch (ex) {
+    log.error('categoryPart() :: Failed to add role', {
+      localMember,
+      error: ex,
+      custom: {
+        role,
+      },
+    });
+    await message.channel.send(failed());
+  }
 };

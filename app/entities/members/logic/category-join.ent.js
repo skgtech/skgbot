@@ -8,6 +8,7 @@ const {
   categoryJoined,
   categoryInvalid,
   alreadyJoined,
+  failed,
 } = require('../messages');
 const { getGuild, getGuildMember, getRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
@@ -48,9 +49,19 @@ entity.categoryJoin = async (message, localMember, cmdArgument) => {
     return;
   }
 
-  await guildMember.roles.add(role);
-
-  await message.channel.send(categoryJoined(canonicalCategory));
+  try {
+    await guildMember.roles.add(role);
+    await message.channel.send(categoryJoined(canonicalCategory));
+  } catch (ex) {
+    log.error('categoryJoin() :: Failed to add role', {
+      localMember,
+      error: ex,
+      custom: {
+        role,
+      },
+    });
+    await message.channel.send(failed());
+  }
 };
 
 /**

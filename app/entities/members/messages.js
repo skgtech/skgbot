@@ -35,3 +35,6 @@ messages.categoryInvalid = () =>
 messages.alreadyJoined = (category) => `You are already joined to ${category}`;
 messages.alreadyParted = (category) =>
   `You are not in the ${category} category`;
+messages.failed = () =>
+  "I am sorry, something went wront. It's me, not you," +
+  ' the admins have been notified.';
