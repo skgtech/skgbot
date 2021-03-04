@@ -79,7 +79,9 @@ entity._formatMessage = (lc) => {
  * @private
  */
 entity._formatError = (lc) => {
-  const message = `[${lc.level}] ${lc.message}`;
+  const message =
+    `[${lc.level}] ${lc.message} :: ${lc.event.error.name}` +
+    ` :: ${lc.event.error.message}`;
 
   return message;
 };
