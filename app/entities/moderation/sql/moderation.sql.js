@@ -90,6 +90,23 @@ sql.getByModeratorMemberId = async (memberId, tx) => {
 };
 
 /**
+ * Fetch all records.
+ *
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>}
+ */
+sql.getAll = async (tx) => {
+  const statement = sql.getSelect();
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
  * Delete a record based on member id and category.
  *
  * @param {string} memberId Discord member id of banned member.
