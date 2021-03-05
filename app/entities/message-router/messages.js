@@ -32,7 +32,7 @@ To do that: Open your Discord settings (the next to your name at the bottom` +
 
 * \`!ban [discord_member_id] [Category] [reason]\` Ban a member from joining` +
   ` the \`[Category]\`. Use \`*\` to force them to be only in the welcome` +
-  ` channel. **NOTE**: the \`[Category]\` field is case sensitive.
+  ` channel. **NOTE**: the \`[Category]\` field is case insensitive.
 * \`!unban [discord_member_id] [Category]\` Remove a particular ban of that` +
   ` member with the specific \`[Category]\`
 * \`!banlist [discord_member_id]\` Get a list of bans for that member.

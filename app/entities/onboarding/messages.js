@@ -16,20 +16,23 @@ messages.welcome = (guildMember) =>
 We are a community of professionals, passionate about technology.
 
 Everyone can use their desired nickname, however, we do not allow anonymous` +
-  ` accounts in this community. As such we'll kindly ask you for the` +
+  ` accounts. As such we'll kindly ask you for the` +
   ` following information to build your personal profile, that information` +
   ` will be available to everyone, except your email:
 
 * Your Real Name.
 * Your email for verification (will not be visible).
-* Your Bio.
+* Your Bio (Let us know about yourself, what do you do, any social media).
 * Your Desired nickname.
 
-If you agree with that, please type \`yes\` to get started!
-
 Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
-  "encounter any problems, don't hesitate to contact an Admin. You can" +
-  ' also type `!help` for a list of available commands.';
+  `encounter any problems, don't hesitate to contact a Moderator.
+
+You can also type \`!help\` for a list of available commands.
+
+Before you start, make sure you have read our rules: https://skgtech.io/rules
+
+If you agree with all of that, please type \`yes\` to get started!`;
 
 messages.cannotOnboard = () => 'You are not allowed to join this server.';
 
@@ -94,7 +97,10 @@ messages.step7Error = () =>
 messages.step7Success = () =>
   `Thank you for verifying your email 🎉 and welcome to ${serverName}'s discord` +
   ` server! Find bellow a list of commands that are now available to you:\n\n` +
-  `${memberHelp()}`;
+  `${memberHelp()}
+
+You have now automatically joined \`Engineer\`, \`Product\`, \`Hobbies\`` +
+  ` and \`Investor\`! Enjoy!`;
 
 messages.step7ResendVerification = (email) =>
   `Ok, I am sending a new email to` +
