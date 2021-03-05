@@ -2,9 +2,15 @@
  * @fileoverview Join a topic category.
  */
 
-const { sanitizeAndValidate } = require('../../categories');
-const { categoryJoined, alreadyJoined, failed } = require('../messages');
 const { addRole } = require('../../discord');
+const { canJoin } = require('../../moderation');
+const {
+  categoryJoined,
+  alreadyJoined,
+  failed,
+  cannotJoin,
+} = require('../messages');
+const { sanitizeAndValidate } = require('../../categories');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -32,6 +38,11 @@ entity.categoryJoin = async (message, localMember, categoryRaw) => {
   }
 
   try {
+    const allowedToJoin = await canJoin(localMember, category);
+    if (!allowedToJoin) {
+      await message.channel.send(cannotJoin(category));
+      return;
+    }
     const hasRole = await addRole(localMember.discord_uid, category);
     if (hasRole) {
       await message.channel.send(alreadyJoined(category));
