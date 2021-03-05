@@ -4,6 +4,7 @@
 
 const config = require('config');
 
+const { delay } = require('../../utils/helpers');
 const discordService = require('../../services/discord.service');
 const membersEnt = require('../members/members.ent');
 const messages = require('./messages');
@@ -128,5 +129,7 @@ onboarding.sendFirstOnboardingDM = async (guildMember, localMember) => {
   const dmChannel = await guildMember.createDM();
 
   // Send the message, starting the onboarding process.
-  await dmChannel.send(messages.welcome(guildMember));
+  await dmChannel.send(messages.welcome1(guildMember));
+  await delay(6);
+  await dmChannel.send(messages.welcome2(guildMember));
 };

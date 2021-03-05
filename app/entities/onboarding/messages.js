@@ -10,7 +10,7 @@ const messages = (module.exports = {});
 
 const serverName = config.discord.server_name;
 
-messages.welcome = (guildMember) =>
+messages.welcome1 = (guildMember) =>
   `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
 
 We are a community of professionals, passionate about technology.
@@ -30,9 +30,12 @@ Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
 
 You can also type \`!help\` for a list of available commands.
 
-Before you start, make sure you have read our rules: https://skgtech.io/rules
+Before you start, make sure you have read our rules: https://skgtech.io/rules`;
 
-If you agree with all of that, please type \`yes\` to get started!`;
+messages.welcome2 = () =>
+  `If you agree with all of that, please` +
+  ` type \`yes\` to get started! And don't forder, you can always type` +
+  ' `!reset` to start the onboarding process again if you make a typo.';
 
 messages.cannotOnboard = () => 'You are not allowed to join this server.';
 
