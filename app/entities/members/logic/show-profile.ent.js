@@ -17,6 +17,10 @@ const memberProfile = (module.exports = {});
  * @return {Promise<void>}
  */
 memberProfile.show = async (message, localMember, nickname) => {
+  if (typeof nickname !== 'string' || !nickname) {
+    message.channel.send(cannotFindMember());
+    return;
+  }
   log.info('Member profile show requested', localMember);
   const profile = await memberSql.getByNickname(nickname);
 
