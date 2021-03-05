@@ -42,7 +42,10 @@ step.handle7 = async (message, localMember) => {
   }
 
   // Everything checks out, allow the member in.
-  await step._enableMember(message, localMember);
+  const hasJoined = await step._enableMember(message, localMember);
+  if (!hasJoined) {
+    return;
+  }
 
   await log.info('User verified via bot, joins server', {
     localMember,
@@ -114,17 +117,19 @@ step._resetVerification = async (localMember) => {
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The local member record.
- * @return {Promise<void>} A Promise.
+ * @return {Promise<boolean>} A Promise with true on success.
  * @private
  */
 step._enableMember = async (message, localMember) => {
   const memberCanOnboard = await canOnboard(localMember);
   if (!memberCanOnboard) {
     await message.channel.send(cannotOnboard());
-    return;
+    return false;
   }
   const guildMember = await getGuildMember(message);
   await applyRoles(guildMember);
 
   await enableMember(localMember);
+
+  return true;
 };
