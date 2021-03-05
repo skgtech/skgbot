@@ -102,12 +102,11 @@ entity.removeRole = async (discordMemberId, category) => {
  * @return {Promise<boolean>} False if member does not have that role.
  */
 entity.removeAllRoles = async (discordMemberId) => {
-  const guild = await getGuild();
   const guildMember = await getGuildMemberUid(discordMemberId);
 
   const promises = [];
   guildMember.roles.cache.forEach((role) => {
-    promises.push(guildMember.roles.remove(role);
+    promises.push(guildMember.roles.remove(role));
   });
 
   return Promise.all(promises);
