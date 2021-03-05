@@ -6,9 +6,11 @@ const addDt = require('date-fns/add');
 const config = require('config');
 const { v4: uuid } = require('uuid');
 
+const { canOnboard } = require('../../moderation');
 const step6 = require('./onboarding-step6-nickname.ent');
 const { getGuildMember, applyRoles } = require('../../discord');
 const {
+  cannotOnboard,
   step7Error,
   step7Success,
   step7ResendVerification,
@@ -116,6 +118,11 @@ step._resetVerification = async (localMember) => {
  * @private
  */
 step._enableMember = async (message, localMember) => {
+  const memberCanOnboard = await canOnboard(localMember);
+  if (!memberCanOnboard) {
+    await message.channel.send(cannotOnboard());
+    return;
+  }
   const guildMember = await getGuildMember(message);
   await applyRoles(guildMember);
 

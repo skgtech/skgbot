@@ -31,6 +31,8 @@ Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
   "encounter any problems, don't hesitate to contact an Admin. You can" +
   ' also type `!help` for a list of available commands.';
 
+messages.cannotOnboard = () => 'You are not allowed to join this server.';
+
 messages.cannotUnderstandYou = () =>
   'I am sorry, I did not undestand you.' +
   ' Please type `!help` for a list of commands';
