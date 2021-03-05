@@ -58,7 +58,7 @@ messages.step2Error = () =>
   'characters, max characters are 20.';
 
 messages.step2Success = (firstName) =>
-  `Thank you ${firstName}, now please let us know, what is your last name?`;
+  `Thank you ${firstName}, now please let me know, what is your last name?`;
 
 messages.step3Error = () =>
   'Please write a proper name, without newlines using latin (english) ' +
