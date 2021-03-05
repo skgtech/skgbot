@@ -25,6 +25,10 @@ entity.categoryPart = async (message, localMember, categoryRaw) => {
   });
 
   const category = await sanitizeAndValidate(categoryRaw);
+  // Invalid category, client informed.
+  if (!category) {
+    return;
+  }
 
   try {
     const didNotHaveRole = await removeRole(localMember.discord_uid, category);

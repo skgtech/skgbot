@@ -26,6 +26,11 @@ entity.categoryJoin = async (message, localMember, categoryRaw) => {
 
   const category = await sanitizeAndValidate(categoryRaw);
 
+  // Invalid category, client informed.
+  if (!category) {
+    return;
+  }
+
   try {
     const hasRole = await addRole(localMember.discord_uid, category);
     if (hasRole) {
