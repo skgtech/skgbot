@@ -7,7 +7,7 @@ const formatDate = require('date-fns/format');
 
 const { asyncMapCap } = require('../../../utils/helpers');
 const { getAll } = require('../sql/moderation.sql');
-const { getById: memberGetById } = require('../../members');
+const { getById: memberGetById } = require('../../members/sql/members.sql');
 const { failed } = require('../messages');
 const log = require('../../../services/log.service').get();
 

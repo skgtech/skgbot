@@ -6,7 +6,7 @@ const { sanitizeAndValidate } = require('../../categories');
 const { create } = require('../sql/moderation.sql');
 const { failed, banSuccess } = require('../messages');
 const { removeRole, removeAllRoles } = require('../../discord');
-const { getById } = require('../../members');
+const { getById } = require('../../members/sql/members.sql');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
