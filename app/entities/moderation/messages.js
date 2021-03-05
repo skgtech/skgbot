@@ -9,7 +9,8 @@ const messages = (module.exports = {});
 messages.failed = () => `${failed()}`;
 messages.banSuccess = (memberDiscordId, category) =>
   `Ban added for discord member with id ${memberDiscordId} on category: ${category}`;
-messages.unbanSuccess = (memberDiscordId, category, deleted) =>
+messages.unbanSuccess = (memberDiscordId, category) =>
   `Ban removed for discord member with id ${memberDiscordId} on category:` +
-  ` ${category} :: Records removed ${deleted}`;
-messages.unbanNotExist = () => 'There was no ban found for the date provided';
+  ` ${category}.
+messages.unbanNotExist = () =>
+  'There was no ban found based on the arguments you provided';

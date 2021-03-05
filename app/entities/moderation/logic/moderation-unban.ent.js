@@ -37,10 +37,10 @@ entity.moderationUnban = async (message, localMember) => {
 
     if (deleted === 0) {
       await message.channel.send(unbanNotExist());
+      return;
     }
-    await message.channel.send(
-      unbanSuccess(discordMemberId, category, deleted),
-    );
+
+    await message.channel.send(unbanSuccess(discordMemberId, category));
 
     await entity._logUnBan(
       discordMemberId,
