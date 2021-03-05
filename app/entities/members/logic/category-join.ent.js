@@ -30,7 +30,7 @@ entity.categoryJoin = async (message, localMember, categoryRaw) => {
     emoji: ':thumbsup:',
   });
 
-  const category = await sanitizeAndValidate(categoryRaw);
+  const category = await sanitizeAndValidate(message, categoryRaw);
 
   // Invalid category, client informed.
   if (!category) {

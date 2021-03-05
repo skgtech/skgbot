@@ -24,7 +24,7 @@ entity.categoryPart = async (message, localMember, categoryRaw) => {
     emoji: ':thumbsdown:',
   });
 
-  const category = await sanitizeAndValidate(categoryRaw);
+  const category = await sanitizeAndValidate(message, categoryRaw);
   // Invalid category, client informed.
   if (!category) {
     return;

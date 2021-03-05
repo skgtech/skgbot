@@ -47,7 +47,13 @@ entity.moderationBan = async (message, localMember) => {
 
     await create(createData);
 
-    await entity._logBan(discordMemberId, targetMember, localMember, reason);
+    await entity._logBan(
+      discordMemberId,
+      targetMember,
+      localMember,
+      category,
+      reason,
+    );
   } catch (ex) {
     await message.channel.send(failed());
     await log.error('moderationBan() Failed', {
@@ -79,7 +85,7 @@ entity._removeRole = async (discordMemberId, targetMember, category) => {
   if (category === '*') {
     await removeAllRoles(discordMemberId);
   } else {
-    await removeRole(category);
+    await removeRole(discordMemberId, category);
   }
 };
 

@@ -49,11 +49,11 @@ entity.validateCategory = (category) => {
 /**
  * Sanitizes the raw input into a lowercased, trimmed category name.
  *
- * @param {string} cmdArgument Raw input of user.
+ * @param {string} categoryRaw The category raw membber input.
  * @return {string} sanitized category.
  */
-entity.sanitize = (cmdArgument) => {
-  return cmdArgument.trim().toLowerCase();
+entity.sanitize = (categoryRaw) => {
+  return categoryRaw.trim().toLowerCase();
 };
 
 /**
