@@ -12,3 +12,4 @@ messages.banSuccess = (memberDiscordId, category) =>
 messages.unbanSuccess = (memberDiscordId, category, deleted) =>
   `Ban removed for discord member with id ${memberDiscordId} on category:` +
   ` ${category} :: Records removed ${deleted}`;
+messages.unbanNotExist = () => 'There was no ban found for the date provided';

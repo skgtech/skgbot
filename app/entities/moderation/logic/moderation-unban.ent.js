@@ -2,8 +2,10 @@
  * @fileoverview Will remove an added category topic ban.
  */
 
-const { deleteCombined, getById } = require('../sql/moderation.sql');
-const { failed, unbanSuccess } = require('../messages');
+const { deleteCombined } = require('../sql/moderation.sql');
+const { getById } = require('../../members/sql/members.sql');
+const { failed, unbanSuccess, unbanNotExist } = require('../messages');
+const { sanitizeAndValidate } = require('../../categories');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -18,17 +20,34 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.moderationUnban = async (message, localMember) => {
-  const [, discordMemberId, category] = message.content.split(' ');
+  const [, discordMemberId, categoryRaw] = message.content.split(' ');
+
+  // get proper category name, account for wildcard.
+  let category = '';
+  if (categoryRaw === '*') {
+    category = '*';
+  } else {
+    category = await sanitizeAndValidate(message, categoryRaw);
+  }
 
   let deleted;
   try {
     const targetMember = await getById(discordMemberId);
     deleted = await deleteCombined(discordMemberId, category);
+
+    if (deleted === 0) {
+      await message.channel.send(unbanNotExist());
+    }
     await message.channel.send(
       unbanSuccess(discordMemberId, category, deleted),
     );
 
-    await entity._logBan(discordMemberId, targetMember, localMember, category);
+    await entity._logUnBan(
+      discordMemberId,
+      targetMember,
+      localMember,
+      category,
+    );
   } catch (ex) {
     await message.channel.send(failed());
     await log.error('moderationBan() Failed', {
@@ -49,7 +68,7 @@ entity.moderationUnban = async (message, localMember) => {
  * @return {Promise<void>}
  * @private
  */
-entity._logBan = async (
+entity._logUnBan = async (
   discordMemberId,
   targetMember,
   localMember,

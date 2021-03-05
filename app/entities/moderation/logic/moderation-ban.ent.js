@@ -2,11 +2,11 @@
  * @fileoverview Will prevent a member from joining the topic category defined.
  */
 
-const { sanitizeAndValidate } = require('../../categories');
 const { create } = require('../sql/moderation.sql');
 const { failed, banSuccess } = require('../messages');
 const { removeRole, removeAllRoles } = require('../../discord');
 const { getById } = require('../../members/sql/members.sql');
+const { sanitizeAndValidate } = require('../../categories');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});

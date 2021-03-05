@@ -44,6 +44,11 @@ step.handle7 = async (message, localMember) => {
   // Everything checks out, allow the member in.
   const hasJoined = await step._enableMember(message, localMember);
   if (!hasJoined) {
+    log.info('Blocked user from joining due to active ban', {
+      localMember,
+      relay: true,
+      emoji: ':raised_hand:',
+    });
     return;
   }
 
