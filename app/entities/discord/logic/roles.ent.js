@@ -94,3 +94,21 @@ entity.removeRole = async (discordMemberId, category) => {
 
   await guildMember.roles.remove(role);
 };
+
+/**
+ * Removes all roles from a member.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord Member id to remove role from.
+ * @return {Promise<boolean>} False if member does not have that role.
+ */
+entity.removeAllRoles = async (discordMemberId) => {
+  const guild = await getGuild();
+  const guildMember = await getGuildMemberUid(discordMemberId);
+
+  const promises = [];
+  guildMember.roles.cache.forEach((role) => {
+    promises.push(guildMember.roles.remove(role);
+  });
+
+  return Promise.all(promises);
+};

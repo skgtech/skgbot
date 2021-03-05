@@ -5,6 +5,8 @@
 const { sanitizeAndValidate } = require('../../categories');
 const { create } = require('../sql/moderation.sql');
 const { failed, banSuccess } = require('../messages');
+const { removeRole, removeAllRoles } = require('../../discord');
+const { getById } = require('../../members');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -20,16 +22,23 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.moderationBan = async (message, localMember) => {
-  const [, memberDiscordId, categoryRaw, ...reasonAr] = message.content.split(
+  const [, discordMemberId, categoryRaw, ...reasonAr] = message.content.split(
     ' ',
   );
   const reason = reasonAr.join(' ');
 
-  const category = await sanitizeAndValidate(categoryRaw);
+  // get proper category name, account for wildcard.
+  let category = '';
+  if (categoryRaw === '*') {
+    category = '*';
+  } else {
+    category = await sanitizeAndValidate(message, categoryRaw);
+  }
 
   try {
+    await entity._removeRole(discordMemberId, category);
     const createData = {
-      discord_uid: memberDiscordId,
+      discord_uid: discordMemberId,
       moderator_discord_uid: localMember.discord_uid,
       category,
       reason,
@@ -45,5 +54,28 @@ entity.moderationBan = async (message, localMember) => {
     return;
   }
 
-  await message.channel.send(banSuccess(memberDiscordId, category));
+  await message.channel.send(banSuccess(discordMemberId, category));
+};
+
+/**
+ * Apply the ban, remove the target role.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord Member id to remove role from.
+ * @param {string} category Canonical category name or wildcard.
+ * @return {Promise<void>} A Promise.
+ * @private
+ */
+entity._removeRole = async (discordMemberId, category) => {
+  const targetMember = await getById(discordMemberId);
+
+  if (!targetMember) {
+    // member not found in local database.
+    return;
+  }
+
+  if (category === '*') {
+    await removeAllRoles(discordMemberId);
+  } else {
+    await removeRole(category);
+  }
 };

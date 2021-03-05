@@ -7,6 +7,7 @@ const {
   getRole,
   addRole,
   removeRole,
+  removeAllRoles,
 } = require('./logic/roles.ent');
 const {
   getGuild,
@@ -22,6 +23,7 @@ entity.addRole = addRole;
 entity.applyRoles = applyRoles;
 entity.loggerToAdmin = loggerToAdmin;
 entity.removeRole = removeRole;
+entity.removeAllRoles = removeAllRoles;
 entity.getGuild = getGuild;
 entity.getGuildMember = getGuildMember;
 entity.getGuildMemberLocal = getGuildMemberLocal;
