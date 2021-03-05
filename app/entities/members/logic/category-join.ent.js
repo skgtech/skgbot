@@ -43,11 +43,11 @@ entity.categoryJoin = async (message, localMember, categoryRaw) => {
       await message.channel.send(cannotJoin(category));
       return;
     }
-    const hasRole = await addRole(localMember.discord_uid, category);
-    if (hasRole) {
-      await message.channel.send(alreadyJoined(category));
-    } else {
+    const didNotHaveRole = await addRole(localMember.discord_uid, category);
+    if (didNotHaveRole) {
       await message.channel.send(categoryJoined(category));
+    } else {
+      await message.channel.send(alreadyJoined(category));
     }
   } catch (ex) {
     await log.error('categoryJoin() :: Failed to add role', {

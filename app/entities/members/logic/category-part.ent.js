@@ -32,10 +32,10 @@ entity.categoryPart = async (message, localMember, categoryRaw) => {
 
   try {
     const didNotHaveRole = await removeRole(localMember.discord_uid, category);
-    if (!didNotHaveRole) {
-      await message.channel.send(alreadyParted(category));
-    } else {
+    if (didNotHaveRole) {
       await message.channel.send(categoryParted(category));
+    } else {
+      await message.channel.send(alreadyParted(category));
     }
   } catch (ex) {
     await log.error('categoryPart() :: Failed to remove role', {

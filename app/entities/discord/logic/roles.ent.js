@@ -58,7 +58,7 @@ entity.getRole = (guild, roleName) => {
  *
  * @param {DiscordMemberId} discordMemberId Discord member id.
  * @param {string} category Case Sensitive cannonical category name (role).
- * @return {Promise<boolean>} False if member does already has that role.
+ * @return {Promise<boolean>} False if member already has that role.
  */
 entity.addRole = async (discordMemberId, category) => {
   const guild = await getGuild();
@@ -72,6 +72,8 @@ entity.addRole = async (discordMemberId, category) => {
   }
 
   await guildMember.roles.add(role);
+
+  return true;
 };
 
 /**
@@ -93,6 +95,8 @@ entity.removeRole = async (discordMemberId, category) => {
   }
 
   await guildMember.roles.remove(role);
+
+  return true;
 };
 
 /**
