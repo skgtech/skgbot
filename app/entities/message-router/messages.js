@@ -10,8 +10,8 @@ messages.help = () => `Available commands to members:
 * \`!profile [username]\` :: Show the profile of another member.
 * \`!nickname [nickname]\` :: Update your nickname.
 * \`!bio [bio]\` :: Update your bio, multi-line inputs are allowed.
-* \`!join [Category]\` :: Join a topic category of channels (more bellow).
-* \`!part [Category]\` :: Leave a topic category of channels (more bellow).
+* \`!join [Category]\` :: Join a topic category of channels (more below).
+* \`!part [Category]\` :: Leave a topic category of channels (more below).
 
 Available topic Categories in this server:
 
