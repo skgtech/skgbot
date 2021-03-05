@@ -18,7 +18,7 @@ const entity = (module.exports = {});
  * Access Control has already been performed.
  *
  * @param {DiscordMessage} message incoming private discord message.
- * @param {Member} localMember The local member.
+ * @param {Member} localMember The local member record of the moderator.
  * @return {Promise<void>} A Promise.
  */
 entity.moderationBan = async (message, localMember) => {
@@ -36,7 +36,8 @@ entity.moderationBan = async (message, localMember) => {
   }
 
   try {
-    await entity._removeRole(discordMemberId, category);
+    const targetMember = await getById(discordMemberId);
+    await entity._removeRole(discordMemberId, targetMember, category);
     const createData = {
       discord_uid: discordMemberId,
       moderator_discord_uid: localMember.discord_uid,
@@ -45,6 +46,8 @@ entity.moderationBan = async (message, localMember) => {
     };
 
     await create(createData);
+
+    await entity._logBan(discordMemberId, targetMember, localMember, reason);
   } catch (ex) {
     await message.channel.send(failed());
     await log.error('moderationBan() Failed', {
@@ -61,13 +64,13 @@ entity.moderationBan = async (message, localMember) => {
  * Apply the ban, remove the target role.
  *
  * @param {DiscordMemberId} discordMemberId Discord Member id to remove role from.
+ * @param {?Member} targetMember Target member to be banned, local record, could
+ *  be empty.
  * @param {string} category Canonical category name or wildcard.
  * @return {Promise<void>} A Promise.
  * @private
  */
-entity._removeRole = async (discordMemberId, category) => {
-  const targetMember = await getById(discordMemberId);
-
+entity._removeRole = async (discordMemberId, targetMember, category) => {
   if (!targetMember) {
     // member not found in local database.
     return;
@@ -78,4 +81,39 @@ entity._removeRole = async (discordMemberId, category) => {
   } else {
     await removeRole(category);
   }
+};
+
+/**
+ * Log the ban appropriately.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord Member id to remove role from.
+ * @param {?Member} targetMember Target member to be banned, local record, could
+ *  be empty.
+ * @param {Member} localMember Moderator local record.
+ * @param {string} category Canonical category name or wildcard.
+ * @param {string} reason The reason for banning.
+ * @return {Promise<void>}
+ * @private
+ */
+entity._logBan = async (
+  discordMemberId,
+  targetMember,
+  localMember,
+  category,
+  reason,
+) => {
+  let targetMemberDetails = '';
+  if (targetMember) {
+    targetMemberDetails = `${targetMember.nickname} [${targetMember.email}]`;
+  }
+  await log.info(
+    `Member banned by ${localMember.nickname}. Banned user` +
+      ` ${discordMemberId} ${targetMemberDetails}, for category ${category}` +
+      ` Reason: ${reason}`,
+    {
+      localMember,
+      relay: true,
+      emoji: ':no_entry:',
+    },
+  );
 };
