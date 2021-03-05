@@ -4,11 +4,12 @@
 
 const { validate: uuidValidate } = require('uuid');
 
+const { canOnboard } = require('../../moderation');
 const { getGuildMemberLocal, applyRoles } = require('../../discord');
 const { getById } = require('../sql/members.sql');
 const { enableMember } = require('./enable-member.ent');
 const { render } = require('../templates/verify-member.tpl');
-const { step7Success } = require('../../onboarding/messages');
+const { step7Success, cannotOnboard } = require('../../onboarding/messages');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -91,6 +92,14 @@ entity._verifyMember = async (token) => {
     return entity._failPage();
   }
 
+  const guildMember = await getGuildMemberLocal(localMember);
+
+  const memberCanOnboard = await canOnboard(localMember);
+  if (!memberCanOnboard) {
+    await guildMember.send(cannotOnboard());
+    return entity._failPage();
+  }
+
   if (!entity.verifyMemberToken(localMember, token)) {
     log.info('_verifyMember() Verification failed for member', { localMember });
     return entity._failPage();
@@ -103,7 +112,6 @@ entity._verifyMember = async (token) => {
     emoji: ':ballot_box_with_check: :computer:',
   });
 
-  const guildMember = await getGuildMemberLocal(localMember);
   await guildMember.send(step7Success());
   await applyRoles(guildMember);
   await enableMember(localMember);
