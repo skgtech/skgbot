@@ -57,6 +57,7 @@ step.handle6 = async (message, localMember) => {
     // Prepare and dispatch the verification email
     await step.sendVerificationEmail(localMember, verification_code);
   } catch (ex) {
+    log.warn('handle6() :: Caught error', { error: ex, localMember });
     message.channel.send(step6Error2());
   }
 };
