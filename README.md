@@ -1,8 +1,6 @@
 # SKGTech Discord Bot
 
-> Enables onboarding of new users, implements a help screen and various
-
-    other functions.
+> Enables onboarding of new users, moderation and provides useful commands to users.
 
 # How To Install
 
