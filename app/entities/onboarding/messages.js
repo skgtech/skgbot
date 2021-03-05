@@ -88,6 +88,11 @@ messages.step6Error = () =>
   'Invalid nickname. Do not use newlines, only use latin (english) ' +
   'characters and a dash (`-`), max characters are 32.';
 
+messages.step6Error2 = () =>
+  'Invalid nickname. Do not use newlines, only use latin (english) ' +
+  'characters and a dash (`-`), max characters are 32.\n\nAlso, the nickname' +
+  ' might already be in use, so try a different one. You can change it later.';
+
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
   ' verify your email. You may paste the verification token here or just click' +

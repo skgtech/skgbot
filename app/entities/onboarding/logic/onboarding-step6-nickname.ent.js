@@ -9,6 +9,7 @@ const { v4: uuid } = require('uuid');
 const emailService = require('../../../services/email.service');
 const {
   step6Error,
+  step6Error2,
   step6Success,
   onboardingSubject,
   onboardingEmail,
@@ -37,7 +38,12 @@ step.handle6 = async (message, localMember) => {
   }
 
   // Set the nickname on the discord server
-  await setNickname(message, localMember, msg);
+  try {
+    await setNickname(message, localMember, msg);
+  } catch (ex) {
+    message.channel.send(step6Error2());
+    return;
+  }
 
   // Update the database with the new state and verfication code
   const verification_code = `${localMember.discord_uid}_${uuid()}`;
