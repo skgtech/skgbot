@@ -36,32 +36,29 @@ step.handle6 = async (message, localMember) => {
     message.channel.send(step6Error());
     return;
   }
-
-  // Set the nickname on the discord server
   try {
+    // Update the database with the new state and verfication code
+    const verification_code = `${localMember.discord_uid}_${uuid()}`;
+    const nowDt = new Date();
+    const verification_code_expires_at = addDt(nowDt, {
+      days: config.onboarding.verification_expires_days,
+    });
+    await update(localMember.discord_uid, {
+      nickname: msg,
+      onboarding_state: 'email_verification',
+      verification_code,
+      verification_code_expires_at,
+    });
+
+    // Set the nickname on the discord server
     await setNickname(message, localMember, msg);
+    await message.channel.send(step6Success(msg));
+
+    // Prepare and dispatch the verification email
+    await step.sendVerificationEmail(localMember, verification_code);
   } catch (ex) {
     message.channel.send(step6Error2());
-    return;
   }
-
-  // Update the database with the new state and verfication code
-  const verification_code = `${localMember.discord_uid}_${uuid()}`;
-  const nowDt = new Date();
-  const verification_code_expires_at = addDt(nowDt, {
-    days: config.onboarding.verification_expires_days,
-  });
-  await update(localMember.discord_uid, {
-    nickname: msg,
-    onboarding_state: 'email_verification',
-    verification_code,
-    verification_code_expires_at,
-  });
-
-  await message.channel.send(step6Success(msg));
-
-  // Prepare and dispatch the verification email
-  await step.sendVerificationEmail(localMember, verification_code);
 };
 
 /**
