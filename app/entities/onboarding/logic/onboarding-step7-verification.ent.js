@@ -6,9 +6,11 @@ const addDt = require('date-fns/add');
 const config = require('config');
 const { v4: uuid } = require('uuid');
 
+const { canOnboard } = require('../../moderation');
 const step6 = require('./onboarding-step6-nickname.ent');
 const { getGuildMember, applyRoles } = require('../../discord');
 const {
+  cannotOnboard,
   step7Error,
   step7Success,
   step7ResendVerification,
@@ -40,12 +42,20 @@ step.handle7 = async (message, localMember) => {
   }
 
   // Everything checks out, allow the member in.
-  await step._enableMember(message, localMember);
+  const hasJoined = await step._enableMember(message, localMember);
+  if (!hasJoined) {
+    log.info('Blocked user from joining due to active ban', {
+      localMember,
+      relay: true,
+      emoji: ':raised_hand:',
+    });
+    return;
+  }
 
-  log.info('User verified via bot, joins server', {
+  await log.info('User verified via bot, joins server', {
     localMember,
     relay: true,
-    emoji: ':plusone: :robot:',
+    emoji: ':ballot_box_with_check: :robot:',
   });
   await message.channel.send(step7Success());
 };
@@ -112,12 +122,19 @@ step._resetVerification = async (localMember) => {
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The local member record.
- * @return {Promise<void>} A Promise.
+ * @return {Promise<boolean>} A Promise with true on success.
  * @private
  */
 step._enableMember = async (message, localMember) => {
+  const memberCanOnboard = await canOnboard(localMember);
+  if (!memberCanOnboard) {
+    await message.channel.send(cannotOnboard());
+    return false;
+  }
   const guildMember = await getGuildMember(message);
   await applyRoles(guildMember);
 
   await enableMember(localMember);
+
+  return true;
 };

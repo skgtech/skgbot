@@ -74,8 +74,8 @@ commandoService.init = function () {
       resolve();
     });
 
-    client.on('error', (error) => {
-      log.warn(
+    client.on('error', async (error) => {
+      await log.warn(
         `Discord-Commando Client Error. Connected at: ${client.readyAt}`,
         {
           error,

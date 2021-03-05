@@ -24,6 +24,8 @@ ${bio}`;
 messages.bioChangeFail = () => 'I am sorry, I could not update your bio';
 messages.bioInvalid = () => `${step5Error()}`;
 
+messages.cannotJoin = (category) =>
+  `You are not allowed to join category ${category}`;
 messages.categoryJoined = (category) =>
   `You joined the topic category "${category}"`;
 messages.categoryParted = (category) =>

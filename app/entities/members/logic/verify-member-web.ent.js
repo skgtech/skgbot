@@ -41,7 +41,7 @@ entity.verifyMemberToken = async (localMember, token) => {
   const [memberId, uuidToken] = token.split('_');
 
   if (memberId !== localMember.discord_uid) {
-    log.warn('Bogus member id provided for token verification', {
+    await log.warn('Bogus member id provided for token verification', {
       localMember,
       custom: {
         member_id_provided: memberId,
@@ -85,7 +85,9 @@ entity._verifyMember = async (token) => {
   const localMember = await getById(memberId);
 
   if (!localMember) {
-    log.warn(`_verifyMember() :: Could not locate member with id ${memberId}`);
+    await log.warn(
+      `_verifyMember() :: Could not locate member with id ${memberId}`,
+    );
     return entity._failPage();
   }
 
@@ -95,10 +97,10 @@ entity._verifyMember = async (token) => {
   }
 
   // Checks out, member has verified, activate them.
-  log.info('User verified via web, joins server', {
+  await log.info('User verified via web, joins server', {
     localMember,
     relay: true,
-    emoji: ':plusone: :computer:',
+    emoji: ':ballot_box_with_check: :computer:',
   });
 
   const guildMember = await getGuildMemberLocal(localMember);

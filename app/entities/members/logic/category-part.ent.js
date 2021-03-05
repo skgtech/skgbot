@@ -2,19 +2,10 @@
  * @fileoverview Part a topic category.
  */
 
-const {
-  categoryParted,
-  categoryInvalid,
-  alreadyParted,
-  failed,
-} = require('../messages');
-const { getGuild, getGuildMember, getRole } = require('../../discord');
+const { sanitizeAndValidate } = require('../../categories');
+const { categoryParted, alreadyParted, failed } = require('../messages');
+const { removeRole } = require('../../discord');
 const log = require('../../../services/log.service').get();
-const {
-  validateCategory,
-  sanitize,
-  getCanonical,
-} = require('./category-join.ent');
 
 const entity = (module.exports = {});
 
@@ -23,45 +14,35 @@ const entity = (module.exports = {});
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
- * @param {string} cmdArgument User input for category to join.
- * @return {Promise<void>}
+ * @param {string} categoryRaw User input for category to join.
+ * @return {Promise<void>} A Promise.
  */
-entity.categoryPart = async (message, localMember, cmdArgument) => {
-  const category = sanitize(cmdArgument);
-  await log.info(`Member wants to part category: "${category}"`, {
+entity.categoryPart = async (message, localMember, categoryRaw) => {
+  await log.info(`Member wants to part category: "${categoryRaw}"`, {
     localMember,
     relay: true,
     emoji: ':thumbsdown:',
   });
 
-  if (!validateCategory(category)) {
-    await message.channel.send(categoryInvalid());
-    return;
-  }
-
-  const guild = await getGuild(message);
-  const guildMember = await getGuildMember(message);
-
-  // Get the actual string literal of the category name
-  const canonicalCategory = getCanonical(category);
-
-  const role = getRole(guild, canonicalCategory);
-
-  // Check if member already joined
-  if (!guildMember.roles.cache.has(role.id)) {
-    await message.channel.send(alreadyParted(canonicalCategory));
+  const category = await sanitizeAndValidate(message, categoryRaw);
+  // Invalid category, client informed.
+  if (!category) {
     return;
   }
 
   try {
-    await guildMember.roles.remove(role);
-    await message.channel.send(categoryParted(canonicalCategory));
+    const didNotHaveRole = await removeRole(localMember.discord_uid, category);
+    if (didNotHaveRole) {
+      await message.channel.send(categoryParted(category));
+    } else {
+      await message.channel.send(alreadyParted(category));
+    }
   } catch (ex) {
-    log.error('categoryPart() :: Failed to add role', {
+    await log.error('categoryPart() :: Failed to remove role', {
       localMember,
       error: ex,
       custom: {
-        role,
+        category,
       },
     });
     await message.channel.send(failed());

@@ -28,6 +28,7 @@
     },
     "discord": {
         "server_name": "SKGTech",
+        "moderator_role_id": "DO NOT SET - USE ENV VAR: DISCORD_MODERATOR_ROLE_ID",
         "guild_id": "DO NOT SET - USE ENV VAR: DISCORD_GUILD_ID",
         "token": "DO NOT SET - USE ENV VAR: DISCORD_BOT_TOKEN",
         "commando": {

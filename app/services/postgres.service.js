@@ -54,5 +54,5 @@ sqldb.db = () => sqldb.knexCore;
 sqldb.dispose = async () => {
   await sqldb.db().destroy();
   delete sqldb.db;
-  log.warn('Closed all postgres connections.');
+  await log.warn('Closed all postgres connections.');
 };

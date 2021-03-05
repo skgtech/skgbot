@@ -29,11 +29,11 @@ web.init = (app) => {
  */
 web.start = (app) => {
   return new Promise((resolve, reject) => {
-    web.http.on('clientError', (error) => {
-      log.warn('start() clientError', { error });
+    web.http.on('clientError', async (error) => {
+      await log.warn('start() clientError', { error });
     });
-    web.http.on('error', (error) => {
-      log.error('start() error - Failed to start web server', { error });
+    web.http.on('error', async (error) => {
+      await log.error('start() error - Failed to start web server', { error });
       reject(error);
     });
 

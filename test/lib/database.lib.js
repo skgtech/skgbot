@@ -104,6 +104,7 @@ testDb._cleanupDb = async (targetDb) => {
  * @return {Promise} A Promise.
  */
 testDb.nukeAndRecreate = async (db, databaseName) => {
+  console.log(`Droping database ${databaseName}`);
   // Kill all active connections
   const sqlKillall =
     'SELECT pg_terminate_backend(pid) FROM pg_stat_activity' +

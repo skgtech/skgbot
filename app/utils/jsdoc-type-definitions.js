@@ -77,3 +77,9 @@
  * @typedef {(Object)} DiscordRole
  * @see https://discord.js.org/#/docs/main/stable/class/Role
  */
+
+/**
+ * Discord.js member id.
+ *
+ * @typedef {(string)} DiscordMemberId
+ */

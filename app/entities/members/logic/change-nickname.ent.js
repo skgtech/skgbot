@@ -23,7 +23,7 @@ const entity = (module.exports = {});
  * @return {Promise<void>}
  */
 entity.changeNickname = async (message, localMember, nickname) => {
-  log.info(
+  await log.info(
     `Member changing their nickname from "${localMember.nickname}"` +
       `to "${nickname}"`,
     {
@@ -41,7 +41,7 @@ entity.changeNickname = async (message, localMember, nickname) => {
   try {
     await memberSql.update(localMember.discord_uid, { nickname });
   } catch (ex) {
-    log.error('Error while changing nickname for member', {
+    await log.error('Error while changing nickname for member', {
       localMember,
       error: ex,
     });

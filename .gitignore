@@ -9,3 +9,4 @@ coverage
 .DS_Store
 db_data
 junit.xml
+.env

@@ -15,11 +15,7 @@ const entity = (module.exports = {});
  * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
  */
 entity.getGuildMember = async (message) => {
-  const guildMember = await getClient()
-    .guilds.cache.get(config.discord.guild_id)
-    .members.fetch(message.author.id);
-
-  return guildMember;
+  return entity.getGuildMemberUid(message.author.id);
 };
 
 /**
@@ -29,9 +25,19 @@ entity.getGuildMember = async (message) => {
  * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
  */
 entity.getGuildMemberLocal = async (localMember) => {
+  return entity.getGuildMemberUid(localMember.discord_uid);
+};
+
+/**
+ * Gets the guildmember instance from a discord member id.
+ *
+ * @param {DiscordMemberId} discordMemberId Discord member id.
+ * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
+ */
+entity.getGuildMemberUid = async (discordMemberId) => {
   const guildMember = await getClient()
     .guilds.cache.get(config.discord.guild_id)
-    .members.fetch(localMember.discord_uid);
+    .members.fetch(discordMemberId);
 
   return guildMember;
 };

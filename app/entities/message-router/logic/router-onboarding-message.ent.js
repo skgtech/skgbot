@@ -48,7 +48,7 @@ router.handleOnboardingMessage = async (message, localMember) => {
       await handle7(message, localMember);
       break;
     default:
-      log.error(
+      await log.error(
         `Bogus member "onboarding_state": ${localMember.onboarding_state}`,
         {
           custom: {
