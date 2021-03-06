@@ -27,9 +27,9 @@ const appServices = (module.exports = {});
 appServices.boot = async (bootOpts) => {
   log.notice('Booting Services...');
 
-  await postgresService.init();
-
   await migrationService.runHerokuMigration();
+
+  await postgresService.init();
 
   await expressService.init(bootOpts);
 

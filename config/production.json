@@ -4,5 +4,11 @@
     },
     "onboarding": {
         "verification_url": "https://verify.skgtech.io/verify/"
+    },
+    "postgres": {
+        "host": "USE ENV VAR",
+        "user": "USE ENV VAR",
+        "password": "USE ENV VAR",
+        "database": "USE ENV VAR"
     }
 }
