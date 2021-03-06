@@ -41,7 +41,9 @@
             "Investor",
             "Hobbies",
             "Engineer",
-            "Politics"
+            "Politics",
+            "Space",
+            "Sports"
         ],
         "roles_all_available_lowercase": [
             "member",
@@ -49,7 +51,9 @@
             "investor",
             "hobbies",
             "engineer",
-            "politics"
+            "politics",
+            "space",
+            "sports"
         ],
 
         "roles_for_new_member": [
