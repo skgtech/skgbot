@@ -143,3 +143,24 @@ sql.getByNickname = async (nickname, tx) => {
   const [result] = await statement;
   return result || null;
 };
+
+/**
+ * Fetch members that have joined based on the join date.
+ *
+ * @param {string} dtFrom Date from when to fetch records.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Array<Object>>}
+ */
+sql.getJoinedMembersByDt = async (dtFrom, tx) => {
+  const statement = sql.getSelect();
+
+  statement.where('onboarding_state', 'joined');
+  statement.where('joined_at', '>', dtFrom);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
