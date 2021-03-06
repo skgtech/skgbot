@@ -4,6 +4,7 @@
 const config = require('config');
 const knex = require('knex');
 
+const globals = require('../utils/globals');
 const log = require('./log.service').get();
 
 const sqldb = (module.exports = {});
@@ -30,7 +31,7 @@ sqldb.knexConfig = () => {
     },
   };
 
-  if (!config.postgres.connection_string) {
+  if (globals.isProd) {
     conf.connection = {
       host: config.postgres.host,
       user: config.postgres.user,
