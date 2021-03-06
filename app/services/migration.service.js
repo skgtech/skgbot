@@ -17,7 +17,7 @@ migrationService.runHerokuMigration = async () => {
     return;
   }
   log.info('runHerokuMigration() Init');
-  const db = Knex(knexConfig);
+  const db = Knex(knexConfig());
 
   try {
     await db.migrate.latest();
