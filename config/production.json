@@ -9,7 +9,6 @@
         "host": "USE ENV VAR",
         "user": "USE ENV VAR",
         "password": "USE ENV VAR",
-        "database": "USE ENV VAR",
-
+        "database": "USE ENV VAR"
     }
 }
