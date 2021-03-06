@@ -49,7 +49,7 @@ sql.create = async (input, tx) => {
 };
 
 /**
- * Fetch a record by member ID (multiple).
+ * Fetch records by member ID (multiple).
  *
  * @param {string} memberId member id to filter with.
  * @param {Object=} tx Transaction.
@@ -59,6 +59,28 @@ sql.getByMemberId = async (memberId, tx) => {
   const statement = sql.getSelect();
 
   statement.where(`${TABLE}.discord_uid`, memberId);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
+ * Fetch records by multiple member IDs (multiple).
+ *
+ * @param {string} type onboard record followup type.
+ * @param {Array<string>} memberIds member ids to filter with.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>}
+ */
+sql.getByTypeAndMemberIds = async (type, memberIds, tx) => {
+  const statement = sql.getSelect();
+
+  statement.where('followup_type', type);
+  statement.whereIn(`${TABLE}.discord_uid`, memberIds);
 
   if (tx) {
     statement.transacting(tx);

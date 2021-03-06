@@ -12,8 +12,9 @@ exports.up = async function (knex) {
 
     defaultFields(table, knex);
 
+    table.unique(['discord_uid', 'followup_type']);
     table.index('discord_uid');
-    table.unique(['discord_uid', 'category']);
+    table.index('followup_type');
   });
 };
 

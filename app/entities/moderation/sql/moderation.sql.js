@@ -109,6 +109,26 @@ sql.getAll = async (tx) => {
 };
 
 /**
+ * Fetch records by multiple member IDs (multiple).
+ *
+ * @param {Array<string>} memberIds member ids to filter with.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>}
+ */
+sql.getByMemberIds = async (memberIds, tx) => {
+  const statement = sql.getSelect();
+
+  statement.whereIn(`${TABLE}.discord_uid`, memberIds);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
  * Delete a record based on member id and category.
  *
  * @param {string} memberId Discord member id of banned member.
