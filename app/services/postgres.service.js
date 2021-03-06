@@ -23,6 +23,7 @@ sqldb.knexConfig = {
     min: config.postgres.pool_min,
     max: config.postgres.pool_max,
   },
+  ssl: false,
 };
 
 /**
