@@ -4,14 +4,15 @@
 
 const messages = (module.exports = {});
 
-messages.help = () => `Available commands to members:
+messages.help = () =>
+  `Available commands to members:
 
 * \`!help\` :: This help screen.
 * \`!profile [username]\` :: Show the profile of another member.
 * \`!nickname [nickname]\` :: Update your nickname.
 * \`!bio [bio]\` :: Update your bio, multi-line inputs are allowed.
-* \`!join [Category]\` :: Join a topic category of channels (more bellow).
-* \`!part [Category]\` :: Leave a topic category of channels (more bellow).
+* \`!join [Category]\` :: Join a topic category of channels (more below).
+* \`!part [Category]\` :: Leave a topic category of channels (more below).
 
 Available topic Categories in this server:
 
@@ -19,10 +20,13 @@ Available topic Categories in this server:
 * \`Product\` Product, design, remote, business and leadership topics.
 * \`Hobbies\` Real-life hobbies, movies, music, space, IoT, gardening, etc.
 * \`Investor\` Channels related to investing and cryptos.
-* \`Politics\` Politics and Pandemic related channels.`;
+* \`Politics\` Politics and Pandemic related channels.
+* \`Sports\` Sports related channels.
+* \`Space\` Add this category if you want to be notified of space events` +
+  `(launches, live events, etc).`;
 
 messages.helpMods = () =>
-  `\n\n **Moderators Help**
+  `\n\n**Moderators Help**
 
 You need to enable "developer mode" on discord in order to view the IDs of users.
 

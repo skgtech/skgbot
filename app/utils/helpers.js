@@ -18,3 +18,15 @@ const helpers = (module.exports = {});
  */
 helpers.asyncMapCap = (items, fn) =>
   Bluebird.map(items, fn, { concurrency: 5 });
+
+/**
+ * An async delay, to time sending messages.
+ *
+ * @param {number} seconds How many seconds to wait.
+ * @return {Promise<void>}
+ */
+helpers.delay = (seconds) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+};

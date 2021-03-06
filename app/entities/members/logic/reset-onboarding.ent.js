@@ -3,6 +3,7 @@
  */
 
 const { update, getById } = require('../sql/members.sql');
+const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
 
@@ -14,7 +15,7 @@ const entity = (module.exports = {});
  */
 entity.resetOnboarding = async (guildMember) => {
   const memberUpdate = {
-    nickname: '',
+    nickname: null,
     first_name: '',
     last_name: '',
     bio: '',
@@ -22,7 +23,12 @@ entity.resetOnboarding = async (guildMember) => {
     onboarding_state: 'joined',
   };
 
-  await update(guildMember.user.id, memberUpdate);
+  try {
+    await update(guildMember.user.id, memberUpdate);
+  } catch (ex) {
+    log.error('resetOnboarding() :: Error:', { error: ex });
+    throw ex;
+  }
 
   const localMember = await getById(guildMember.user.id);
 

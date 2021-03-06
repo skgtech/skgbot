@@ -10,7 +10,7 @@ const messages = (module.exports = {});
 
 const serverName = config.discord.server_name;
 
-messages.welcome = (guildMember) =>
+messages.welcome1 = (guildMember) =>
   `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
 
 We are a community of professionals, passionate about technology.
@@ -30,9 +30,12 @@ Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
 
 You can also type \`!help\` for a list of available commands.
 
-Before you start, make sure you have read our rules: https://skgtech.io/rules
+Before you start, make sure you have read our rules: https://skgtech.io/rules`;
 
-If you agree with all of that, please type \`yes\` to get started!`;
+messages.welcome2 = () =>
+  `If you agree with all of that, please` +
+  ` type \`yes\` to get started! And don't forder, you can always type` +
+  ' `!reset` to start the onboarding process again if you make a typo.';
 
 messages.cannotOnboard = () => 'You are not allowed to join this server.';
 
@@ -55,7 +58,7 @@ messages.step2Error = () =>
   'characters, max characters are 20.';
 
 messages.step2Success = (firstName) =>
-  `Thank you ${firstName}, now please let us know, what is your last name?`;
+  `Thank you ${firstName}, now please let me know, what is your last name?`;
 
 messages.step3Error = () =>
   'Please write a proper name, without newlines using latin (english) ' +
@@ -84,6 +87,11 @@ messages.step5Success = () =>
 messages.step6Error = () =>
   'Invalid nickname. Do not use newlines, only use latin (english) ' +
   'characters and a dash (`-`), max characters are 32.';
+
+messages.step6Error2 = () =>
+  'Invalid nickname. Do not use newlines, only use latin (english) ' +
+  'characters and a dash (`-`), max characters are 32.\n\nAlso, the nickname' +
+  ' might already be in use, so try a different one. You can change it later.';
 
 messages.step6Success = (nickname) =>
   `Got it ${nickname}!\n\nYou now have to check your mail application and` +
