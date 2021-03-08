@@ -22,9 +22,7 @@ testDb.recreateDatabase = async (targetDb = 'skgbot-test') => {
 
     await testDb._cleanupDb(targetDb);
 
-    if (targetDb === 'skgbot-dev') {
-      await testDb.runMigrationsAndSeed(config.postgres, true);
-    }
+    await testDb.runMigrationsAndSeed(config.postgres, true);
 
     const timeDiff = Date.now() - startTime;
 

@@ -38,6 +38,7 @@
         "setupFilesAfterEnv": [
             "jest-extended"
         ],
+        "globalSetup": "./test/lib/global-setup.test.js",
         "testTimeout": 10000
     },
     "dependencies": {

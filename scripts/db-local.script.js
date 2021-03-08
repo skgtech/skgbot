@@ -12,7 +12,6 @@ const testDabaseLib = require('../test/lib/database.lib');
 const init = async () => {
   try {
     await testDabaseLib.recreateDatabase('skgbot-dev');
-    await testDabaseLib.recreateDatabase('skgbot-test');
   } catch (ex) {
     console.error('db-local.script.js failed:', ex);
   }
