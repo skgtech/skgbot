@@ -21,7 +21,8 @@ const appServices = (module.exports = {});
  * Starts all the application's required services.
  * Triggers after all databases are connected.
  *
- * @param {Object} bootOpts A set of options.
+ * @param {Object} bootOpts Application boot options.
+ * @param {boolean} bootOpts.testing When true go into testing mode.
  * @return {Promise} a promise.
  */
 appServices.boot = async (bootOpts) => {
@@ -35,7 +36,7 @@ appServices.boot = async (bootOpts) => {
 
   await emailService.init();
 
-  await discordService.init();
+  await discordService.init(bootOpts);
 
   await entities.init();
 

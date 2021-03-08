@@ -33,7 +33,7 @@ const testLib = (module.exports = {});
  */
 testLib.init = () => {
   beforeAll(async () => {
-    await app.init({ webserver: false });
+    await app.init({ testing: true });
   });
 
   // Cleanly exit
