@@ -87,7 +87,7 @@ entity._sendFollowUp = async (joinedMembers) => {
       followup_type: entity.FOLLOWUP_TYPE,
     };
     await create(createData);
-    await guildMember.send(followupJoined1());
+    await guildMember.send(followupJoined1(localMember.username));
     membersNotified.push(`${localMember.discord_uid}:${localMember.username}`);
   });
 
