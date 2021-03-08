@@ -41,3 +41,19 @@ testLib.init = () => {
     await app.dispose();
   });
 };
+
+/**
+ * Generates a random discord id and returns it.
+ *
+ * @return {string} a discord id looking string.
+ */
+testLib.randomDiscordUid = () => {
+  let result = '';
+  const characters = '0123456789';
+  const discordIdLength = 21;
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < discordIdLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * discordIdLength));
+  }
+  return result;
+};

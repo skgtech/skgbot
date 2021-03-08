@@ -69,6 +69,26 @@ sql.getByMemberId = async (memberId, tx) => {
 };
 
 /**
+ * Fetch records by many member IDs (multiple).
+ *
+ * @param {Array<string>} memberIds member id to filter with.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Object>}
+ */
+sql.getByMemberIds = async (memberIds, tx) => {
+  const statement = sql.getSelect();
+
+  statement.whereIn(`${TABLE}.discord_uid`, memberIds);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
  * Fetch records by multiple member IDs (multiple).
  *
  * @param {string} type onboard record followup type.
