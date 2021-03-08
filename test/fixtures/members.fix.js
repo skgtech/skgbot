@@ -4,8 +4,6 @@
 
 const faker = require('faker');
 
-const { randomDiscordUid } = require('../lib/test.lib');
-
 const fix = (module.exports = {});
 
 function randomEmail() {
@@ -18,7 +16,7 @@ function randomEmail() {
  * @return {Object} The fixture.
  */
 fix.memberFull = () => ({
-  discord_uid: randomDiscordUid(),
+  discord_uid: faker.random.number(999999999999999999),
   email: randomEmail(),
   username: faker.internet.userName(),
   nickname: faker.internet.userName(),
@@ -39,7 +37,7 @@ fix.memberFull = () => ({
  * @return {Object} The fixture.
  */
 fix.memberNew = (onboardingState = 'joined') => ({
-  discord_uid: randomDiscordUid(),
+  discord_uid: faker.random.number(999999999999999999),
   username: faker.internet.userName(),
   is_onboarded: false,
   onboarding_state: onboardingState,
