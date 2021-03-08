@@ -57,10 +57,17 @@ entity._formatMessage = (lc) => {
   // serialize localUser if it exists
   if (lc.context.localMember) {
     const lm = lc.context.localMember;
-    message +=
-      `\nuid: ${lm.discord_uid}, <${lm.email}>, Username: ` +
-      `"${lm.username}", Nickname: "${lm.nickname}", Fullname: "${lm.full_name}"` +
-      `, State: ${lm.onboarding_state}`;
+    message += `\nuid: ${lm.discord_uid}, ${lm.username}`;
+    if (lm.email) {
+      message += `, <${lm.email}>`;
+    }
+    if (lm.nickname) {
+      message += `, "${lm.nickname}"`;
+    }
+    if (lm.first_name) {
+      message += `, "${lm.first_name} ${lm.last_name}"`;
+    }
+    message += `, Onboarding State: ${lm.onboarding_state}`;
   }
 
   // check if bio is changing
@@ -68,6 +75,10 @@ entity._formatMessage = (lc) => {
     message +=
       `\nOld Bio:\n\`\`\`${lc.context.custom.old_bio}\`\`\`\n` +
       `New Bio:\n\`\`\`${lc.context.custom.new_bio}\`\`\``;
+  }
+
+  if (lc.context.custom && lc.context.custom.members) {
+    message += ` :: Members: ${lc.context.custom.members}.`;
   }
 
   return message;
