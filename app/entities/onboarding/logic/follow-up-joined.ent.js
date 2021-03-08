@@ -79,7 +79,8 @@ entity._fetchRecords = async () => {
  * @private
  */
 entity._sendFollowUp = async (joinedMembers) => {
-  return asyncMapCap(joinedMembers, async (localMember) => {
+  const membersNotified = [];
+  const promises = asyncMapCap(joinedMembers, async (localMember) => {
     const guildMember = await getGuildMemberLocal(localMember);
     const createData = {
       discord_uid: localMember.discord_uid,
@@ -87,13 +88,19 @@ entity._sendFollowUp = async (joinedMembers) => {
     };
     await create(createData);
     await guildMember.send(followupJoined1());
-    await log.info(
-      `Sent onboarding followup message of type ${entity.FOLLOWUP_TYPE}`,
-      {
-        localMember,
-        relay: true,
-        emoji: ':wave:',
-      },
-    );
+    membersNotified.push(`${localMember.discord_uid}:${localMember.username}`);
   });
+
+  await promises;
+
+  await log.info(
+    `Sent onboarding followup message of type ${entity.FOLLOWUP_TYPE}.`,
+    {
+      custom: {
+        members: membersNotified.join(', '),
+      },
+      relay: true,
+      emoji: ':wave:',
+    },
+  );
 };
