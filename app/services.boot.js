@@ -38,6 +38,8 @@ appServices.boot = async (bootOpts) => {
 
   await discordService.init(bootOpts);
 
+  // TODO Boot cron service when ready.
+
   await entities.init();
 
   await log.notice('Service Boot Finished', {
