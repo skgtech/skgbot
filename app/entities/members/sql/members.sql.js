@@ -171,13 +171,13 @@ sql.getByStateAndNotOnboardingType = async (
   );
   statement.where('onboarding_state', onboardingState);
   statement.where('joined_at', '<', dtFrom);
-  statement.whereNotIn('members.discord_uid', () => {
-    this.select('discord_uid')
-      .from('onboarding_state')
+  statement.whereNotIn('members.discord_uid', function () {
+    this.select('onboard_track.discord_uid')
+      .from('onboard_track')
       .where('followup_type', onboardType);
   });
-  statement.whereNotIn('discord_uid', () => {
-    this.distinct('discord_uid').from('moderation');
+  statement.whereNotIn('members.discord_uid', function () {
+    this.distinct('moderation.discord_uid').from('moderation');
   });
 
   if (tx) {
