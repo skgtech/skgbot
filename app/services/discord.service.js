@@ -51,7 +51,6 @@ commandoService.isConnected = () => {
  */
 commandoService.init = async function (bootOpts) {
   if (bootOpts.testing) {
-    commandoService._client = {};
     return;
   }
   return new Promise((resolve, reject) => {
