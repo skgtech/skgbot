@@ -36,6 +36,16 @@ describe('Follow-up Joined 1', () => {
         { memberType: 'new', joinedAt: dtFrom },
         { memberType: 'new', joinedAt: dtFrom },
         { memberType: 'new', joinedAt: dtFrom },
+        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'first_name' },
+        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'last_name' },
+        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'email' },
+        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'bio' },
+        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'nickname' },
+        {
+          memberType: 'new',
+          joinedAt: dtFrom,
+          onboardingState: 'email_verification',
+        },
         {},
         {},
       ]);

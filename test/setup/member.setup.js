@@ -21,6 +21,7 @@ const setup = (module.exports = {});
  * @param {Object} options Options:
  * @param {string} options.memberType Default is "full" for fully joined,
  *    use "new" for new member that just joined.
+ * @param {string} options.onboardingState Define a custom onboarding state.
  * @param {Date} options.joinedAt Define value for the "joined_at" column.
  * @return {Promise<Object>} The User record.
  */
@@ -35,6 +36,10 @@ setup.create = async (options = {}) => {
 
   if (options.joinedAt) {
     memberData.joined_at = options.joinedAt;
+  }
+
+  if (options.onboardingState) {
+    memberData.onboarding_state = options.onboardingState;
   }
 
   await memberSql.create(memberData);
