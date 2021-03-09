@@ -7,7 +7,7 @@ const logger = require('../../app/services/log.service');
 // Initialize logger early.
 logger.init({
   appName: 'skgbot-test',
-  suppressLogging: true,
+  suppressLogging: false,
 });
 
 const log = logger.get();
@@ -23,9 +23,17 @@ process.on('unhandledRejection', (error) => {
   log.error('TEST :: Unhandled Promise Rejection', { error });
 });
 
-const app = require('../..');
+const commandoService = require('../../app/services/discord.service');
 
 const testLib = (module.exports = {});
+
+// Mock discord client
+testLib.discordOn = jest.fn();
+commandoService._client = {
+  on: testLib.discordOn,
+};
+
+const app = require('../..');
 
 /**
  * Core testing library, must be included by all tests.
@@ -33,7 +41,7 @@ const testLib = (module.exports = {});
  */
 testLib.init = () => {
   beforeAll(async () => {
-    await app.init({ webserver: false });
+    await app.init({ testing: true });
   });
 
   // Cleanly exit

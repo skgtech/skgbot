@@ -143,3 +143,47 @@ sql.getByNickname = async (nickname, tx) => {
   const [result] = await statement;
   return result || null;
 };
+
+/**
+ * Fetch members that are in a specific onboarding state and:
+ *
+ * 1. have no record of the defined onboarding type on the onboard_track table.
+ * 2. Have no record in the moderation table.
+ *
+ * @param {string} onboardingState The onboaring state to query for.
+ * @param {string} onboardType The onboarding type to exclude records by.
+ * @param {Date} dtFrom From what date and before should members be looked up.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Array<Object>>}
+ */
+sql.getByStateAndNotOnboardingType = async (
+  onboardingState,
+  onboardType,
+  dtFrom,
+  tx,
+) => {
+  const statement = sql.getSelect();
+
+  statement.leftJoin(
+    'onboard_track',
+    'members.discord_uid',
+    'onboard_track.discord_uid',
+  );
+  statement.where('onboarding_state', onboardingState);
+  statement.where('joined_at', '<', dtFrom);
+  statement.whereNotIn('members.discord_uid', function () {
+    this.select('onboard_track.discord_uid')
+      .from('onboard_track')
+      .where('followup_type', onboardType);
+  });
+  statement.whereNotIn('members.discord_uid', function () {
+    this.distinct('moderation.discord_uid').from('moderation');
+  });
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};

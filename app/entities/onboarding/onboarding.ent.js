@@ -11,6 +11,7 @@ const messages = require('./messages');
 const globals = require('../../utils/globals');
 const log = require('../../services/log.service').get();
 
+const { run: followUpJoined1 } = require('./logic/follow-up-joined.ent');
 const { handle1 } = require('./logic/onboarding-step1-approve.ent');
 const { handle2 } = require('./logic/onboarding-step2-first-name.ent');
 const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
@@ -33,6 +34,7 @@ onboarding.handle5 = handle5;
 onboarding.handle6 = handle6;
 onboarding.handle7 = handle7;
 onboarding.resendVerification = resendVerification;
+onboarding.followUpJoined1 = followUpJoined1;
 
 /**
  * Initialize Discord event listeners for performing onboarding.

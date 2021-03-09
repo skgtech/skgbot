@@ -29,6 +29,8 @@ entity.enableMember = enableMember;
 entity.isModerator = isModerator;
 entity.getByEmail = memberSql.getByEmail;
 entity.getById = memberSql.getById;
+entity.getByStateAndNotOnboardingType =
+  memberSql.getByStateAndNotOnboardingType;
 entity.resetOnboarding = resetOnboarding;
 entity.showProfile = show;
 entity.update = memberSql.update;

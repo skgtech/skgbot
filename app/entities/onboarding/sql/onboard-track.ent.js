@@ -1,13 +1,13 @@
 /**
- * @fileoverview Moderation related SQL queries. There is no business logic involved
- *   in these operations.
+ * @fileoverview The "onbord_track" table is responsible for tracking onboarding and
+ *    particularly follow up messages and nudges.
  */
 const { db } = require('../../../services/postgres.service');
 
 const sql = (module.exports = {});
 
 /** @type {string} Define the table to work on */
-const TABLE = 'moderation';
+const TABLE = 'onboard_track';
 
 /**
  * Return the SELECT statement to be performed for all queries.
@@ -21,9 +21,7 @@ sql.getSelect = () => {
     .select(
       `${TABLE}.id`,
       `${TABLE}.discord_uid`,
-      `${TABLE}.moderator_discord_uid`,
-      `${TABLE}.category`,
-      `${TABLE}.reason`,
+      `${TABLE}.followup_type`,
       `${TABLE}.created_at`,
       `${TABLE}.updated_at`,
     )
@@ -40,7 +38,7 @@ sql.getSelect = () => {
  * @return {Promise<string>} The id of the created member.
  */
 sql.create = async (input, tx) => {
-  const statement = db().insert(input).into(TABLE).returning('discord_uid');
+  const statement = db().insert(input).into(TABLE).returning('id');
 
   if (tx) {
     statement.transacting(tx);
@@ -51,7 +49,7 @@ sql.create = async (input, tx) => {
 };
 
 /**
- * Fetch a record by member ID (multiple).
+ * Fetch records by member ID (multiple).
  *
  * @param {string} memberId member id to filter with.
  * @param {Object=} tx Transaction.
@@ -71,47 +69,9 @@ sql.getByMemberId = async (memberId, tx) => {
 };
 
 /**
- * Fetch a record by moderator member ID (multiple).
+ * Fetch records by many member IDs (multiple).
  *
- * @param {string} memberId member id to filter with.
- * @param {Object=} tx Transaction.
- * @return {Promise<Object>}
- */
-sql.getByModeratorMemberId = async (memberId, tx) => {
-  const statement = sql.getSelect();
-
-  statement.where(`${TABLE}.moderator_discord_uid`, memberId);
-
-  if (tx) {
-    statement.transacting(tx);
-  }
-
-  const result = await statement;
-  return result;
-};
-
-/**
- * Fetch all records.
- *
- * @param {Object=} tx Transaction.
- * @return {Promise<Object>}
- */
-sql.getAll = async (tx) => {
-  const statement = sql.getSelect();
-
-  if (tx) {
-    statement.transacting(tx);
-  }
-
-  const result = await statement;
-
-  return result;
-};
-
-/**
- * Fetch records by multiple member IDs (multiple).
- *
- * @param {Array<string>} memberIds member ids to filter with.
+ * @param {Array<string>} memberIds member id to filter with.
  * @param {Object=} tx Transaction.
  * @return {Promise<Object>}
  */
@@ -129,24 +89,23 @@ sql.getByMemberIds = async (memberIds, tx) => {
 };
 
 /**
- * Delete a record based on member id and category.
+ * Fetch records by multiple member IDs (multiple).
  *
- * @param {string} memberId Discord member id of banned member.
- * @param {string} category The category to remove the ban from.
+ * @param {string} type onboard record followup type.
+ * @param {Array<string>} memberIds member ids to filter with.
  * @param {Object=} tx Transaction.
- * @return {Promise<Object>} A Promise with the number of deleted records.
+ * @return {Promise<Object>}
  */
-sql.deleteCombined = async (memberId, category, tx) => {
-  const statement = db()
-    .table(TABLE)
-    .where({ discord_uid: memberId, category })
-    .del();
+sql.getByTypeAndMemberIds = async (type, memberIds, tx) => {
+  const statement = sql.getSelect();
+
+  statement.where('followup_type', type);
+  statement.whereIn(`${TABLE}.discord_uid`, memberIds);
 
   if (tx) {
     statement.transacting(tx);
   }
 
   const result = await statement;
-
   return result;
 };

@@ -4,7 +4,6 @@
 
 const config = require('config');
 
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const corsGate = require('cors-gate');
@@ -95,7 +94,6 @@ expressService.init = async function (bootOpts) {
   app.enable('trust proxy');
   app.set('trust proxy', 1);
 
-  app.use(bodyParser.json());
   app.use(cookieParser());
 
   // Apply viewer middleware
@@ -107,7 +105,7 @@ expressService.init = async function (bootOpts) {
   // Express Error Handler
   app.use(expressService._expressError);
 
-  if (bootOpts.webserver) {
+  if (!bootOpts.testing) {
     await webService.start(app);
   }
   log.notice('Express Service done.');

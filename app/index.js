@@ -51,8 +51,8 @@ let appServices;
  * Available options to pass on the first arg:
  *
  * @param {Object=} optOpts init params.
- * @param {boolean} optOpts.webserver Launch webserver, default true.
- * @param {string=} optOpts.appName Set a custom appname for the logger.
+ * @param {boolean=} optOpts.testing When true go into testing mode.
+ * @param {string=} optOpts.appName Custom application name.
  * @param {boolean=} optOpts.suppressLogging Do not log to stdout.
  * @return {Promise} A Promise.
  */
@@ -186,9 +186,9 @@ app._getBootOpts = (optOpts) => {
     webserver: true,
 
     // Suppress logging to console
-    suppressLogging: false,
+    suppressLogging: optOpts.suppressLogging,
 
-    appName: APPLICATION_NAME,
+    appName: optOpts.appName || APPLICATION_NAME,
   });
 
   return bootOpts;

@@ -1,1 +1,1 @@
-module.exports = require('./onboarding.bot');
+module.exports = require('./onboarding.ent');

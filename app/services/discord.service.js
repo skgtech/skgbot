@@ -46,9 +46,13 @@ commandoService.isConnected = () => {
 /**
  * Initialize and connect to the Discord API.
  *
+ * @param {Object} bootOpts A set of app-boot options, docs in app index.
  * @return {Promise<void>} A Promise.
  */
-commandoService.init = function () {
+commandoService.init = async function (bootOpts) {
+  if (bootOpts.testing) {
+    return;
+  }
   return new Promise((resolve, reject) => {
     log.notice('Starting Discord-Commando Service...', {
       custom: {

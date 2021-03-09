@@ -57,6 +57,15 @@ npm run knex:migrate
 
 Use the `jest` command to run all tests or specific ones.
 
+### Reset Test Database
+
+The tests will look for the `NUKE_TEST_DB` environment variable to be set to
+initiate the test database nuking and re-population, use it like so:
+
+```bash
+NUKE_TEST_DB=1 jest
+```
+
 ## Update Node Version
 
 When a new node version is available you need to updated it in the following:
