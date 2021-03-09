@@ -5,7 +5,7 @@
 const subDt = require('date-fns/sub');
 
 const { asyncMapCap } = require('../../../utils/helpers');
-const { create } = require('../sql/onboard-track.ent');
+const { create } = require('../sql/onboard-track.sql');
 const { getByStateAndNotOnboardingType } = require('../../members');
 const { getGuildMemberLocal } = require('../../discord');
 const { followupJoined1 } = require('../messages');
@@ -80,8 +80,15 @@ entity._fetchRecords = async () => {
  */
 entity._sendFollowUp = async (joinedMembers) => {
   const membersNotified = [];
+  const membersMissing = [];
   const promises = asyncMapCap(joinedMembers, async (localMember) => {
     const guildMember = await getGuildMemberLocal(localMember);
+
+    // check if member is in the guild
+    if (!guildMember) {
+      membersMissing.push(`${localMember.discord_uid}:${localMember.username}`);
+      return;
+    }
     const createData = {
       discord_uid: localMember.discord_uid,
       followup_type: entity.FOLLOWUP_TYPE,
@@ -98,6 +105,7 @@ entity._sendFollowUp = async (joinedMembers) => {
     {
       custom: {
         members: membersNotified.join(', '),
+        missingMembers: membersMissing.join(', '),
       },
       relay: true,
       emoji: ':wave:',

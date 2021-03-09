@@ -10,6 +10,7 @@ const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
 const discordService = require('./services/discord.service');
 const entities = require('./entities');
+const discordent = require('./entities/discord');
 
 /**
  * Boots all the services of the application.
@@ -41,6 +42,10 @@ appServices.boot = async (bootOpts) => {
   // TODO Boot cron service when ready.
 
   await entities.init();
+
+  const guildMem = await discordent.getGuildMemberUid('291828960872890369');
+
+  console.log('GUILD MEM:', guildMem);
 
   await log.notice('Service Boot Finished', {
     relay: true,
