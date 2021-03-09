@@ -186,9 +186,9 @@ app._getBootOpts = (optOpts) => {
     webserver: true,
 
     // Suppress logging to console
-    suppressLogging: optOpts.suppressLogging,
+    suppressLogging: userOpts.suppressLogging,
 
-    appName: optOpts.appName || APPLICATION_NAME,
+    appName: userOpts.appName || APPLICATION_NAME,
   });
 
   return bootOpts;
