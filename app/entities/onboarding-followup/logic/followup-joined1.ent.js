@@ -105,7 +105,7 @@ entity._sendFollowUp = async (joinedMembers) => {
     {
       custom: {
         members: membersNotified.join(', '),
-        missingMembers: membersMissing.join(', '),
+        missing_members: membersMissing.join(', '),
       },
       relay: true,
       emoji: ':wave:',
