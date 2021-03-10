@@ -6,7 +6,9 @@ const subDt = require('date-fns/sub');
 
 const testLib = require('../lib/test.lib');
 const { createMulty, deleteMulti } = require('../setup/member.setup');
-const { followUpDaily } = require('../../app/entities/onboarding-followup');
+const {
+  followUpDaily: followUpDailyTask,
+} = require('../../app/entities/onboarding-followup');
 const guildEnt = require('../../app/entities/discord/logic/guild.ent');
 
 describe('FollowUp Daily', () => {
@@ -86,6 +88,8 @@ describe('FollowUp Daily', () => {
           followUpCreatedAt: dtFollowUp7,
         },
         {
+          // This member will have a ban so should not receive
+          // a daily onboarding message.
           memberType: 'new',
           onboardingState: 'email_verification',
           followUpType: 'joined1',
@@ -101,13 +105,34 @@ describe('FollowUp Daily', () => {
     });
     test('Will produce 8 daily follow up actions', async () => {
       // execute the daily follow task.
-      await followUpDaily();
+      await followUpDailyTask();
       expect(sendMock.mock.calls.length).toBe(8);
     });
     test('Will remove (kick) 2 members', async () => {
       // execute the daily follow task.
-      await followUpDaily();
+      await followUpDailyTask();
       expect(kickMock.mock.calls.length).toBe(2);
+    });
+    test('Will produce expected messages to members', async () => {
+      // execute the follow-up-1 task.
+      await followUpDailyTask();
+
+      const { calls } = sendMock.mock;
+
+      const allCallMessages = [
+        calls[0][0],
+        calls[1][0],
+        calls[2][0],
+        calls[3][0],
+        calls[4][0],
+        calls[5][0],
+        calls[6][0],
+        calls[7][0],
+      ];
+
+      // tough to replicate this case, just log the messages
+      // and manually inspect =)
+      console.log(allCallMessages);
     });
   });
 });
