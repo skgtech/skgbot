@@ -81,8 +81,14 @@ entity._formatMessage = (lc) => {
     message += `\nMembers: ${lc.context.custom.members}.`;
   }
 
-  if (lc.context.custom && lc.context.custom.missing_members) {
-    message += `\nMembers no longer in the guild: ${lc.context.custom.missing_members}.`;
+  if (lc.context.custom && lc.context.custom.members_missing) {
+    message += `\nMembers no longer in the guild: ${lc.context.custom.members_missing}.`;
+  }
+
+  if (lc.context.custom && lc.context.custom.members_removed) {
+    message +=
+      `\nMembers onboarding expired and kicked:` +
+      ` ${lc.context.custom.members_removed}.`;
   }
 
   return message;
