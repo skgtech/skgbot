@@ -90,7 +90,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
       return;
     }
 
-    const expDays = entity._getExpirationDays;
+    const expDays = entity._getExpirationDays(localMemberExt);
     const { daysDiff, maxDays } = expDays;
     const message = entity._getProperMessage(localMemberExt, expDays);
 
