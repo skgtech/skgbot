@@ -187,3 +187,38 @@ sql.getByStateAndNotOnboardingType = async (
   const result = await statement;
   return result;
 };
+
+/**
+ * Fetch members that are onboarding and:
+ *
+ * 1. Have the "joined1" follow_up type on the onboard_track table.
+ * 2. Have no record in the moderation table.
+ *
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Array<Object>>}
+ */
+sql.getStaleOnboardingUsers = async (tx) => {
+  const statement = sql.getSelect();
+  statement.select(
+    'onboard_track.followup_type',
+    'onboard_track.created_at AS created_at_onboard',
+  );
+
+  statement.leftJoin(
+    'onboard_track',
+    'members.discord_uid',
+    'onboard_track.discord_uid',
+  );
+  statement.whereNot('onboarding_state', 'member');
+  statement.where('onboard_track.followup_type', 'joined1');
+  statement.whereNotIn('members.discord_uid', function () {
+    this.distinct('moderation.discord_uid').from('moderation');
+  });
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};

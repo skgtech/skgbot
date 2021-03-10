@@ -11,7 +11,7 @@ const guildEnt = require('../../app/entities/discord/logic/guild.ent');
 const { followupJoined1 } = require('../../app/entities/onboarding/messages');
 const {
   getByMemberIds,
-} = require('../../app/entities/onboarding/sql/onboard-track.ent');
+} = require('../../app/entities/onboarding-followup/sql/onboard-track.sql');
 
 describe('Follow-up Joined 1', () => {
   testLib.init();
@@ -27,7 +27,7 @@ describe('Follow-up Joined 1', () => {
         }),
       );
 
-      // create 3 new members and 2 full members.
+      // create members.
       const nowDt = new Date();
       const dtFrom = subDt(nowDt, {
         minutes: 10,

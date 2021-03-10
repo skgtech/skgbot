@@ -11,18 +11,23 @@ const {
 } = require('../../app/entities/moderation/sql/moderation.sql');
 const {
   getByMemberIds: getOnboardByMemberIds,
-} = require('../../app/entities/onboarding/sql/onboard-track.ent');
+  create: createOnboardTrack,
+} = require('../../app/entities/onboarding-followup/sql/onboard-track.sql');
 
 const setup = (module.exports = {});
 
 /**
  * Create a member record.
  *
- * @param {Object} options Options:
- * @param {string} options.memberType Default is "full" for fully joined,
+ * @param {Object=} options Options:
+ * @param {string=} options.memberType Default is "full" for fully joined,
  *    use "new" for new member that just joined.
- * @param {string} options.onboardingState Define a custom onboarding state.
- * @param {Date} options.joinedAt Define value for the "joined_at" column.
+ * @param {string=} options.onboardingState Define a custom onboarding state.
+ * @param {Date=} options.joinedAt Define value for the "joined_at" column.
+ * @param {string=} options.followUpType Creates an "onboard_track" record with
+ *    the defined followup_type.
+ * @param {Date=} options.followUpCreatedAt Define a custom value on the
+ *    onboarding-track table, requires that options.followUpType is defined.
  * @return {Promise<Object>} The User record.
  */
 setup.create = async (options = {}) => {
@@ -44,9 +49,11 @@ setup.create = async (options = {}) => {
 
   await memberSql.create(memberData);
 
-  const memberRecord = memberSql.getById(memberData.discord_uid);
+  const localMember = await memberSql.getById(memberData.discord_uid);
 
-  return memberRecord;
+  await setup._createSecondaryRecords(options, localMember);
+
+  return localMember;
 };
 
 /**
@@ -63,6 +70,28 @@ setup.createMulty = async (options = [{}]) => {
   );
 
   return allMembers;
+};
+
+/**
+ * Create secondary records (in other tables than "members") as defined in options.
+ *
+ * @param {Object} options See "setup.create()".
+ * @param {Member} localMember The created local member.
+ * @return {Promise}
+ * @private
+ */
+setup._createSecondaryRecords = async (options, localMember) => {
+  if (options.followUpType) {
+    const followUpData = {
+      discord_uid: localMember.discord_uid,
+      followup_type: options.followUpType,
+    };
+    if (options.followUpCreatedAt) {
+      followUpData.created_at = options.followUpCreatedAt;
+    }
+
+    await createOnboardTrack(followUpData);
+  }
 };
 
 /**

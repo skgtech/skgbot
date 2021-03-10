@@ -33,6 +33,7 @@ entity.getByStateAndNotOnboardingType =
   memberSql.getByStateAndNotOnboardingType;
 entity.resetOnboarding = resetOnboarding;
 entity.showProfile = show;
+entity.getStaleOnboardingUsers = memberSql.getStaleOnboardingUsers;
 entity.update = memberSql.update;
 entity.validateBio = validateBio;
 entity.verifyMember = verifyMember;
