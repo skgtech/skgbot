@@ -14,52 +14,88 @@ describe('FollowUp Daily', () => {
 
   describe('Happy Path', () => {
     let sendMock;
+    let kickMock;
     let allMembers;
     beforeEach(async () => {
       sendMock = jest.fn(() => Promise.resolve());
+      kickMock = jest.fn(() => Promise.resolve());
       guildEnt.getGuildMemberUid = jest.fn(() =>
         Promise.resolve({
           send: sendMock,
+          kick: kickMock,
         }),
       );
 
       // create 3 new members and 2 full members.
       const nowDt = new Date();
-      const dtFrom = subDt(nowDt, {
-        minutes: 10,
-      });
+      const dtFollowUp1 = subDt(nowDt, { days: 1 });
+      const dtFollowUp2 = subDt(nowDt, { days: 2 });
+      const dtFollowUp3 = subDt(nowDt, { days: 3 });
+      const dtFollowUp4 = subDt(nowDt, { days: 4 });
+      const dtFollowUp7 = subDt(nowDt, { days: 7 });
+      const dtFollowUp8 = subDt(nowDt, { days: 8 });
 
       const followUpDt = new Date('01/20/2021');
       const followUpDtIso = followUpDt.toISOString();
       allMembers = await createMulty([
         {
+          // This user's onboarding time has expired, so they should be kicked
           memberType: 'new',
-          joinedAt: dtFrom,
           followUpType: 'joined1',
           followUpCreatedAt: followUpDtIso,
         },
-        { memberType: 'new', joinedAt: dtFrom },
-        { memberType: 'new', joinedAt: dtFrom },
-        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'first_name' },
-        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'last_name' },
-        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'email' },
-        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'bio' },
-        { memberType: 'new', joinedAt: dtFrom, onboardingState: 'nickname' },
         {
           memberType: 'new',
-          joinedAt: dtFrom,
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp1,
+        },
+        {
+          memberType: 'new',
+          onboardingState: 'first_name',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp2,
+        },
+        {
+          memberType: 'new',
+          onboardingState: 'last_name',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp3,
+        },
+        {
+          memberType: 'new',
+          onboardingState: 'email',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp4,
+        },
+        {
+          memberType: 'new',
+          onboardingState: 'bio',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp7,
+        },
+        {
+          memberType: 'new',
+          onboardingState: 'nickname',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp8,
+        },
+        {
+          memberType: 'new',
           onboardingState: 'email_verification',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp7,
         },
         {},
         {},
       ]);
     });
     afterEach(async () => {
-      // await deleteMulti(allMembers);
+      await deleteMulti(allMembers);
     });
-    test('Will produce daily follow up actions', async () => {
+    test('Will produce 8 daily follow up actions', async () => {
       // execute the daily follow task.
       await followUpDaily();
+      expect(sendMock.mock.calls.length).toBe(8);
     });
   });
 });
