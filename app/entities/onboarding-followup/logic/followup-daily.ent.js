@@ -97,7 +97,9 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     await guildMember.send(message);
 
     if (daysDiff >= maxDays) {
-      membersRemoved.push(localMemberExt);
+      membersRemoved.push(
+        `${localMemberExt.discord_uid}:${localMemberExt.username}`,
+      );
       try {
         await guildMember.kick('Exceeded maximum onboarding time');
       } catch (ex) {
