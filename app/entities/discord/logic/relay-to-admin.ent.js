@@ -40,7 +40,21 @@ entity.loggerToAdmin = async (logContext) => {
   const client = getClient();
 
   const channel = await client.channels.fetch(config.discord.admin_channel_id);
-  await channel.send(message);
+
+  // discord allows up to 2000 chars
+  try {
+    if (message.length > 1999) {
+      const part1 = message.substring(0, 1800);
+      const part2 = message.substring(1800);
+      await channel.send(part1);
+      await channel.send(part2);
+    } else {
+      await channel.send(message);
+    }
+  } catch (ex) {
+    // eslint-disable-next-line no-console
+    console.error('Error relaying message to admin channel', { error: ex });
+  }
 
   delete logContext.emoji;
 };
