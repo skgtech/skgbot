@@ -8,7 +8,7 @@ const { asyncMapCap } = require('../../../utils/helpers');
 const { create } = require('../sql/onboard-track.sql');
 const { getByStateAndNotOnboardingType } = require('../../members');
 const { getGuildMemberLocal } = require('../../discord');
-const { followupJoined1 } = require('../messages');
+const { followUpJoined1 } = require('../messages');
 
 const log = require('../../../services/log.service').get();
 
@@ -94,7 +94,7 @@ entity._sendFollowUp = async (joinedMembers) => {
       followup_type: entity.FOLLOWUP_TYPE,
     };
     await create(createData);
-    await guildMember.send(followupJoined1(localMember.username));
+    await guildMember.send(followUpJoined1(localMember.username));
     membersNotified.push(`${localMember.discord_uid}:${localMember.username}`);
   });
 
