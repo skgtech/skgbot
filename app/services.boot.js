@@ -43,10 +43,6 @@ appServices.boot = async (bootOpts) => {
 
   await entities.init();
 
-  const guildMem = await discordent.getGuildMemberUid('291828960872890369');
-
-  console.log('GUILD MEM:', guildMem);
-
   await log.notice('Service Boot Finished', {
     relay: true,
     emoji: ':information_source:',

@@ -14,6 +14,10 @@ const {
   create: createOnboardTrack,
 } = require('../../app/entities/onboarding-followup/sql/onboard-track.sql');
 
+const {
+  create: createModeration,
+} = require('../../app/entities/moderation/sql/moderation.sql');
+
 const setup = (module.exports = {});
 
 /**
@@ -91,6 +95,18 @@ setup._createSecondaryRecords = async (options, localMember) => {
     }
 
     await createOnboardTrack(followUpData);
+  }
+
+  if (options.moderationCategory) {
+    const modUid = process.env.DISCORD_COMMANDO_UID;
+    const modData = {
+      discord_uid: localMember.discord_uid,
+      category: options.moderationCategory,
+      moderator_discord_uid: modUid,
+      reason: '',
+    };
+
+    await createModeration(modData);
   }
 };
 

@@ -85,6 +85,13 @@ describe('FollowUp Daily', () => {
           followUpType: 'joined1',
           followUpCreatedAt: dtFollowUp7,
         },
+        {
+          memberType: 'new',
+          onboardingState: 'email_verification',
+          followUpType: 'joined1',
+          followUpCreatedAt: dtFollowUp7,
+          moderationCategory: '*',
+        },
         {},
         {},
       ]);
@@ -96,6 +103,11 @@ describe('FollowUp Daily', () => {
       // execute the daily follow task.
       await followUpDaily();
       expect(sendMock.mock.calls.length).toBe(8);
+    });
+    test('Will remove (kick) 2 members', async () => {
+      // execute the daily follow task.
+      await followUpDaily();
+      expect(kickMock.mock.calls.length).toBe(2);
     });
   });
 });
