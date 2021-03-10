@@ -49,13 +49,31 @@ messages.helpOnboarding = () => `Available commands for onboarding:
 * \`!reset\` ::  Reset the onboarding process and start over.
 * \`!resend\` :: Resend the verification email.`;
 
-messages.helpOnboarding = () => `Available commands for onboarding:
-
-* \`!help\` :: This help screen.
-* \`!reset\` :: Restart the onboarding process.
-* \`!resend\` :: Resend the verification email.`;
 messages.error = () =>
   'Unknown command, type `!help` for a list of available commands.';
 messages.cannotFindYou = (username) =>
   `Hey ${username}, I don't seem to have,` +
   ' a record of you, have you joined the SKGTech discord server?';
+
+messages.helpOnboardingState1 = () =>
+  `\n\nYour onboarding state is "Just Joined"\nYou are expected to type` +
+  ' `yes` to get the onboarding process started.';
+messages.helpOnboardingState2 = () =>
+  `\n\nYour onboarding state is "First Name"\nYou are expected to type` +
+  ' your **First Name** to continue the onboarding process.';
+messages.helpOnboardingState3 = () =>
+  `\n\nYour onboarding state is "Last Name"\nYou are expected to type` +
+  ' your **Last Name** to continue the onboarding process.';
+messages.helpOnboardingState4 = () =>
+  `\n\nYour onboarding state is "Email Input"\nYou are expected to type` +
+  ' your **Email** to continue the onboarding process.';
+messages.helpOnboardingState5 = () =>
+  `\n\nYour onboarding state is "Bio"\nYou are expected to type` +
+  ' your **Bio** to continue the onboarding process.';
+messages.helpOnboardingState6 = () =>
+  `\n\nYour onboarding state is "Nickname"\nYou are expected to type` +
+  ' your **Desired Nickname** to continue the onboarding process.';
+messages.helpOnboardingState7 = () =>
+  `\n\nYour onboarding state is "Email Verification"\nYou should check your` +
+  ' email and either paste me the token from that email, or just click on' +
+  ' the provided link.';

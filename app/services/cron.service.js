@@ -4,11 +4,17 @@
 
 const cron = require('node-cron');
 
-const { followUpJoined } = require('../entities/onboarding');
+const {
+  followUpJoined1,
+  followUpDaily,
+} = require('../entities/onboarding-followup');
 
 const service = (module.exports = {});
 
 service.init = () => {
-  // run every 10 minutes.
-  cron.schedule('*/10 * * * *', followUpJoined);
+  // Run every 10 minutes.
+  cron.schedule('*/10 * * * *', followUpJoined1);
+
+  // Run at 10am each day.
+  cron.schedule('0 10 * * *', followUpDaily);
 };

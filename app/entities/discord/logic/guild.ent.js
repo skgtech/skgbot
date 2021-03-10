@@ -32,14 +32,19 @@ entity.getGuildMemberLocal = async (localMember) => {
  * Gets the guildmember instance from a discord member id.
  *
  * @param {DiscordMemberId} discordMemberId Discord member id.
- * @return {Promise<DiscordGuildMember>} Returns the guildmember instance.
+ * @return {Promise<DiscordGuildMember|null>} Returns the guildmember instance
+ *    or null if member does not exist in the guild.
  */
 entity.getGuildMemberUid = async (discordMemberId) => {
-  const guildMember = await getClient()
-    .guilds.cache.get(config.discord.guild_id)
-    .members.fetch(discordMemberId);
+  try {
+    const guildMember = await getClient()
+      .guilds.cache.get(config.discord.guild_id)
+      .members.fetch(discordMemberId);
 
-  return guildMember;
+    return guildMember;
+  } catch (ex) {
+    return null;
+  }
 };
 
 /**

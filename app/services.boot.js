@@ -10,6 +10,7 @@ const expressService = require('./services/web/express.service');
 const migrationService = require('./services/migration.service');
 const discordService = require('./services/discord.service');
 const entities = require('./entities');
+const cronService = require('./services/cron.service');
 
 /**
  * Boots all the services of the application.
@@ -38,7 +39,9 @@ appServices.boot = async (bootOpts) => {
 
   await discordService.init(bootOpts);
 
-  // TODO Boot cron service when ready.
+  if (!bootOpts.testing) {
+    cronService.init();
+  }
 
   await entities.init();
 

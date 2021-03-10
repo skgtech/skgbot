@@ -2,7 +2,7 @@
  * @fileoverview Create initial data for starting the service.
  */
 
-// const { v4: uuid } = require('uuid');
+require('dotenv').config();
 
 const seed = (module.exports = {});
 
@@ -15,7 +15,7 @@ const seed = (module.exports = {});
 seed.seed = async (knex) => {
   const members = [
     {
-      discord_uid: '291828960872890368',
+      discord_uid: process.env.DISCORD_COMMANDO_UID,
       email: 'thanpolas@gmail.com',
       username: 'thanpolas',
       nickname: 'thanpolas',

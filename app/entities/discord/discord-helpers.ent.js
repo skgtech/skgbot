@@ -13,6 +13,7 @@ const {
   getGuild,
   getGuildMember,
   getGuildMemberLocal,
+  getGuildMemberUid,
 } = require('./logic/guild.ent');
 const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 const { setNickname } = require('./logic/change-nickname.ent');
@@ -27,5 +28,6 @@ entity.removeAllRoles = removeAllRoles;
 entity.getGuild = getGuild;
 entity.getGuildMember = getGuildMember;
 entity.getGuildMemberLocal = getGuildMemberLocal;
+entity.getGuildMemberUid = getGuildMemberUid;
 entity.getRole = getRole;
 entity.setNickname = setNickname;
