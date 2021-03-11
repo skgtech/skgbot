@@ -41,8 +41,8 @@ appServices.boot = async (bootOpts) => {
   await discordService.init(bootOpts);
 
   // Launch task manager (cron) only on production.
-  if (!globals.isProd) {
-    cronService.init();
+  if (globals.isProd) {
+    await cronService.init();
   }
 
   await entities.init();
