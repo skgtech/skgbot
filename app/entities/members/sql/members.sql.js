@@ -204,13 +204,14 @@ sql.getStaleOnboardingUsers = async (tx) => {
     'onboard_track.created_at AS created_at_onboard',
   );
 
-  statement.leftJoin(
-    'onboard_track',
-    'members.discord_uid',
-    'onboard_track.discord_uid',
-  );
+  statement.leftJoin('onboard_track', function () {
+    this.on('onboard_track.discord_uid', '=', 'members.discord_uid').andOn(
+      'onboard_track.followup_type',
+      '=',
+      db().raw('?', ['joined1']),
+    );
+  });
   statement.whereNot('onboarding_state', 'member');
-  statement.where('onboard_track.followup_type', 'joined1');
   statement.whereNotIn('members.discord_uid', function () {
     this.distinct('moderation.discord_uid').from('moderation');
   });
