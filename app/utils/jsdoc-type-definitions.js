@@ -65,6 +65,13 @@
  */
 
 /**
+ * Discord.js Guild Channel instance.
+ *
+ * @typedef {(Object)} DiscordGuildChannel
+ * @see https://discord.js.org/#/docs/main/stable/class/GuildChannel
+ */
+
+/**
  * Discord.js Message instance.
  *
  * @typedef {(Object)} DiscordMessage
