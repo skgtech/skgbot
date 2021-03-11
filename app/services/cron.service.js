@@ -14,6 +14,11 @@ const {
 
 const service = (module.exports = {});
 
+// node-cron instance holders
+service._taskFollowUpJoined1 = null;
+service._taskCheckMissing = null;
+service._taskFollowUpDaily = null;
+
 /**
  * Intialize the task manager (Cron) service.
  *
@@ -38,6 +43,6 @@ service.init = async () => {
  */
 service.dispose = async () => {
   service._taskFollowUpJoined1.destroy();
-  service.service._taskCheckMissing.destroy();
+  service._taskCheckMissing.destroy();
   service._taskFollowUpDaily.destroy();
 };

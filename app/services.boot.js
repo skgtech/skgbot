@@ -62,5 +62,7 @@ appServices.dispose = async () => {
   await postgresService.dispose();
   await expressService.dispose();
   await discordService.dispose();
-  await cronService.dispose();
+  if (globals.isProd) {
+    await cronService.dispose();
+  }
 };
