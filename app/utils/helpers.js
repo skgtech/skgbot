@@ -30,3 +30,22 @@ helpers.delay = (seconds) => {
     setTimeout(resolve, seconds * 1000);
   });
 };
+
+/**
+ * Will split a string based on its length using numChars or the default value
+ * of 1800 which is intented for spliting long discord messages (limit at 2000).
+ *
+ * @param {string} str The string to split.
+ * @param {number=} [numChars=1800] Number of characters to split the string into.
+ * @return {Array<string>} An array of strings, split based on the numChars.
+ */
+helpers.splitString = (str, numChars = 1800) => {
+  const ret = [];
+  let offset = 0;
+  while (offset < str.length) {
+    ret.push(str.substring(offset, numChars + offset));
+    offset += numChars;
+  }
+
+  return ret;
+};

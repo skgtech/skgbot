@@ -7,7 +7,7 @@ const differenceInCalendarDays = require('date-fns/differenceInCalendarDays');
 
 const { asyncMapCap } = require('../../../utils/helpers');
 const { getStaleOnboardingUsers } = require('../../members');
-const { getGuildMemberLocal, getOnboardingMembers } = require('../../discord');
+const { getGuildMemberLocal } = require('../../discord');
 const {
   followUpDailyJoined,
   followUpDaily,

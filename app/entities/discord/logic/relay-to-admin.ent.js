@@ -3,10 +3,12 @@
  *   messages to the admin channel.
  */
 
+const BPromise = require('bluebird');
 const config = require('config');
 
 const { getClient, isConnected } = require('../../../services/discord.service');
 const globals = require('../../../utils/globals');
+const { splitString } = require('../../../utils/helpers');
 
 const entity = (module.exports = {});
 
@@ -43,14 +45,10 @@ entity.loggerToAdmin = async (logContext) => {
 
   // discord allows up to 2000 chars
   try {
-    if (message.length > 1999) {
-      const part1 = message.substring(0, 1800);
-      const part2 = message.substring(1800);
-      await channel.send(part1);
-      await channel.send(part2);
-    } else {
-      await channel.send(message);
-    }
+    const splitMessage = splitString(message);
+    await BPromise.mapSeries(splitMessage, (msg) => {
+      return channel.send(msg);
+    });
   } catch (ex) {
     // eslint-disable-next-line no-console
     console.error('Error relaying message to admin channel', { error: ex });
