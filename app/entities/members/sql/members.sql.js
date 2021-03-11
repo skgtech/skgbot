@@ -105,6 +105,28 @@ sql.getById = async (memberId, tx) => {
 };
 
 /**
+ * Specially optimized query to check if a set of members exist.
+ * Expects an array of discord_uids and returns the found member records
+ * containing only their discord_uids.
+ *
+ * @param {Array<string>} memberIds member ids to filter with.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<Array<Object>>} A Promise with the results.
+ */
+sql.getExists = async (memberIds, tx) => {
+  const statement = db().select('members.discord_uid').from(TABLE);
+
+  statement.whereIn('members.discord_uid', memberIds);
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
  * Fetch a member by email (single).
  *
  * @param {string} email email to filter with.
