@@ -1,16 +1,14 @@
 /**
- * @fileoverview Onboarding of Discord users.
+ * @fileoverview Onboarding of new Discord members.
  */
 
 const config = require('config');
 
-const { delay } = require('../../utils/helpers');
 const discordService = require('../../services/discord.service');
-const membersEnt = require('../members/members.ent');
-const messages = require('./messages');
 const globals = require('../../utils/globals');
 const log = require('../../services/log.service').get();
 
+const { guildMemberAdd } = require('./logic/add-new-guild-member.ent');
 const { handle1 } = require('./logic/onboarding-step1-approve.ent');
 const { handle2 } = require('./logic/onboarding-step2-first-name.ent');
 const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
@@ -22,68 +20,40 @@ const {
   resendVerification,
 } = require('./logic/onboarding-step7-verification.ent');
 
-const onboarding = (module.exports = {});
+const entity = (module.exports = {});
 
 // export the steps and methods
-onboarding.handle1 = handle1;
-onboarding.handle2 = handle2;
-onboarding.handle3 = handle3;
-onboarding.handle4 = handle4;
-onboarding.handle5 = handle5;
-onboarding.handle6 = handle6;
-onboarding.handle7 = handle7;
-onboarding.resendVerification = resendVerification;
+entity.handle1 = handle1;
+entity.handle2 = handle2;
+entity.handle3 = handle3;
+entity.handle4 = handle4;
+entity.handle5 = handle5;
+entity.handle6 = handle6;
+entity.handle7 = handle7;
+entity.resendVerification = resendVerification;
+entity.guildMemberAdd = guildMemberAdd;
 
 /**
  * Initialize Discord event listeners for performing onboarding.
  *
  */
-onboarding.init = () => {
-  log.info('Initializing onboarding entity...');
+entity.init = () => {
+  log.info('Initializing onboaring entity...');
   const client = discordService.getClient();
 
   // Create an event listener for new guild members
-  client.on('guildMemberAdd', onboarding._onGuildMemberAdd);
+  client.on('guildMemberAdd', entity._onGuildMemberAdd);
 };
 
 /**
- * Reset the onboarding process for this member.
- *
- * @param {DiscordGuildMember} guildMember The guild Member.
- * @return {Promise<Member>}
- */
-onboarding.resetOnboarding = async (guildMember) => {
-  const localMember = await membersEnt.resetOnboarding(guildMember);
-
-  return localMember;
-};
-
-/**
- * Manually register for non-registered members.
- *
- * @param {DiscordMessage} message The guild Member.
- * @param {Member} localMember Local member record.
- * @return {Promise<void>} A Promise.
- */
-onboarding.startOnboarding = async (message, localMember) => {
-  if (localMember.onboarding_state === 'member') {
-    await message.channel.send(messages.alreadyRegistered());
-    return;
-  }
-
-  // Send the message, starting the onboarding process.
-  await message.channel.send(messages.welcome(message.member));
-};
-
-/**
- * Handles new member being added to the server, initiates onboarding
+ * Handles new member being added to the server, initiates entity
  * sequence.
  *
  * @param {DiscordGuildMember} guildMember The guild member.
  * @return {Promise<void>}
  * @private
  */
-onboarding._onGuildMemberAdd = async (guildMember) => {
+entity._onGuildMemberAdd = async (guildMember) => {
   // Do not onboard members when on local development
   if (
     globals.isLocal &&
@@ -100,36 +70,5 @@ onboarding._onGuildMemberAdd = async (guildMember) => {
     return;
   }
 
-  // check if member already registered
-  let localMember = await membersEnt.getById(guildMember.id);
-  if (localMember) {
-    log.info('_onGuildMemberAdd() :: Member already exists', { localMember });
-    localMember = await onboarding.resetOnboarding(guildMember);
-  } else {
-    log.info('_onGuildMemberAdd() :: Member does not exist, creating...');
-    localMember = await membersEnt.createMember(guildMember);
-  }
-
-  await onboarding.sendFirstOnboardingDM(guildMember, localMember);
-};
-
-/**
- * Send the initial onboarding private message to the member.
- *
- * @param {DiscordGuildMember} guildMember The guild Member.
- * @param {Member} localMember Local member record.
- * @return {Promise<void>}
- */
-onboarding.sendFirstOnboardingDM = async (guildMember, localMember) => {
-  await log.info('New member joined the guild!', {
-    localMember,
-    relay: true,
-    emoji: ':egg:',
-  });
-  const dmChannel = await guildMember.createDM();
-
-  // Send the message, starting the onboarding process.
-  await dmChannel.send(messages.welcome1(guildMember));
-  await delay(6);
-  await dmChannel.send(messages.welcome2(guildMember));
+  await guildMemberAdd(guildMember);
 };
