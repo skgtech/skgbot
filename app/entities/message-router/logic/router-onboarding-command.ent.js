@@ -5,9 +5,9 @@
 const messages = require('../messages');
 const {
   resendVerification,
-  resetOnboarding,
   sendFirstOnboardingDM,
 } = require('../../onboarding');
+const { resetOnboarding } = require('../../members');
 const { getGuildMember } = require('../../discord');
 
 const router = (module.exports = {});
