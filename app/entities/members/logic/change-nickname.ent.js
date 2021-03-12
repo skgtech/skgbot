@@ -39,7 +39,11 @@ entity.changeNickname = async (message, localMember, nickname) => {
   }
 
   try {
-    await memberSql.update(localMember.discord_uid, { nickname });
+    const nicknameLower = nickname.toLocaleLowerCase();
+    await memberSql.update(localMember.discord_uid, {
+      nickname,
+      nickname_lowercase: nicknameLower,
+    });
   } catch (ex) {
     await log.error('Error while changing nickname for member', {
       localMember,
