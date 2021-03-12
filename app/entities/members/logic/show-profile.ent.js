@@ -3,7 +3,12 @@
  */
 
 const memberSql = require('../sql/members.sql');
-const { cannotFindMember, showProfile } = require('../messages');
+const {
+  cannotFindMember,
+  showProfile,
+  showProfileAdmin,
+} = require('../messages');
+const { isModerator } = require('./is-moderator.ent');
 const log = require('../../../services/log.service').get();
 
 const memberProfile = (module.exports = {});
@@ -30,4 +35,9 @@ memberProfile.show = async (message, localMember, nickname) => {
   }
 
   message.channel.send(showProfile(profile));
+
+  const isMod = await isModerator(message);
+  if (isMod) {
+    message.channel.send(showProfileAdmin(profile));
+  }
 };

@@ -13,6 +13,14 @@ messages.showProfile = (member) => `Nickname: ${member.nickname}
 Full Name: ${member.first_name} ${member.last_name}
 Bio: ${member.bio}`;
 
+messages.showProfileAdmin = (member) => `**Moderator Extra Profile View**
+Email: ${member.email}
+Joined At: ${member.joined_at}
+Is Onboarded: ${member.is_onboarded}
+Onboardet At: ${member.onboarded_at}
+Onboarding State: ${member.onboarding_state}
+`;
+
 messages.nicknameChanged = (nickname) => `Your nickname is now ${nickname}!`;
 
 messages.nicknameChangeFail = () =>
