@@ -86,6 +86,9 @@ entity._onboardMissingMembers = async (missingGuildMembers) => {
   );
 
   return asyncMapCap(missingGuildMembers, (guildMember) => {
-    return guildMemberAdd(guildMember);
+    // GuildMembers is a map, so the "guildMember" in this context
+    // is a tuple containg the ID and the object, so use [1] to extract
+    // the object of the guildmember.
+    return guildMemberAdd(guildMember[1]);
   });
 };
