@@ -43,8 +43,12 @@ step.handle6 = async (message, localMember) => {
     const verification_code_expires_at = addDt(nowDt, {
       days: config.onboarding.verification_expires_days,
     });
+
+    const lowerNickname = msg.toLowerCase();
+
     await update(localMember.discord_uid, {
       nickname: msg,
+      nickname_lowercase: lowerNickname,
       onboarding_state: 'email_verification',
       verification_code,
       verification_code_expires_at,

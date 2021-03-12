@@ -15,7 +15,7 @@ const log = require('../../../services/log.service').get();
 const entity = (module.exports = {});
 
 /**
- * Show a member's profile from the data store.
+ * Change a member's nickname.
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
@@ -39,7 +39,7 @@ entity.changeNickname = async (message, localMember, nickname) => {
   }
 
   try {
-    const nicknameLower = nickname.toLocaleLowerCase();
+    const nicknameLower = nickname.toLowerCase();
     await memberSql.update(localMember.discord_uid, {
       nickname,
       nickname_lowercase: nicknameLower,
