@@ -14,6 +14,9 @@ const {
   getGuildMember,
   getGuildMemberLocal,
   getGuildMemberUid,
+  getOnboardingMembers,
+  getGuildChannel,
+  getGuildMembers,
 } = require('./logic/guild.ent');
 const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 const { setNickname } = require('./logic/change-nickname.ent');
@@ -31,3 +34,6 @@ entity.getGuildMemberLocal = getGuildMemberLocal;
 entity.getGuildMemberUid = getGuildMemberUid;
 entity.getRole = getRole;
 entity.setNickname = setNickname;
+entity.getGuildChannel = getGuildChannel;
+entity.getOnboardingMembers = getOnboardingMembers;
+entity.getGuildMembers = getGuildMembers;

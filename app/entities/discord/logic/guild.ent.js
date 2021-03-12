@@ -57,3 +57,46 @@ entity.getGuild = async () => {
 
   return guild;
 };
+
+/**
+ * Fetches the Guild Channel instance based on the provided channel id.
+ *
+ * @param {string} channelId The channel id to be fetched.
+ * @return {Promise<DiscordGuildChannel>}
+ */
+entity.getGuildChannel = async (channelId) => {
+  const guild = await entity.getGuild();
+  const guildChannel = guild.channels.cache.get(channelId);
+
+  return guildChannel;
+};
+
+/**
+ * Fetches and returns all members of the guild.
+ *
+ * @return {Promise<Array<GuildMember>>} Promise with all the members.
+ */
+entity.getGuildMembers = async () => {
+  const guild = await entity.getGuild();
+  const members = await guild.members.fetch();
+  return members;
+};
+
+/**
+ * Fetches all the onboarding members. To filter for that, we check the members'
+ * roles to only be '@everyone' without any other role.
+ *
+ * @return {Promise<Array<GuildMember>>} A Promise with the guild members.
+ */
+entity.getOnboardingMembers = async () => {
+  const members = await entity.getGuildMembers();
+  const onboardingMembers = members.filter((member) => {
+    // If member has only one role, it can only be the '@everyone' role, so
+    // no need to check for the role name.
+    if (member.roles.cache.size === 1) {
+      return true;
+    }
+    return false;
+  });
+  return onboardingMembers;
+};

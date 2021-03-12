@@ -28,6 +28,7 @@ const setup = (module.exports = {});
  *    use "new" for new member that just joined.
  * @param {string=} options.onboardingState Define a custom onboarding state.
  * @param {Date=} options.joinedAt Define value for the "joined_at" column.
+ * @param {Date=} options.createdAt Define value for the "created_at" column.
  * @param {string=} options.followUpType Creates an "onboard_track" record with
  *    the defined followup_type.
  * @param {Date=} options.followUpCreatedAt Define a custom value on the
@@ -45,6 +46,10 @@ setup.create = async (options = {}) => {
 
   if (options.joinedAt) {
     memberData.joined_at = options.joinedAt;
+  }
+
+  if (options.createdAt) {
+    memberData.created_at = options.createdAt;
   }
 
   if (options.onboardingState) {

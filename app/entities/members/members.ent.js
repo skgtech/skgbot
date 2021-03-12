@@ -31,6 +31,7 @@ entity.getByEmail = memberSql.getByEmail;
 entity.getById = memberSql.getById;
 entity.getByStateAndNotOnboardingType =
   memberSql.getByStateAndNotOnboardingType;
+entity.getExists = memberSql.getExists;
 entity.resetOnboarding = resetOnboarding;
 entity.showProfile = show;
 entity.getStaleOnboardingUsers = memberSql.getStaleOnboardingUsers;

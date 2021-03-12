@@ -30,39 +30,35 @@ const entity = (module.exports = {});
  */
 entity.run = async () => {
   try {
-    const joinedMembers = await entity._fetchRecords();
+    const onboardingMembers = await entity._fetchOboardingMembers();
 
-    if (joinedMembers.length === 0) {
+    if (onboardingMembers.length === 0) {
       return;
     }
 
-    await entity._sendDailyFollowUp(joinedMembers);
+    await entity._sendDailyFollowUp(onboardingMembers);
   } catch (ex) {
     log.error('followUpDaily run() Error', { error: ex });
   }
 };
 
 /**
- * Fetches and filters all needed records for the task.
+ * Fetches and filters all onboarding member records for the task.
  *
  * @return {Promise<Array<Object>>} An array of member records that have not
  *  gone through the followup_type of this module and also do not have
  *  a record in the moderation table.
  * @private
  */
-entity._fetchRecords = async () => {
+entity._fetchOboardingMembers = async () => {
   const joinedMembers = await getStaleOnboardingUsers();
+  // const onboardingMembers = await getOnboardingMembers();
 
   // Filter out members that have been follow'ed up already with the
   // "joined1" first followup, within the same day.
-  const nowDt = new Date();
-  const nowDayOfMonth = nowDt.getDate();
-
   const filterJoined = joinedMembers.filter((localMemberExt) => {
-    const followUpDt = new Date(localMemberExt.created_at_onboard);
-    const dayOfMonth = followUpDt.getDate();
-
-    return dayOfMonth !== nowDayOfMonth;
+    const { daysDiff } = entity._getExpirationDays(localMemberExt);
+    return daysDiff !== 0;
   });
 
   return filterJoined;
@@ -79,6 +75,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
   const membersNotified = [];
   const membersMissing = [];
   const membersRemoved = [];
+
   const promises = asyncMapCap(joinedMembers, async (localMemberExt) => {
     const guildMember = await getGuildMemberLocal(localMemberExt);
 
@@ -192,7 +189,13 @@ entity._getProperMessage = (localMemberExt, expDays) => {
  */
 entity._getExpirationDays = (localMemberExt) => {
   const nowDt = new Date();
-  const followUpDt = new Date(localMemberExt.created_at_onboard);
+
+  let followUpDt;
+  if (!localMemberExt.created_at_onboard) {
+    followUpDt = new Date(localMemberExt.created_at);
+  } else {
+    followUpDt = new Date(localMemberExt.created_at_onboard);
+  }
 
   const daysDiff = differenceInCalendarDays(nowDt, followUpDt);
   const maxDays = config.onboarding.max_onboarding_days;

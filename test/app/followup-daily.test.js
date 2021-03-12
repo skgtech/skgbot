@@ -54,14 +54,12 @@ describe('FollowUp Daily', () => {
         {
           memberType: 'new',
           onboardingState: 'first_name',
-          followUpType: 'joined1',
-          followUpCreatedAt: dtFollowUp2,
+          createdAt: dtFollowUp2,
         },
         {
           memberType: 'new',
           onboardingState: 'last_name',
-          followUpType: 'joined1',
-          followUpCreatedAt: dtFollowUp3,
+          createdAt: dtFollowUp3,
         },
         {
           memberType: 'new',
