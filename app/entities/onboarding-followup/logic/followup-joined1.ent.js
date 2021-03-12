@@ -84,16 +84,18 @@ entity._sendFollowUp = async (joinedMembers) => {
   const promises = asyncMapCap(joinedMembers, async (localMember) => {
     const guildMember = await getGuildMemberLocal(localMember);
 
-    // check if member is in the guild
-    if (!guildMember) {
-      membersMissing.push(`${localMember.discord_uid}:${localMember.username}`);
-      return;
-    }
     const createData = {
       discord_uid: localMember.discord_uid,
       followup_type: entity.FOLLOWUP_TYPE,
     };
     await create(createData);
+
+    // check if member is in the guild
+    if (!guildMember) {
+      membersMissing.push(`${localMember.discord_uid}:${localMember.username}`);
+      return;
+    }
+
     await guildMember.send(followUpJoined1(localMember.username));
     membersNotified.push(`${localMember.discord_uid}:${localMember.username}`);
   });
