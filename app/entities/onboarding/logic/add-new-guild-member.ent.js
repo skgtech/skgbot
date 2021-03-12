@@ -26,8 +26,20 @@ entity.guildMemberAdd = async (guildMember) => {
     return;
   }
 
-  // check if member already registered
-  let localMember = await getById(guildMember.id);
+  let localMember = null;
+  try {
+    // check if member already registered
+    localMember = await getById(guildMember.id);
+  } catch (ex) {
+    log.error('guildMemberAdd() Failed to query for member.', {
+      custom: {
+        guildMember,
+        id: guildMember.id,
+      },
+      error: ex,
+    });
+    throw ex;
+  }
   if (localMember) {
     log.info('_onGuildMemberAdd() :: Member already exists', { localMember });
     localMember = await resetOnboarding(guildMember);
