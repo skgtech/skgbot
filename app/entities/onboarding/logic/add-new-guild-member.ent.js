@@ -29,12 +29,11 @@ entity.guildMemberAdd = async (guildMember) => {
   let localMember = null;
   try {
     // check if member already registered
-    localMember = await getById(guildMember.id);
+    localMember = await getById(guildMember.userId);
   } catch (ex) {
     log.error('guildMemberAdd() Failed to query for member.', {
       custom: {
         guildMember,
-        id: guildMember.id,
       },
       error: ex,
     });
