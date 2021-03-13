@@ -2,7 +2,9 @@
  * @fileoverview Member fixtures.
  */
 
+const addDt = require('date-fns/add');
 const faker = require('faker');
+const { v4: uuid } = require('uuid');
 
 const fix = (module.exports = {});
 
@@ -15,20 +17,30 @@ function randomEmail() {
  *
  * @return {Object} The fixture.
  */
-fix.memberFull = () => ({
-  discord_uid: faker.random.number(999999999999999999),
-  email: randomEmail(),
-  username: faker.internet.userName(),
-  nickname: faker.internet.userName(),
-  first_name: faker.name.firstName(),
-  last_name: faker.name.lastName(),
-  bio: faker.commerce.productDescription(),
-  twitter: `https://twitter.com/${faker.internet.userName()}`,
-  linkedin: `https://linkedin.com/in/${faker.internet.userName()}`,
-  is_onboarded: true,
-  onboarded_at: new Date(),
-  onboarding_state: 'member',
-});
+fix.memberFull = () => {
+  const dUid = faker.random.number(999999999999999999);
+  const verificationToken = `${dUid}_${uuid()}`;
+  const nowDt = new Date();
+
+  return {
+    discord_uid: dUid,
+    email: randomEmail(),
+    username: faker.internet.userName(),
+    nickname: faker.internet.userName(),
+    first_name: faker.name.firstName(),
+    last_name: faker.name.lastName(),
+    bio: faker.commerce.productDescription(),
+    twitter: `https://twitter.com/${faker.internet.userName()}`,
+    linkedin: `https://linkedin.com/in/${faker.internet.userName()}`,
+    is_onboarded: true,
+    onboarded_at: nowDt,
+    onboarding_state: 'member',
+    verification_code: verificationToken,
+    verification_code_expires_at: addDt(nowDt, {
+      days: 10,
+    }),
+  };
+};
 
 /**
  * A member that just joined with optionally a custom onboarding state.
@@ -36,9 +48,19 @@ fix.memberFull = () => ({
  * @param {string} [onboardingState=joined] Define onboarding state if needed.
  * @return {Object} The fixture.
  */
-fix.memberNew = (onboardingState = 'joined') => ({
-  discord_uid: faker.random.number(999999999999999999),
-  username: faker.internet.userName(),
-  is_onboarded: false,
-  onboarding_state: onboardingState,
-});
+fix.memberNew = (onboardingState = 'joined') => {
+  const dUid = faker.random.number(999999999999999999);
+  const verificationToken = `${dUid}_${uuid()}`;
+  const nowDt = new Date();
+
+  return {
+    discord_uid: dUid,
+    username: faker.internet.userName(),
+    is_onboarded: false,
+    onboarding_state: onboardingState,
+    verification_code: verificationToken,
+    verification_code_expires_at: addDt(nowDt, {
+      days: 10,
+    }),
+  };
+};

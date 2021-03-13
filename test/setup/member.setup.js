@@ -27,6 +27,7 @@ const setup = (module.exports = {});
  * @param {string=} options.memberType Default is "full" for fully joined,
  *    use "new" for new member that just joined.
  * @param {string=} options.onboardingState Define a custom onboarding state.
+ * @param {boolean=} options.isOnboarded Wether member is onboarded (default true).
  * @param {Date=} options.joinedAt Define value for the "joined_at" column.
  * @param {Date=} options.createdAt Define value for the "created_at" column.
  * @param {string=} options.followUpType Creates an "onboard_track" record with
@@ -54,6 +55,10 @@ setup.create = async (options = {}) => {
 
   if (options.onboardingState) {
     memberData.onboarding_state = options.onboardingState;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(options, 'isOnboarded')) {
+    memberData.is_onboarded = options.isOnboarded;
   }
 
   await memberSql.create(memberData);

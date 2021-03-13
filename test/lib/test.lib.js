@@ -2,6 +2,7 @@
  * @fileoverview Core testing library, must be included by all tests.
  */
 
+const faker = require('faker');
 const logger = require('../../app/services/log.service');
 
 // Initialize logger early.
@@ -31,6 +32,9 @@ const testLib = (module.exports = {});
 testLib.discordOn = jest.fn();
 commandoService._client = {
   on: testLib.discordOn,
+  user: {
+    id: faker.random.number(999999999999999999),
+  },
 };
 
 const app = require('../..');
