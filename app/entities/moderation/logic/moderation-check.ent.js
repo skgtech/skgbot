@@ -4,6 +4,8 @@
 
 const { getByMemberId } = require('../sql/moderation.sql');
 
+const log = require('../../../services/log.service').get();
+
 const entity = (module.exports = {});
 
 /**
@@ -50,5 +52,12 @@ entity.canOnboard = async (localMember) => {
   if (banRecords.length === 0) {
     return true;
   }
+
+  log.info('Blocked user from joining due to active ban', {
+    localMember,
+    relay: true,
+    emoji: ':raised_hand:',
+  });
+
   return false;
 };

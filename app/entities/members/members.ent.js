@@ -11,10 +11,6 @@ const { isModerator } = require('./logic/is-moderator.ent');
 const memberSql = require('./sql/members.sql');
 const { resetOnboarding } = require('./logic/reset-onboarding.ent');
 const { show } = require('./logic/show-profile.ent');
-const {
-  verifyMember,
-  verifyMemberToken,
-} = require('./logic/verify-member-web.ent.js');
 
 const entity = (module.exports = {});
 
@@ -37,5 +33,3 @@ entity.showProfile = show;
 entity.getStaleOnboardingUsers = memberSql.getStaleOnboardingUsers;
 entity.update = memberSql.update;
 entity.validateBio = validateBio;
-entity.verifyMember = verifyMember;
-entity.verifyMemberToken = verifyMemberToken;

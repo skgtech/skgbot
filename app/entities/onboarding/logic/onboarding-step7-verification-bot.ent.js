@@ -16,17 +16,14 @@ const {
   step7ResendVerification,
   step7ErrorWrongState,
 } = require('../messages');
-const {
-  update,
-  verifyMemberToken,
-  enableMember,
-} = require('../../members/members.ent');
+const { update } = require('../../members/members.ent');
+const { verifyMemberToken } = require('./verification.ent');
 const log = require('../../../services/log.service').get();
 
 const step = (module.exports = {});
 
 /**
- * Step 7, email verification.
+ * Step 7, email verification, member pastes the verification token.
  *
  * @param {DiscordMessage} message The incoming message.
  * @param {Member} localMember The fetched local member.
@@ -41,16 +38,14 @@ step.handle7 = async (message, localMember) => {
     return;
   }
 
-  // Everything checks out, allow the member in.
-  const hasJoined = await step._enableMember(message, localMember);
-  if (!hasJoined) {
-    log.info('Blocked user from joining due to active ban', {
-      localMember,
-      relay: true,
-      emoji: ':raised_hand:',
-    });
+  const memberCanOnboard = await canOnboard(localMember);
+  if (!memberCanOnboard) {
+    await message.channel.send(cannotOnboard());
     return;
   }
+
+  // Everything checks out, allow the member in.
+  await enableMember(message, localMember);
 
   await log.info('User verified via bot, joins server', {
     localMember,
@@ -58,41 +53,6 @@ step.handle7 = async (message, localMember) => {
     emoji: ':ballot_box_with_check: :robot:',
   });
   await message.channel.send(step7Success());
-};
-
-/**
- * Will resend the verification email, if needed it will reset the token
- * and update the expiration date.
- *
- * @param {DiscordMessage} message The incoming message.
- * @param {Member} localMember The local member record.
- * @return {Promise<void>} A Promise.
- */
-step.resendVerification = async (message, localMember) => {
-  if (localMember.onboarding_state !== 'email_verification') {
-    await message.channel.send(step7ErrorWrongState());
-    return;
-  }
-
-  await log.info('Resend Verification requested.', {
-    localMember,
-    relay: true,
-    emoji: ':envelope_with_arrow: :arrows_counterclockwise:',
-  });
-
-  const nowDt = new Date();
-  const expireDt = new Date(localMember.verification_code_expires_at);
-
-  let verificationCode = localMember.verification_code;
-  if (nowDt > expireDt) {
-    // Verification Expired, issue a new one.
-    verificationCode = await step._resetVerification(localMember);
-  }
-
-  await message.channel.send(step7ResendVerification(localMember.email));
-
-  // Prepare and dispatch the verification email
-  await step6.sendVerificationEmail(localMember, verificationCode);
 };
 
 /**
@@ -126,11 +86,6 @@ step._resetVerification = async (localMember) => {
  * @private
  */
 step._enableMember = async (message, localMember) => {
-  const memberCanOnboard = await canOnboard(localMember);
-  if (!memberCanOnboard) {
-    await message.channel.send(cannotOnboard());
-    return false;
-  }
   const guildMember = await getGuildMember(message);
   await applyRoles(guildMember);
 
