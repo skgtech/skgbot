@@ -62,7 +62,6 @@ describe('Verification Web', () => {
       expect(res.statusCode).toEqual(200);
 
       const { calls } = sendMock.mock;
-      console.log(calls);
       expect(calls.length).toBe(1);
       expect(calls[0][0]).toEqual(step7Success());
     });
