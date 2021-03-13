@@ -5,7 +5,7 @@
 const { validate: uuidValidate } = require('uuid');
 
 const { canOnboard } = require('../../moderation');
-const { getGuildMemberLocal, applyRoles } = require('../../discord');
+const discordHelper = require('../../discord');
 const { getById } = require('../sql/members.sql');
 const { enableMember } = require('./enable-member.ent');
 const { render } = require('../templates/verify-member.tpl');
@@ -96,7 +96,7 @@ entity._verifyMember = async (token) => {
     return entity._alreadyVerifiedPage();
   }
 
-  const guildMember = await getGuildMemberLocal(localMember);
+  const guildMember = await discordHelper.getGuildMemberLocal(localMember);
 
   const memberCanOnboard = await canOnboard(localMember);
   if (!memberCanOnboard) {
@@ -117,7 +117,7 @@ entity._verifyMember = async (token) => {
   });
 
   await guildMember.send(step7Success());
-  await applyRoles(guildMember);
+  await discordHelper.applyRoles(guildMember);
   await enableMember(localMember);
   const response = render(
     'You are now Verified!',
