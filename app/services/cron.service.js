@@ -27,7 +27,7 @@ service._taskFollowUpDaily = null;
 service.init = async () => {
   await log.info('Initializing CRON Service...');
   // Run every 10 minutes. Check just joined members and followup.
-  service._taskFollowUpJoined1 = cron.schedule('*/10 * * * *', followUpJoined1);
+  service._taskFollowUpJoined1 = cron.schedule('*/2 * * * *', followUpJoined1);
 
   // Run every 10 minutes. Check for joined members that the bot missed and add them.
   service._taskCheckMissing = cron.schedule('*/10 * * * *', checkMissing);
