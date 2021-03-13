@@ -8,7 +8,7 @@ const { v4: uuid } = require('uuid');
 
 const { canOnboard } = require('../../moderation');
 const step6 = require('./onboarding-step6-nickname.ent');
-const { getGuildMember, applyRoles } = require('../../discord');
+const discordHelpers = require('../../discord');
 const {
   cannotOnboard,
   step7Error,
@@ -52,6 +52,7 @@ step.handle7 = async (message, localMember) => {
     relay: true,
     emoji: ':ballot_box_with_check: :robot:',
   });
+
   await message.channel.send(step7Success());
 };
 
@@ -86,8 +87,13 @@ step._resetVerification = async (localMember) => {
  * @private
  */
 step._enableMember = async (message, localMember) => {
-  const guildMember = await getGuildMember(message);
-  await applyRoles(guildMember);
+  const memberCanOnboard = await canOnboard(localMember);
+  if (!memberCanOnboard) {
+    await message.channel.send(cannotOnboard());
+    return false;
+  }
+  const guildMember = await discordHelpers.getGuildMember(message);
+  await discordHelpers.applyRoles(guildMember);
 
   await enableMember(localMember);
 
