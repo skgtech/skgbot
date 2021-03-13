@@ -1,5 +1,5 @@
 /**
- * @fileoverview Test the bot verification step.
+ * @fileoverview Test the bot verification step via the bot.
  */
 
 const subDt = require('date-fns/sub');
