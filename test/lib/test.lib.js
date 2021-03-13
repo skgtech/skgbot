@@ -2,7 +2,10 @@
  * @fileoverview Core testing library, must be included by all tests.
  */
 
+const config = require('config');
 const faker = require('faker');
+const request = require('supertest');
+
 const logger = require('../../app/services/log.service');
 
 // Initialize logger early.
@@ -52,4 +55,24 @@ testLib.init = () => {
   afterAll(async () => {
     await app.dispose();
   });
+};
+
+/**
+ * Returns the express instance reference.
+ *
+ * @param {Object=} optCookie Set a cookie to propagate, this should be the
+ *    output of the testLib.cookieParse() method.
+ * @return {Object}
+ */
+testLib.getAgent = (optCookie) => {
+  const express = require('../../app/services/web/express.service');
+  const agent = request.agent(express.app);
+
+  agent.set('Accept', 'application/json');
+  agent.set('Origin', config.webserver.backend_base_url);
+  if (optCookie) {
+    agent.set('Cookie', [`${optCookie.name}=${optCookie.value}`]);
+  }
+
+  return agent;
 };
