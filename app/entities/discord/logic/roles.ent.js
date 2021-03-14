@@ -15,7 +15,7 @@ const entity = (module.exports = {});
  * @param {DiscordGuildMember} guildMember The member to apply the roles on.
  * @return {Promise<void>} A Promise.
  */
-entity.applyRoles = async (guildMember) => {
+entity.applyRolesToNewMember = async (guildMember) => {
   const guild = await getGuild();
   const allPromises = [];
   config.discord.roles_for_new_member.forEach((roleName) => {

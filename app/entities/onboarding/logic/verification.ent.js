@@ -2,17 +2,26 @@
  * @fileoverview Business logic responsible for member verification.
  */
 
-const { validate: uuidValidate } = require('uuid');
+const { validate: uuidValidate, v4: uuid } = require('uuid');
 
 const { canOnboard } = require('../../moderation');
-const { getGuildMemberLocal, applyRoles } = require('../../discord');
-const { getById } = require('../sql/members.sql');
-const { enableMember } = require('./enable-member.ent');
-const { render } = require('../templates/verify-member.tpl');
-const { step7Success, cannotOnboard } = require('../../onboarding/messages');
+const { db } = require('../../../services/postgres.service');
+const discordHelpers = require('../../discord');
+const { update: updateMember } = require('../../members');
 const log = require('../../../services/log.service').get();
 
 const entity = (module.exports = {});
+
+/**
+ * Business logic on how to create a verification token.
+ *
+ * @param {Member} localMember The local member to issue a new verification
+ *    token for.
+ * @return {string}
+ */
+entity.getVerificationToken = (localMember) => {
+  return `${localMember.discord_uid}_${uuid()}`;
+};
 
 /**
  * Validates the given token against the provided local member.
@@ -54,36 +63,33 @@ entity.verifyMemberToken = async (localMember, token) => {
 };
 
 /**
- * Will resend the verification email, if needed it will reset the token
- * and update the expiration date.
+ * Checks if the onboarding member can join the discord server.
  *
- * @param {DiscordMessage} message The incoming message.
+ * @param {Member} localMember The local member that wants to onboard.
+ * @return {Promise<boolean>} A Promise with the determination.
+ */
+entity.canOnboard = async (localMember) => {
+  return canOnboard(localMember);
+};
+
+/**
+ * The final step of onboarding, enabling the member to join the discord server.
+ *
+ * This function will update the member's record and add the necessary roles.
+ *
+ * @param {DiscordGuildMember} guildMember The incoming message.
  * @param {Member} localMember The local member record.
  * @return {Promise<void>} A Promise.
+ * @private
  */
-entity.resendVerification = async (message, localMember) => {
-  if (localMember.onboarding_state !== 'email_verification') {
-    await message.channel.send(step7ErrorWrongState());
-    return;
-  }
+entity.enableMember = async (guildMember, localMember) => {
+  await discordHelpers.applyRolesToNewMember(guildMember);
 
-  await log.info('Resend Verification requested.', {
-    localMember,
-    relay: true,
-    emoji: ':envelope_with_arrow: :arrows_counterclockwise:',
-  });
-
-  const nowDt = new Date();
-  const expireDt = new Date(localMember.verification_code_expires_at);
-
-  let verificationCode = localMember.verification_code;
-  if (nowDt > expireDt) {
-    // Verification Expired, issue a new one.
-    verificationCode = await step._resetVerification(localMember);
-  }
-
-  await message.channel.send(step7ResendVerification(localMember.email));
-
-  // Prepare and dispatch the verification email
-  await step6.sendVerificationEmail(localMember, verificationCode);
+  // Update DB record for this member.
+  const updateData = {
+    onboarding_state: 'member',
+    is_onboarded: true,
+    onboarded_at: db().fn.now(),
+  };
+  await updateMember(localMember.discord_uid, updateData);
 };
