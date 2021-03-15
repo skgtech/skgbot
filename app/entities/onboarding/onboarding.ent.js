@@ -16,6 +16,9 @@ const { handle4 } = require('./logic/onboarding-step4-email.ent');
 const { handle5 } = require('./logic/onboarding-step5-bio.ent');
 const { handle6 } = require('./logic/onboarding-step6-nickname.ent');
 const { handle7 } = require('./logic/onboarding-step7-verification-bot.ent');
+const {
+  verifyMemberWeb,
+} = require('./logic/onboarding-step7-verification-web.ent');
 const { resendVerification } = require('./logic/resend-verification.ent');
 
 const entity = (module.exports = {});
@@ -28,6 +31,7 @@ entity.handle4 = handle4;
 entity.handle5 = handle5;
 entity.handle6 = handle6;
 entity.handle7 = handle7;
+entity.verifyMemberWeb = verifyMemberWeb;
 entity.resendVerification = resendVerification;
 entity.guildMemberAdd = guildMemberAdd;
 

@@ -23,7 +23,7 @@ const entity = (module.exports = {});
  * @param {function} next Error handler.
  * @return {Promise} A Promise.
  */
-entity.verifyMember = async (req, res, next) => {
+entity.verifyMemberWeb = async (req, res, next) => {
   try {
     const response = await entity._verifyMember(req.params.token);
     res.send(response);
