@@ -4,7 +4,6 @@
 
 const addDt = require('date-fns/add');
 const config = require('config');
-const { v4: uuid } = require('uuid');
 
 const emailService = require('../../../services/email.service');
 const {
@@ -14,6 +13,7 @@ const {
   onboardingSubject,
   onboardingEmail,
 } = require('../messages');
+const { getVerificationToken } = require('./verification.ent');
 const { setNickname } = require('../../discord');
 const { update } = require('../../members/members.ent');
 const { validateNickname } = require('../../../utils/validators');
@@ -38,7 +38,7 @@ step.handle6 = async (message, localMember) => {
   }
   try {
     // Update the database with the new state and verfication code
-    const verification_code = `${localMember.discord_uid}_${uuid()}`;
+    const verification_code = getVerificationToken(localMember);
     const nowDt = new Date();
     const verification_code_expires_at = addDt(nowDt, {
       days: config.onboarding.verification_expires_days,

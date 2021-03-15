@@ -27,7 +27,7 @@ describe('Verification Web', () => {
           send: sendMock,
         }),
       );
-      discordHelpers.applyRoles = jest.fn(() => Promise.resolve());
+      discordHelpers.applyRolesToNewMember = jest.fn(() => Promise.resolve());
 
       // create members.
       const nowDt = new Date();

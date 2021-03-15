@@ -18,7 +18,7 @@ const entity = (module.exports = {});
  * @const {number} MIN_MINUTES_TO_FOLLOW_UP How many minutes must have passed
  *   before a followup message is sent.
  */
-entity.MIN_MINUTES_TO_FOLLOW_UP = 5;
+entity.MIN_MINUTES_TO_FOLLOW_UP = 1;
 
 /**
  * @const {string} FOLLOWUP_TYPE The distinct followup type for this operation.

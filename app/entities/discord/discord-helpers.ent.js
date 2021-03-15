@@ -3,7 +3,7 @@
  */
 
 const {
-  applyRoles,
+  applyRolesToNewMember,
   getRole,
   addRole,
   removeRole,
@@ -24,7 +24,7 @@ const { setNickname } = require('./logic/change-nickname.ent');
 const entity = (module.exports = {});
 
 entity.addRole = addRole;
-entity.applyRoles = applyRoles;
+entity.applyRolesToNewMember = applyRolesToNewMember;
 entity.loggerToAdmin = loggerToAdmin;
 entity.removeRole = removeRole;
 entity.removeAllRoles = removeAllRoles;

@@ -3,7 +3,7 @@
  */
 
 const { health } = require('../../entities/health-check/health-check.ctrl');
-const { verifyMember } = require('../../entities/members');
+const { verifyMemberWeb } = require('../../entities/onboarding');
 
 const router = (module.exports = {});
 
@@ -14,5 +14,5 @@ const router = (module.exports = {});
  */
 router.setup = (app) => {
   app.get('/health', health);
-  app.get('/verify/:token', verifyMember);
+  app.get('/verify/:token', verifyMemberWeb);
 };

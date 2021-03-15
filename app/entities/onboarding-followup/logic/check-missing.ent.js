@@ -81,6 +81,8 @@ entity._onboardMissingMembers = async (missingGuildMembers) => {
     {
       custom: {
         members_missing: missingMembers.join(', '),
+        missingGuildMembers,
+        missingGuildMembers_length: missingGuildMembers.length,
       },
     },
   );
