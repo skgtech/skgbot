@@ -2,7 +2,6 @@
  * @fileoverview Business logic responsible for member verification.
  */
 
-const config = require('config');
 const { validate: uuidValidate, v4: uuid } = require('uuid');
 
 const { canOnboard } = require('../../moderation');
@@ -10,7 +9,6 @@ const { db } = require('../../../services/postgres.service');
 const discordEnt = require('../../discord');
 const { update: updateMember } = require('../../members');
 const log = require('../../../services/log.service').get();
-const { getClient } = require('../../../services/discord.service');
 const { getRandomInt } = require('../../../utils/helpers');
 const { welcome: welcomeMessages } = require('../messages');
 
@@ -120,11 +118,7 @@ entity.enableMember = async (guildMember, localMember) => {
  * @private
  */
 entity._sendWelcomeMessageToMainChannel = async (localMember) => {
-  const discordClient = getClient();
-
-  const mainChannel = discordClient.channels.cache.get(
-    config.discord.main_channel_id,
-  );
+  const mainChannel = discordEnt.getMainChannel();
 
   const messages = welcomeMessages(localMember.discord_uid);
 
