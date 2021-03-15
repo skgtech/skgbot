@@ -61,8 +61,11 @@
         "roles_for_new_member": [
             "Member",
             "Product",
+            "Investor",
             "Hobbies",
-            "Engineer"
+            "Engineer",
+            "Politics",
+            "Sports"
         ]
     }
 }
