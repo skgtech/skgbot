@@ -26,6 +26,7 @@ All targets require the following environment variables:
 -   `DISCORD_COMMANDO_UID` Your user id, so you can invoke discord commands.
 -   `DISCORD_ADMIN_CHANNEL_ID` Channel ID to relay messages to.
 -   `DISCORD_MODERATOR_ROLE_ID` The role id of the moderator role.
+-   `DISCORD_MEMBER_ROLE_ID` The id of the main ("member") role.
 -   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
 
 This project also supports a [`.env` file][dotenv] which is on `.gitignore`

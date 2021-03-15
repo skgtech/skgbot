@@ -13,6 +13,7 @@
         "moderator_role_id": "DISCORD_MODERATOR_ROLE_ID",
         "token": "DISCORD_BOT_TOKEN",
         "admin_channel_id": "DISCORD_ADMIN_CHANNEL_ID",
+        "member_role_id": "DISCORD_MEMBER_ROLE_ID",
         "commando": {
             "owner_uid": "DISCORD_COMMANDO_UID"
         }
