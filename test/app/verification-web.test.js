@@ -22,11 +22,11 @@ describe('Verification Web', () => {
     let sendMock;
     beforeEach(async () => {
       sendMock = jest.fn(() => Promise.resolve());
-      discordHelpers.getGuildMemberLocal = jest.fn(() =>
+      const guildMock = () =>
         Promise.resolve({
           send: sendMock,
-        }),
-      );
+        });
+      discordHelpers.getGuildMemberLocal = jest.fn(guildMock);
       discordHelpers.applyRolesToNewMember = jest.fn(() => Promise.resolve());
 
       // create members.

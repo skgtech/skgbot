@@ -69,6 +69,18 @@ entity.verifyMemberToken = async (localMember, token) => {
  * @return {Promise<boolean>} A Promise with the determination.
  */
 entity.canOnboard = async (localMember) => {
+  // Check if member is in the guild
+  const guildMember = await discordHelpers.getGuildMemberLocal(localMember);
+
+  if (!guildMember) {
+    return false;
+  }
+
+  // Check if already onboarded
+  if (localMember.is_onboarded) {
+    return false;
+  }
+
   return canOnboard(localMember);
 };
 

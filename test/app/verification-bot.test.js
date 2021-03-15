@@ -6,7 +6,7 @@ const subDt = require('date-fns/sub');
 
 const testLib = require('../lib/test.lib');
 
-const discordHelpers = require('../../app/entities/discord');
+const discordEnt = require('../../app/entities/discord');
 const {
   create: createMember,
   delete: deleteMember,
@@ -20,11 +20,11 @@ describe('Verification Bot', () => {
   testLib.init();
 
   describe('Happy Path', () => {
-    discordHelpers.getGuildMember = jest.fn(() => Promise.resolve());
-    discordHelpers.applyRolesToNewMember = jest.fn(() => Promise.resolve());
-
     let memberFix;
     beforeEach(async () => {
+      discordEnt.getGuildMemberLocal = jest.fn(() => Promise.resolve({}));
+      discordEnt.applyRolesToNewMember = jest.fn(() => Promise.resolve());
+
       // create members.
       const nowDt = new Date();
       const dtFrom = subDt(nowDt, {
