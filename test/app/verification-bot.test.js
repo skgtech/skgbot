@@ -21,7 +21,7 @@ describe('Verification Bot', () => {
 
   describe('Happy Path', () => {
     discordHelpers.getGuildMember = jest.fn(() => Promise.resolve());
-    discordHelpers.applyRoles = jest.fn(() => Promise.resolve());
+    discordHelpers.applyRolesToNewMember = jest.fn(() => Promise.resolve());
 
     let memberFix;
     beforeEach(async () => {
