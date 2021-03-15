@@ -2,13 +2,17 @@
  * @fileoverview Business logic responsible for member verification.
  */
 
+const config = require('config');
 const { validate: uuidValidate, v4: uuid } = require('uuid');
 
 const { canOnboard } = require('../../moderation');
 const { db } = require('../../../services/postgres.service');
-const discordHelpers = require('../../discord');
+const discordEnt = require('../../discord');
 const { update: updateMember } = require('../../members');
 const log = require('../../../services/log.service').get();
+const { getClient } = require('../../../services/discord.service');
+const { getRandomInt } = require('../../../utils/helpers');
+const { welcome: welcomeMessages } = require('../messages');
 
 const entity = (module.exports = {});
 
@@ -70,7 +74,7 @@ entity.verifyMemberToken = async (localMember, token) => {
  */
 entity.canOnboard = async (localMember) => {
   // Check if member is in the guild
-  const guildMember = await discordHelpers.getGuildMemberLocal(localMember);
+  const guildMember = await discordEnt.getGuildMemberLocal(localMember);
 
   if (!guildMember) {
     return false;
@@ -95,7 +99,7 @@ entity.canOnboard = async (localMember) => {
  * @private
  */
 entity.enableMember = async (guildMember, localMember) => {
-  await discordHelpers.applyRolesToNewMember(guildMember);
+  await discordEnt.applyRolesToNewMember(guildMember);
 
   // Update DB record for this member.
   const updateData = {
@@ -104,4 +108,26 @@ entity.enableMember = async (guildMember, localMember) => {
     onboarded_at: db().fn.now(),
   };
   await updateMember(localMember.discord_uid, updateData);
+
+  await entity._sendWelcomeMessageToMainChannel(localMember);
+};
+
+/**
+ * Write a welcome message for the joining member.
+ *
+ * @param {Member} localMember The local member to be welcomed.
+ * @return {Promise<void>}
+ * @private
+ */
+entity._sendWelcomeMessageToMainChannel = async (localMember) => {
+  const discordClient = getClient();
+
+  const mainChannel = discordClient.channels.cache.get(
+    config.discord.main_channel_id,
+  );
+
+  const messages = welcomeMessages(localMember.discord_uid);
+
+  const randomIndex = getRandomInt(messages.length);
+  await mainChannel.send(messages[randomIndex]);
 };
