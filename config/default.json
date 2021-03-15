@@ -38,6 +38,7 @@
         },
         "admin_channel_id": "DO NOT SET - USE ENV VAR: DISCORD_ADMIN_CHANNEL_ID",
         "member_role_id": "DO NOT SET - USE ENV VAR: DISCORD_MEMBER_ROLE_ID",
+        "main_channel_id": "DO NOT SET - USE ENV VAR: DISCORD_MAIN_CHANNEL_ID",
         "roles_all_available": [
             "Member",
             "Product",

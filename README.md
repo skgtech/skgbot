@@ -27,6 +27,8 @@ All targets require the following environment variables:
 -   `DISCORD_ADMIN_CHANNEL_ID` Channel ID to relay messages to.
 -   `DISCORD_MODERATOR_ROLE_ID` The role id of the moderator role.
 -   `DISCORD_MEMBER_ROLE_ID` The id of the main ("member") role.
+-   `DISCORD_MAIN_CHANNEL_ID` The id of the main chatter channel, for welcome
+        messages.
 -   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
 
 This project also supports a [`.env` file][dotenv] which is on `.gitignore`
