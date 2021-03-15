@@ -152,3 +152,49 @@ messages.followupJoined1 = (username) =>
   `Hey ${username}, you need to type \`yes\` to get started with the` +
   ` onboarding process and join ${serverName}'s channels.\n\nIf you are confused` +
   ` just message a Moderator or type \`!help\`.`;
+
+/**
+ * Onboarding Welcome messages
+ * via https://discordia.me/en/new-member-messages
+ * slightly edited / curated.
+ */
+
+messages.welcome = (discordUid) => [
+  `<@${discordUid}> just joined the server!`,
+  `<@${discordUid}> just joined. Everyone, look busy!`,
+  `<@${discordUid}> just joined. are you full stack?`,
+  `<@${discordUid}> joined your party.`,
+  `<@${discordUid}> joined. Ask them if they know PHP.`,
+  `<@${discordUid}> joined. Say hi everyone!`,
+  `Welcome, <@${discordUid}>. Stay awhile and listen.`,
+  `Welcome, <@${discordUid}>. We were expecting you ( ͡° ͜ʖ ͡°)`,
+  `Welcome, <@${discordUid}>. We hope you brought pizza.`,
+  `Welcome <@${discordUid}>. Leave your weapons by the door.`,
+  `A wild <@${discordUid}> appeared.`,
+  `Swoooosh. <@${discordUid}> just landed.`,
+  `Brace yourselves. <@${discordUid}> just joined the server.`,
+  `<@${discordUid}> just joined. Hide your bananas.`,
+  `<@${discordUid}> just arrived. Seems OP - please nerf.`,
+  `<@${discordUid}> just slid into the server.`,
+  `A <@${discordUid}> has spawned in the server.`,
+  `Big <@${discordUid}> showed up!`,
+  `Where’s <@${discordUid}>? In the server!`,
+  `<@${discordUid}> hopped into the server. Kangaroo!!`,
+  `<@${discordUid}> just showed up. Hold my beer.`,
+  `Challenger approaching - <@${discordUid}> has appeared!`,
+  `It's a bird! It's a plane! Nevermind, it's just <@${discordUid}>.`,
+  `It's <@${discordUid}>! Praise the sun! [T]/`,
+  `Never gonna give <@${discordUid}> up. Never gonna let <@${discordUid}> down.`,
+  `Ha! <@${discordUid}> has joined! You activated my trap card!`,
+  `Cheers, love! <@${discordUid}>'s here!`,
+  `Hey! Listen! <@${discordUid}> has joined!`,
+  `We've been expecting you <@${discordUid}>`,
+  `It's dangerous to go alone, take <@${discordUid}>!`,
+  `<@${discordUid}> has joined the server! It's super effective!`,
+  `Cheers, love! <@${discordUid}> is here!`,
+  `<@${discordUid}> is here, as the prophecy foretold.`,
+  `<@${discordUid}> has arrived. Party's over.`,
+  `Ready player <@${discordUid}>`,
+  `Hello?! Is it <@${discordUid}> you're looking for?`,
+  `Roses are red, violets are blue, <@${discordUid}> joined this server with you`,
+];
