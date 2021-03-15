@@ -49,11 +49,6 @@ entity._verifyMember = async (token) => {
     return entity._failPage();
   }
 
-  // Check if already onboarded
-  if (localMember.is_onboarded) {
-    return entity._alreadyVerifiedPage();
-  }
-
   // Token verifications and validations.
   const verified = verifyMemberToken(localMember, token);
   if (!verified) {

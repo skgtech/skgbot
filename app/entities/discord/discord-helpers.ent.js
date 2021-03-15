@@ -18,6 +18,7 @@ const {
   getGuildChannel,
   getGuildMembers,
 } = require('./logic/guild.ent');
+const { getMainChannel } = require('./logic/channels.ent');
 const { loggerToAdmin } = require('./logic/relay-to-admin.ent');
 const { setNickname } = require('./logic/change-nickname.ent');
 const { init: initOneOff } = require('./logic/one-off-operations.ent');
@@ -29,6 +30,7 @@ entity.applyRolesToNewMember = applyRolesToNewMember;
 entity.loggerToAdmin = loggerToAdmin;
 entity.removeRole = removeRole;
 entity.removeAllRoles = removeAllRoles;
+entity.getMainChannel = getMainChannel;
 entity.getGuild = getGuild;
 entity.getGuildMember = getGuildMember;
 entity.getGuildMemberLocal = getGuildMemberLocal;
