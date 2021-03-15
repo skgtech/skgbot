@@ -100,3 +100,23 @@ entity.getOnboardingMembers = async () => {
   });
   return onboardingMembers;
 };
+
+/**
+ * Fetches all the onboarded (joined) members. To filter for that, we check
+ * the members roles, if they have the "member" role, they pass.
+ *
+ * @return {Promise<Array<GuildMember>>} A Promise with the guild members.
+ */
+entity.getJoinedMembers = async () => {
+  const members = await entity.getGuildMembers();
+  console.log('ID:', config.discord.member_role_id);
+  const joinedMembers = members.filter((member) => {
+    // If member has only one role, it can only be the '@everyone' role, so
+    // no need to check for the role name.
+    if (member.roles.cache.has(config.discord.member_role_id)) {
+      return true;
+    }
+    return false;
+  });
+  return joinedMembers;
+};

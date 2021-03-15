@@ -40,7 +40,7 @@ entity.guildMemberAdd = guildMemberAdd;
  *
  */
 entity.init = () => {
-  log.info('Initializing onboaring entity...');
+  log.info('Initializing onboarding entity...');
   const client = discordService.getClient();
 
   // Create an event listener for new guild members
