@@ -30,6 +30,8 @@ All targets require the following environment variables:
 -   `DISCORD_MAIN_CHANNEL_ID` The id of the main chatter channel, for welcome
         messages.
 -   `SKGBOT_EMAIL_AUTH_PASSWORD` The SMTP password for sending emails.
+-   `SKGBOT_OPTIONS_TIMEZONE` Set the timezone on which the task manager (cron)
+    will run on. Use values from [Moment Timezone](https://momentjs.com/timezone).
 
 This project also supports a [`.env` file][dotenv] which is on `.gitignore`
 for your convenience when developing on your local.

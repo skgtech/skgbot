@@ -28,6 +28,9 @@
         "max_onboarding_days": 8,
         "invite_permalink": "https://discord.gg/BtyMYpDacK"
     },
+    "options": {
+        "timezone": "DO NOT SET - USE ENV VAR: SKGBOT_OPTIONS_TIMEZONE"
+    },
     "discord": {
         "server_name": "SKGTech",
         "moderator_role_id": "DO NOT SET - USE ENV VAR: DISCORD_MODERATOR_ROLE_ID",
