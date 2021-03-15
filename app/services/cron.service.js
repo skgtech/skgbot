@@ -2,6 +2,7 @@
  * @fileoverview Task scheduler using node-cron.
  */
 
+const config = require('config');
 const cron = require('node-cron');
 
 const log = require('./log.service').get();
@@ -26,14 +27,30 @@ service._taskFollowUpDaily = null;
  */
 service.init = async () => {
   await log.info('Initializing CRON Service...');
+  const cronOptions = {
+    timezone: config.options.timezone,
+  };
+
   // Run every 10 minutes. Check just joined members and followup.
-  service._taskFollowUpJoined1 = cron.schedule('*/2 * * * *', followUpJoined1);
+  service._taskFollowUpJoined1 = cron.schedule(
+    '*/2 * * * *',
+    followUpJoined1,
+    cronOptions,
+  );
 
   // Run every 10 minutes. Check for joined members that the bot missed and add them.
-  service._taskCheckMissing = cron.schedule('*/10 * * * *', checkMissing);
+  service._taskCheckMissing = cron.schedule(
+    '*/10 * * * *',
+    checkMissing,
+    cronOptions,
+  );
 
   // Run at 10am each day.
-  service._taskFollowUpDaily = cron.schedule('0 10 * * *', followUpDaily);
+  service._taskFollowUpDaily = cron.schedule(
+    '0 10 * * *',
+    followUpDaily,
+    cronOptions,
+  );
 };
 
 /**
