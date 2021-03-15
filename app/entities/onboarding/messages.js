@@ -30,7 +30,7 @@ Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
 
 You can also type \`!help\` for a list of available commands.
 
-Before you start, make sure you have read our rules: https://skgtech.io/rules`;
+Before you start, make sure you have read our rules: https://skgtech.io/rules/`;
 
 messages.welcome2 = () =>
   `If you agree with all of that, please` +
@@ -107,8 +107,7 @@ messages.step7Success = () =>
   ` server! Find bellow a list of commands that are now available to you:\n\n` +
   `${memberHelp()}
 
-You have now automatically joined \`Engineer\`, \`Product\`, \`Hobbies\`` +
-  ` and \`Investor\`! Enjoy!`;
+I have automatically joined you to all the categories, except \`space\`. Enjoy!`;
 
 messages.step7ResendVerification = (email) =>
   `Ok, I am sending a new email to` +
