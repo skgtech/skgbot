@@ -24,7 +24,11 @@ describe('Verification Bot', () => {
     beforeEach(async () => {
       discordEnt.getGuildMemberLocal = jest.fn(() => Promise.resolve({}));
       discordEnt.applyRolesToNewMember = jest.fn(() => Promise.resolve());
-
+      discordEnt.getMainChannel = jest.fn(() => {
+        return {
+          send: jest.fn(() => Promise.resolve()),
+        };
+      });
       // create members.
       const nowDt = new Date();
       const dtFrom = subDt(nowDt, {

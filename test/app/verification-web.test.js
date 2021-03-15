@@ -6,12 +6,11 @@ const subDt = require('date-fns/sub');
 
 const testLib = require('../lib/test.lib');
 
-const discordHelpers = require('../../app/entities/discord');
+const discordEnt = require('../../app/entities/discord');
 const {
   create: createMember,
   delete: deleteMember,
 } = require('../setup/member.setup');
-const { step7Success } = require('../../app/entities/onboarding/messages');
 const { getById: getMemberById } = require('../../app/entities/members');
 
 describe('Verification Web', () => {
@@ -26,8 +25,13 @@ describe('Verification Web', () => {
         Promise.resolve({
           send: sendMock,
         });
-      discordHelpers.getGuildMemberLocal = jest.fn(guildMock);
-      discordHelpers.applyRolesToNewMember = jest.fn(() => Promise.resolve());
+      discordEnt.getGuildMemberLocal = jest.fn(guildMock);
+      discordEnt.getMainChannel = jest.fn(() => {
+        return {
+          send: sendMock,
+        };
+      });
+      discordEnt.applyRolesToNewMember = jest.fn(() => Promise.resolve());
 
       // create members.
       const nowDt = new Date();
@@ -62,8 +66,7 @@ describe('Verification Web', () => {
       expect(res.statusCode).toEqual(200);
 
       const { calls } = sendMock.mock;
-      expect(calls.length).toBe(1);
-      expect(calls[0][0]).toEqual(step7Success());
+      expect(calls.length).toBe(2);
     });
   });
 });
