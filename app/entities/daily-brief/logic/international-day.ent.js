@@ -19,14 +19,15 @@ entity.getIntlDay = () => {
 
   const output = [];
 
-  output.push('International Observances for today:');
-
+  let found = false;
   intlDays.forEach(([day, observance]) => {
     if (day === dateStr) {
-      output.push(`* ${observance}`);
+      found = true;
+      output.push(observance);
     }
   });
-
-  const outStr = output.join('\n');
-  return outStr;
+  if (!found) {
+    return null;
+  }
+  return output;
 };

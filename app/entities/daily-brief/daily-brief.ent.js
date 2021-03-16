@@ -10,11 +10,13 @@ const {
   finalTip,
   goodmorning,
   greekNamedayMessage,
+  intlDayTitle,
+  intlDayMessage,
   jokeMessage,
 } = require('./messages');
 const { getDadJoke } = require('./logic/dad-joke.ent');
 const { getIntlDay } = require('./logic/international-day.ent');
-const { getGreekNameday } = require('./logic/international-day.ent');
+const { getGreekNameday } = require('./logic/greek-namedays.ent');
 const log = require('../../services/log.service').get();
 
 const entity = (module.exports = {});
@@ -27,14 +29,17 @@ const entity = (module.exports = {});
 entity.dailyBrief = async () => {
   log.info('Starting daily brief...');
   const nowDt = new Date();
-  const dateStr = format(nowDt, 'eeee, eo of LLLL uuuu');
+  const dateStr = format(nowDt, "eeee, eo 'of' LLLL uuuu");
 
   const output = [];
 
   output.push(goodmorning(dateStr));
-  const intlDay = getIntlDay();
-  if (intlDay) {
-    output.push(intlDay);
+  const intlDays = getIntlDay();
+  if (intlDays) {
+    output.push(intlDayTitle());
+    intlDays.forEach((intlDay) => {
+      output.push(intlDayMessage(intlDay));
+    });
   }
 
   const greekNameday = await getGreekNameday();
@@ -47,7 +52,7 @@ entity.dailyBrief = async () => {
     output.push(jokeMessage(joke));
   }
 
-  output.push(finalTip);
+  output.push(finalTip());
 
   const outputMessage = output.join('\n');
   const mainChannel = discordEnt.getMainChannel();
