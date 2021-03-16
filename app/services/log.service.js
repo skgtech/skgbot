@@ -14,8 +14,6 @@ const Logality = require('logality');
  * WARNING
  */
 
-const globals = require('../utils/globals');
-
 // Serializers
 const localMemberSerializer = require('./log-serializers/member.serializer');
 const relaySerializer = require('./log-serializers/relay.serializer');

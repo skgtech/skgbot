@@ -109,7 +109,6 @@ entity.getOnboardingMembers = async () => {
  */
 entity.getJoinedMembers = async () => {
   const members = await entity.getGuildMembers();
-  console.log('ID:', config.discord.member_role_id);
   const joinedMembers = members.filter((member) => {
     // If member has only one role, it can only be the '@everyone' role, so
     // no need to check for the role name.
