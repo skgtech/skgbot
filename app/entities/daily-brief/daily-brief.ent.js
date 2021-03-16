@@ -5,7 +5,7 @@
 
 const format = require('date-fns/format');
 
-const { goodmorning } = require('./messages');
+const { goodmorning, greekNamedayMessage } = require('./messages');
 const { getIntlDay } = require('./logic/international-day.ent');
 const { getGreekNameday } = require('./logic/international-day.ent');
 const log = require('../../services/log.service').get();
@@ -18,6 +18,7 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.dailyBrief = async () => {
+  log.info('Starting daily brief...');
   const nowDt = new Date();
   const dateStr = format(nowDt, 'eeee, eo of LLLL uuuu');
 
@@ -31,6 +32,6 @@ entity.dailyBrief = async () => {
 
   const greekNameday = await getGreekNameday();
   if (greekNameday) {
-    output.push(greekNameday);
+    output.push(greekNamedayMessage(greekNameday));
   }
 };
