@@ -5,7 +5,14 @@
 
 const format = require('date-fns/format');
 
-const { goodmorning, greekNamedayMessage } = require('./messages');
+const discordEnt = require('../discord');
+const {
+  finalTip,
+  goodmorning,
+  greekNamedayMessage,
+  jokeMessage,
+} = require('./messages');
+const { getDadJoke } = require('./logic/dad-joke.ent');
 const { getIntlDay } = require('./logic/international-day.ent');
 const { getGreekNameday } = require('./logic/international-day.ent');
 const log = require('../../services/log.service').get();
@@ -34,4 +41,15 @@ entity.dailyBrief = async () => {
   if (greekNameday) {
     output.push(greekNamedayMessage(greekNameday));
   }
+
+  const joke = await getDadJoke();
+  if (joke) {
+    output.push(jokeMessage(joke));
+  }
+
+  output.push(finalTip);
+
+  const outputMessage = output.join('\n');
+  const mainChannel = discordEnt.getMainChannel();
+  await mainChannel.send(outputMessage);
 };
