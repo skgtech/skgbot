@@ -6,7 +6,7 @@ const config = require('config');
 const differenceInCalendarDays = require('date-fns/differenceInCalendarDays');
 
 const { asyncMapCap } = require('../../../utils/helpers');
-const { getStaleOnboardingUsers } = require('../../members');
+const { getStaleOnboardingUsers, deleteByIds } = require('../../members');
 const { getGuildMemberLocal } = require('../../discord');
 const {
   followUpDailyJoined,
@@ -75,6 +75,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
   const membersNotified = [];
   const membersMissing = [];
   const membersRemoved = [];
+  const memberMissingIds = [];
 
   const promises = asyncMapCap(joinedMembers, async (localMemberExt) => {
     const guildMember = await getGuildMemberLocal(localMemberExt);
@@ -84,6 +85,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
       membersMissing.push(
         `${localMemberExt.discord_uid}:${localMemberExt.username}`,
       );
+      memberMissingIds.push(localMemberExt.discord_uid);
       return;
     }
 
@@ -113,6 +115,9 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
   });
 
   await promises;
+
+  // Delete members no longer in the guild.
+  await deleteByIds(memberMissingIds);
 
   await log.info(`Sent onboarding daily followup message.`, {
     custom: {
