@@ -9,7 +9,7 @@ const intlDays = require('../international-days');
 const entity = (module.exports = {});
 
 /**
- * Collates various news sources to produce the daily brief.
+ * Checks what international observed date it is today.
  *
  * @return {string} Formatted message to return.
  */
