@@ -47,7 +47,7 @@ logger.init = function (bootOpts = {}) {
   };
 
   logger.logality = new Logality({
-    prettyPrint: globals.isLocal || globals.isTest,
+    prettyPrint: true,
     appName,
     async: true,
     serializers,

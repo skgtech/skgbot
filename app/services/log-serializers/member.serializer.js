@@ -10,14 +10,9 @@ module.exports = (usePath = 'context.localMember') => {
       path: usePath,
       value: {
         discord_uid: value.discord_uid,
-        email: value.email,
         username: value.username,
         nickname: value.nickname,
-        first_name: value.first_name,
-        last_name: value.last_name,
         onboarding_state: value.onboarding_state,
-        joined_at: value.joined_at,
-        left_at: value.left_at,
       },
     };
   };
