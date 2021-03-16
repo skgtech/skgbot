@@ -105,6 +105,27 @@ sql.getById = async (memberId, tx) => {
 };
 
 /**
+ * Delete multiple members by their ids.
+ *
+ * @param {Array<string>} memberIds member ids to delete.
+ * @param {Object=} tx Transaction.
+ * @return {Promise<number>} A Promise with how many members were deleted.
+ */
+sql.deleteByIds = async (memberIds, tx) => {
+  const statement = db()
+    .table(TABLE)
+    .whereIn('members.discord_uid', memberIds)
+    .del();
+
+  if (tx) {
+    statement.transacting(tx);
+  }
+
+  const result = await statement;
+  return result;
+};
+
+/**
  * Specially optimized query to check if a set of members exist.
  * Expects an array of discord_uids and returns the found member records
  * containing only their discord_uids.

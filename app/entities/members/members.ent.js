@@ -20,6 +20,7 @@ entity.create = memberSql.create;
 entity.createMember = createMember;
 entity.changeNickname = changeNickname;
 entity.changeBio = changeBio;
+entity.deleteByIds = memberSql.deleteByIds;
 entity.isModerator = isModerator;
 entity.getByEmail = memberSql.getByEmail;
 entity.getById = memberSql.getById;

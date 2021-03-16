@@ -7,6 +7,8 @@ const cron = require('node-cron');
 
 const log = require('./log.service').get();
 
+const { dailyBrief } = require('../entities/daily-brief');
+
 const {
   followUpJoined1,
   followUpDaily,
@@ -49,6 +51,13 @@ service.init = async () => {
   service._taskFollowUpDaily = cron.schedule(
     '0 10 * * *',
     followUpDaily,
+    cronOptions,
+  );
+
+  // Run at 7am each day.
+  service._taskFollowUpDaily = cron.schedule(
+    '0 7 * * *',
+    dailyBrief,
     cronOptions,
   );
 };

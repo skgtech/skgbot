@@ -64,6 +64,7 @@ entity.addAllRoles = async () => {
       (addedIndex) => allRoleNames[addedIndex],
     );
 
+    // eslint-disable-next-line no-console
     console.log(
       `Added to ${guildMember.user.username}: ${roleNamesAdded.join(', ')}`,
     );

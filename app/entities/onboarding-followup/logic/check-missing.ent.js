@@ -32,7 +32,7 @@ entity.run = async () => {
       onboardingGuildMembers,
     );
 
-    if (missingGuildMembers.length === 0) {
+    if (missingGuildMembers.size === 0) {
       return;
     }
     await entity._onboardMissingMembers(missingGuildMembers);
@@ -67,7 +67,7 @@ entity._checkMissing = async (onboardingGuildMembers) => {
 /**
  * Will initiate onboarding sequence for all missing members.
  *
- * @param {Array<DiscordGuildMembers>} missingGuildMembers Array of Guild Members.
+ * @param {Map<DiscordGuildMembers>} missingGuildMembers Array of Guild Members.
  * @return {Promise<void>} A Promise.
  * @private
  */
@@ -81,16 +81,13 @@ entity._onboardMissingMembers = async (missingGuildMembers) => {
     {
       custom: {
         members_missing: missingMembers.join(', '),
-        missingGuildMembers,
-        missingGuildMembers_length: missingGuildMembers.length,
       },
     },
   );
 
-  return asyncMapCap(missingGuildMembers, (guildMember) => {
+  return asyncMapCap(missingGuildMembers, ([, guildMember]) => {
     // GuildMembers is a map, so the "guildMember" in this context
-    // is a tuple containg the ID and the object, so use [1] to extract
-    // the object of the guildmember.
-    return guildMemberAdd(guildMember[1]);
+    // is a tuple containg the ID and the object
+    return guildMemberAdd(guildMember);
   });
 };
