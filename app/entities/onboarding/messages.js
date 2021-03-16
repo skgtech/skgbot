@@ -162,9 +162,8 @@ messages.followupJoined1 = (username) =>
 messages.welcome = (discordUid) => [
   `<@${discordUid}> just joined the server!`,
   `<@${discordUid}> just joined. Everyone, look busy!`,
-  `<@${discordUid}> just joined. are you full stack?`,
+  `<@${discordUid}> just joined. Are you full stack?`,
   `<@${discordUid}> joined your party.`,
-  `<@${discordUid}> joined. Ask them if they know PHP.`,
   `<@${discordUid}> joined. Say hi everyone!`,
   `Welcome, <@${discordUid}>. Stay awhile and listen.`,
   `Welcome, <@${discordUid}>. We were expecting you ( ͡° ͜ʖ ͡°)`,
