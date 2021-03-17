@@ -50,7 +50,9 @@ entity.verifyMemberToken = async (localMember, token) => {
   }
 
   // Check if verification token matches the one on record.
-  if (uuidToken !== localMember.verification_code) {
+  // TIL https://snyk.io/blog/node-js-timing-attack-ccc-ctf/
+  // eslint-disable-next-line security/detect-possible-timing-attacks
+  if (token !== localMember.verification_code) {
     return false;
   }
 

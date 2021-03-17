@@ -24,7 +24,7 @@ step.handle7 = async (message, localMember) => {
   const token = message.content.trim();
 
   // Token verifications and validations.
-  const verified = verifyMemberToken(localMember, token);
+  const verified = await verifyMemberToken(localMember, token);
   if (!verified) {
     await message.channel.send(step7Error());
     return;
