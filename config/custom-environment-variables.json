@@ -1,9 +1,6 @@
 {
     "postgres": {
-        "host": "PG_HOST",
-        "user": "PG_USER",
-        "password": "PG_PASSWORD",
-        "database": "PG_DATABASE"
+        "connection_string": "DATABASE_URL"
     },
     "email": {
         "auth_password": "SKGBOT_EMAIL_AUTH_PASSWORD"
