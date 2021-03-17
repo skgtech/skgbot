@@ -40,7 +40,7 @@ jobs:
 
   test_app:
     docker:
-      - image: circleci/node:14.15.0
+      - image: circleci/node:14.15.5
       - image: circleci/postgres:11.9-ram
         environment:
           POSTGRES_USER: postgres
@@ -57,13 +57,22 @@ jobs:
 
       - run:
           name: Test App
-          command: npm run test:app -- --maxWorkers=2 --ci --reporters=default --reporters=jest-junit
+          command: npm run test:app -- --maxWorkers=1 --ci --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest'
             JEST_JUNIT_OUTPUT_NAME: 'results-app.xml'
 
       - store_test_results:
           path: artifacts
+
+  deploy_prod:
+    docker:
+      - image: circleci/buildpack-deps:20.10-scm
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Heroku for production.
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/skgtechbot.git master -f
 
 workflows:
   version: 2
@@ -87,3 +96,11 @@ workflows:
           filters:
             branches:
               only: /.*/
+
+      - deploy_prod:
+          requires:
+            - test_app
+            - eslint
+          filters:
+            branches:
+              only: /master/
