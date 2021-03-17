@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: Test App
-          command: npm run test:app -- --maxWorkers=1 --ci --reporters=default --reporters=jest-junit
+          command: npm run test:app -- --ci --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: 'artifacts/jest'
             JEST_JUNIT_OUTPUT_NAME: 'results-app.xml'
