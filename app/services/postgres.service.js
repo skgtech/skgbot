@@ -3,6 +3,7 @@
  */
 const config = require('config');
 const knex = require('knex');
+const { ConnectionString } = require('connection-string');
 
 const globals = require('../utils/globals');
 const log = require('./log.service').get();
@@ -31,12 +32,23 @@ sqldb.knexConfig = () => {
     },
   };
 
+  // When on Heroku, the connection string has to be broken out into
+  // configuration items so the "rejectUnauthorized" option can be inserted
+  // into the connection configuration for PG to use it.
+  // This is done because Heroku uses self-signed SSL certificates for postgres.
   if (globals.isProd) {
+    // eslint-disable-next-line no-unused-vars
+    const connStr = config.postgres.connection_string;
+    // Sample Conn string
+    // postgres://username:password@hostname.amazonaws.com:5432/dbname
+    const connParts = new ConnectionString(connStr);
+    // {hosts: [{name: 'my-server', port: 12345, type: 'domain'}]}
+
     conf.connection = {
-      host: config.postgres.host,
-      user: config.postgres.user,
-      password: config.postgres.password,
-      database: config.postgres.database,
+      host: connParts.hosts[0].name,
+      user: connParts.user,
+      password: connParts.password,
+      database: connParts.path[0],
       ssl: { rejectUnauthorized: false },
     };
   }
