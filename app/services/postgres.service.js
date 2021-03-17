@@ -45,10 +45,11 @@ sqldb.knexConfig = () => {
     // {hosts: [{name: 'my-server', port: 12345, type: 'domain'}]}
 
     conf.connection = {
-      host: connParts.hosts[0].name,
+      host: connParts.hostname,
+      port: connParts.port,
       user: connParts.user,
       password: connParts.password,
-      database: connParts.path[0],
+      database: connParts.path && connParts.path[0],
       ssl: { rejectUnauthorized: false },
     };
   }
