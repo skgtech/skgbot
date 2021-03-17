@@ -70,6 +70,7 @@ module.exports = [
   ['15/03', 'Buzzards Day'],
   ['15/03', 'World Consumer Rights Day'],
   ['15/03', 'World Contact Day'],
+  ['17/03', 'St Patricks Day'],
   ['18/03', 'Global Recycling Day'],
   ['19/03', 'Taxonomist Appreciation Day'],
   ['19/03', 'World Sleep Day'],
