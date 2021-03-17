@@ -5,7 +5,7 @@
 // const testLib = require('../lib/test.lib');
 const helpers = require('../../app/utils/helpers');
 
-describe('UNIT Helpets', () => {
+describe('UNIT Helpers', () => {
   describe('splitString()', () => {
     test('Should return a single item', () => {
       const str = 'one two';
