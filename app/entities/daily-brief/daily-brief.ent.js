@@ -54,12 +54,12 @@ entity.dailyBrief = async () => {
     await mainChannel.send(greekNamedayMessage(greekNameday));
   }
 
-  // Construction of joke of the day
+  // Joke of the day message
   const joke = await getDadJoke();
   if (joke) {
     await mainChannel.send(jokeMessage(joke));
   }
 
-  // Construction of final tip message
+  // Final tip message
   await mainChannel.send(finalTip());
 };
