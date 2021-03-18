@@ -31,30 +31,43 @@ entity.dailyBrief = async () => {
   const nowDt = new Date();
   const dateStr = format(nowDt, "eeee, eo 'of' LLLL uuuu");
 
-  const output = [];
+  const allMessages = [];
 
-  output.push(goodmorning(dateStr));
+  // Construction of good morning segment
+  allMessages.push(goodmorning(dateStr));
+
+  // Construction of international day message
   const intlDays = getIntlDay();
+  const intlDayMessages = [];
+
   if (intlDays) {
-    output.push(intlDayTitle());
+    intlDayMessages.push(intlDayTitle());
     intlDays.forEach((intlDay) => {
-      output.push(intlDayMessage(intlDay));
+      intlDayMessages.push(intlDayMessage(intlDay));
     });
   }
 
+  allMessages.push(intlDayMessages.join('\n'));
+
+  // Construction of Greek name day
   const greekNameday = await getGreekNameday();
   if (greekNameday) {
-    output.push(greekNamedayMessage(greekNameday));
+    allMessages.push(greekNamedayMessage(greekNameday));
   }
 
+  // Construction of joke of the day
   const joke = await getDadJoke();
   if (joke) {
-    output.push(jokeMessage(joke));
+    allMessages.push(jokeMessage(joke));
   }
 
-  output.push(finalTip());
+  // Construction of final tip message
+  allMessages.push(finalTip());
 
-  const outputMessage = output.join('\n');
   const mainChannel = discordEnt.getMainChannel();
-  await mainChannel.send(outputMessage);
+
+  // Ship the messages sequentially
+  allMessages.forEach(async (aMessage) => {
+    await mainChannel.send(aMessage);
+  });
 };
