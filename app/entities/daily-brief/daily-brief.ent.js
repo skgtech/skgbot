@@ -30,31 +30,36 @@ entity.dailyBrief = async () => {
   log.info('Starting daily brief...');
   const nowDt = new Date();
   const dateStr = format(nowDt, "eeee, eo 'of' LLLL uuuu");
+  const mainChannel = discordEnt.getMainChannel();
 
-  const output = [];
+  // Good morning message
+  await mainChannel.send(goodmorning(dateStr));
 
-  output.push(goodmorning(dateStr));
+  // International day message
   const intlDays = getIntlDay();
+  const intlDayMessages = [];
+
   if (intlDays) {
-    output.push(intlDayTitle());
+    intlDayMessages.push(intlDayTitle());
     intlDays.forEach((intlDay) => {
-      output.push(intlDayMessage(intlDay));
+      intlDayMessages.push(intlDayMessage(intlDay));
     });
   }
 
+  await mainChannel.send(intlDayMessages.join('\n'));
+
+  // Greek name day message
   const greekNameday = await getGreekNameday();
   if (greekNameday) {
-    output.push(greekNamedayMessage(greekNameday));
+    await mainChannel.send(greekNamedayMessage(greekNameday));
   }
 
+  // Joke of the day message
   const joke = await getDadJoke();
   if (joke) {
-    output.push(jokeMessage(joke));
+    await mainChannel.send(jokeMessage(joke));
   }
 
-  output.push(finalTip());
-
-  const outputMessage = output.join('\n');
-  const mainChannel = discordEnt.getMainChannel();
-  await mainChannel.send(outputMessage);
+  // Final tip message
+  await mainChannel.send(finalTip());
 };
