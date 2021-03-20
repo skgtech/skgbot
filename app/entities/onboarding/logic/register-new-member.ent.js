@@ -83,7 +83,7 @@ entity.sendFirstOnboardingDM = async (guildMember, localMember) => {
     await delay(6);
     await dmChannel.send(messages.welcome2(guildMember));
   } catch (ex) {
-    log.warn('sendFirstOnboardingDM() Could not send message', {
+    log.error('sendFirstOnboardingDM() Could not send message', {
       error: ex,
       localMember,
     });

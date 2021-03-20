@@ -96,7 +96,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     try {
       await guildMember.send(message);
     } catch (ex) {
-      log.warn('_sendDailyFollowUp() Could not send message to member', {
+      log.error('_sendDailyFollowUp() Could not send message to member', {
         error: ex,
         localMember: localMemberExt,
       });
@@ -109,7 +109,7 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
       try {
         await guildMember.kick('Exceeded maximum onboarding time');
       } catch (ex) {
-        log.warn('_sendDailyFollowUp() Could not kick member.', {
+        log.error('_sendDailyFollowUp() Could not kick member.', {
           localMember: localMemberExt,
           error: ex,
         });
