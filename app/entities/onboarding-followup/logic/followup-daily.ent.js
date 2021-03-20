@@ -93,7 +93,14 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     const { daysDiff, maxDays } = expDays;
     const message = entity._getProperMessage(localMemberExt, expDays);
 
-    await guildMember.send(message);
+    try {
+      await guildMember.send(message);
+    } catch (ex) {
+      log.warn('_sendDailyFollowUp() Could not send message to member', {
+        error: ex,
+        localMember: localMemberExt,
+      });
+    }
 
     if (daysDiff >= maxDays) {
       membersRemoved.push(
