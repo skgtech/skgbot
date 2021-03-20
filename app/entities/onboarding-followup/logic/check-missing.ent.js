@@ -3,7 +3,7 @@
  *   to the local store and inits onboarding.
  */
 
-const { guildMemberAdd } = require('../../onboarding');
+const { registerNewMember } = require('../../onboarding');
 const { asyncMapCap } = require('../../../utils/helpers');
 const { getExists } = require('../../members');
 const { getOnboardingMembers } = require('../../discord');
@@ -88,6 +88,6 @@ entity._onboardMissingMembers = async (missingGuildMembers) => {
   return asyncMapCap(missingGuildMembers, ([, guildMember]) => {
     // GuildMembers is a map, so the "guildMember" in this context
     // is a tuple containg the ID and the object
-    return guildMemberAdd(guildMember);
+    return registerNewMember(guildMember);
   });
 };
