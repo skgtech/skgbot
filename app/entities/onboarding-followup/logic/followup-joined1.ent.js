@@ -96,7 +96,14 @@ entity._sendFollowUp = async (joinedMembers) => {
       return;
     }
 
-    await guildMember.send(followUpJoined1(localMember.username));
+    try {
+      await guildMember.send(followUpJoined1(localMember.username));
+    } catch (ex) {
+      log.error('_sendFollowUp() Failed to send follow up message', {
+        error: ex,
+        localMember,
+      });
+    }
     membersNotified.push(`${localMember.discord_uid}:${localMember.username}`);
   });
 
