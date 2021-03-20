@@ -20,7 +20,7 @@ const entity = (module.exports = {});
  * @return {Promise<void>}
  * @private
  */
-entity.guildMemberAdd = async (guildMember) => {
+entity.registerNewMember = async (guildMember) => {
   // Make sure member exists.
   if (!guildMember) {
     return;
