@@ -28,6 +28,13 @@ entity.guildMemberAdd = async (guildMember) => {
 
   // Don't try to add bots.
   if (guildMember.user.bot) {
+    log.info(
+      `guildMemberAdd() Skipped registering ${guildMember.user.username} - is a bot`,
+      {
+        relay: true,
+        emoji: ':robot:',
+      },
+    );
     return;
   }
 
@@ -45,10 +52,10 @@ entity.guildMemberAdd = async (guildMember) => {
     throw ex;
   }
   if (localMember) {
-    log.info('_onGuildMemberAdd() :: Member already exists', { localMember });
+    log.info('guildMemberAdd() :: Member already exists', { localMember });
     localMember = await resetOnboarding(guildMember);
   } else {
-    log.info('_onGuildMemberAdd() :: Member does not exist, creating...');
+    log.info('guildMemberAdd() :: Member does not exist, creating...');
     localMember = await createMember(guildMember);
   }
 
