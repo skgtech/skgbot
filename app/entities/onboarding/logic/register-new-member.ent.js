@@ -26,6 +26,18 @@ entity.guildMemberAdd = async (guildMember) => {
     return;
   }
 
+  // Don't try to add bots.
+  if (guildMember.user.bot) {
+    log.info(
+      `guildMemberAdd() Skipped registering ${guildMember.user.username} - is a bot`,
+      {
+        relay: true,
+        emoji: ':robot:',
+      },
+    );
+    return;
+  }
+
   let localMember = null;
   try {
     // check if member already registered
@@ -40,10 +52,10 @@ entity.guildMemberAdd = async (guildMember) => {
     throw ex;
   }
   if (localMember) {
-    log.info('_onGuildMemberAdd() :: Member already exists', { localMember });
+    log.info('guildMemberAdd() :: Member already exists', { localMember });
     localMember = await resetOnboarding(guildMember);
   } else {
-    log.info('_onGuildMemberAdd() :: Member does not exist, creating...');
+    log.info('guildMemberAdd() :: Member does not exist, creating...');
     localMember = await createMember(guildMember);
   }
 
@@ -65,8 +77,15 @@ entity.sendFirstOnboardingDM = async (guildMember, localMember) => {
   });
   const dmChannel = await guildMember.createDM();
 
-  // Send the message, starting the entity process.
-  await dmChannel.send(messages.welcome1(guildMember));
-  await delay(6);
-  await dmChannel.send(messages.welcome2(guildMember));
+  try {
+    // Send the message, starting the entity process.
+    await dmChannel.send(messages.welcome1(guildMember));
+    await delay(6);
+    await dmChannel.send(messages.welcome2(guildMember));
+  } catch (ex) {
+    log.error('sendFirstOnboardingDM() Could not send message', {
+      error: ex,
+      localMember,
+    });
+  }
 };

@@ -31,10 +31,8 @@ entity.loggerToAdmin = async (logContext) => {
 
   // only deal with logs to relay or errors.
   let message;
-  if (logContext.relay) {
+  if (logContext.relay || logContext.severity < 5) {
     message = entity._formatMessage(logContext);
-  } else if (logContext.severity < 5) {
-    message = entity._formatError(logContext);
   } else {
     return;
   }
@@ -65,60 +63,58 @@ entity.loggerToAdmin = async (logContext) => {
  * @private
  */
 entity._formatMessage = (lc) => {
-  let message = `${lc.emoji} [${lc.level}] ${lc.message}`;
+  const message = [];
+
+  if (lc.event.error) {
+    message.push(`:octagonal_sign: [${lc.level}] ${lc.message} :: `);
+    message.push(`${lc.event.error.name} :: ${lc.event.error.message} :: `);
+  }
+
+  if (lc.emoji) {
+    message.push(`${lc.emoji} [${lc.level}] ${lc.message}`);
+  }
+
   // serialize localUser if it exists
   if (lc.context.localMember) {
     const lm = lc.context.localMember;
-    message += `\nuid: ${lm.discord_uid}, ${lm.username}`;
+    message.push(`\nuid: ${lm.discord_uid}, uname: "${lm.username}"`);
     if (lm.email) {
-      message += `, <${lm.email}>`;
+      message.push(`, <${lm.email}>`);
     }
     if (lm.nickname) {
-      message += `, "${lm.nickname}"`;
+      message.push(`, nick: "${lm.nickname}"`);
     }
     if (lm.first_name) {
-      message += `, "${lm.first_name} ${lm.last_name}"`;
+      message.push(`, "${lm.first_name} ${lm.last_name}"`);
     }
-    message += `, Onboarding State: ${lm.onboarding_state}`;
+    message.push(`, Onboarding State: ${lm.onboarding_state}`);
   }
 
   // check if bio is changing
   if (lc.context.custom && lc.context.custom.old_bio) {
-    message +=
+    message.push(
       `\nOld Bio:\n\`\`\`${lc.context.custom.old_bio}\`\`\`\n` +
-      `New Bio:\n\`\`\`${lc.context.custom.new_bio}\`\`\``;
+        `New Bio:\n\`\`\`${lc.context.custom.new_bio}\`\`\``,
+    );
   }
 
   if (lc.context.custom && lc.context.custom.members) {
-    message += `\nMembers: ${lc.context.custom.members}.`;
+    message.push(`\n**Members**: ${lc.context.custom.members}.`);
   }
 
   if (lc.context.custom && lc.context.custom.members_missing) {
-    message += `\nMembers no longer in the guild: ${lc.context.custom.members_missing}.`;
+    message.push(
+      `\n**Members no longer in the guild**: ${lc.context.custom.members_missing}.`,
+    );
   }
 
   if (lc.context.custom && lc.context.custom.members_removed) {
-    message +=
-      `\nMembers onboarding expired and kicked:` +
-      ` ${lc.context.custom.members_removed}.`;
+    message.push(
+      `\n**Members onboarding expired and kicked**:` +
+        ` ${lc.context.custom.members_removed}.`,
+    );
   }
 
-  return message;
-};
-
-/**
- * Format log Error message to a string.
- *
- * @param {Object} lc Logality log context object.
- * @return {string} The string message.
- * @private
- */
-entity._formatError = (lc) => {
-  let message = `:octagonal_sign: [${lc.level}] ${lc.message} :: `;
-
-  if (lc.event.error) {
-    message += `${lc.event.error.name} :: ${lc.event.error.message}`;
-  }
-
-  return message;
+  const messageStr = message.join('');
+  return messageStr;
 };

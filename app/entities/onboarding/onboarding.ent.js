@@ -8,7 +8,7 @@ const discordService = require('../../services/discord.service');
 const globals = require('../../utils/globals');
 const log = require('../../services/log.service').get();
 
-const { guildMemberAdd } = require('./logic/add-new-guild-member.ent');
+const { registerNewMember } = require('./logic/register-new-member.ent');
 const { handle1 } = require('./logic/onboarding-step1-approve.ent');
 const { handle2 } = require('./logic/onboarding-step2-first-name.ent');
 const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
@@ -33,7 +33,7 @@ entity.handle6 = handle6;
 entity.handle7 = handle7;
 entity.verifyMemberWeb = verifyMemberWeb;
 entity.resendVerification = resendVerification;
-entity.guildMemberAdd = guildMemberAdd;
+entity.registerNewMember = registerNewMember;
 
 /**
  * Initialize Discord event listeners for performing onboarding.
@@ -72,5 +72,5 @@ entity._onGuildMemberAdd = async (guildMember) => {
     return;
   }
 
-  await guildMemberAdd(guildMember);
+  await registerNewMember(guildMember);
 };
