@@ -42,7 +42,7 @@ entity.run = async () => {
 };
 
 /**
- * Will checks if any of the provided guild members are not registered in the
+ * Will check if any of the provided guild members are not registered in the
  * local database and return them.
  *
  * @param {Array<GuildMember>} onboardingGuildMembers Array of onboarding guild
