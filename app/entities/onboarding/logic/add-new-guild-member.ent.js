@@ -26,6 +26,11 @@ entity.guildMemberAdd = async (guildMember) => {
     return;
   }
 
+  // Don't try to add bots.
+  if (guildMember.user.bot) {
+    return;
+  }
+
   let localMember = null;
   try {
     // check if member already registered
@@ -65,8 +70,15 @@ entity.sendFirstOnboardingDM = async (guildMember, localMember) => {
   });
   const dmChannel = await guildMember.createDM();
 
-  // Send the message, starting the entity process.
-  await dmChannel.send(messages.welcome1(guildMember));
-  await delay(6);
-  await dmChannel.send(messages.welcome2(guildMember));
+  try {
+    // Send the message, starting the entity process.
+    await dmChannel.send(messages.welcome1(guildMember));
+    await delay(6);
+    await dmChannel.send(messages.welcome2(guildMember));
+  } catch (ex) {
+    log.warn('sendFirstOnboardingDM() Could not send message', {
+      error: ex,
+      localMember,
+    });
+  }
 };
