@@ -4,7 +4,7 @@
 
 const { validate: uuidValidate, v4: uuid } = require('uuid');
 
-const { canOnboard } = require('../../moderation');
+const { canOnboard: canOnboardModeration } = require('../../moderation');
 const { db } = require('../../../services/postgres.service');
 const discordEnt = require('../../discord');
 const { update: updateMember } = require('../../members');
@@ -85,7 +85,9 @@ entity.canOnboard = async (localMember) => {
     return false;
   }
 
-  return canOnboard(localMember);
+  const canOnboard = await canOnboardModeration(localMember);
+
+  return canOnboard;
 };
 
 /**

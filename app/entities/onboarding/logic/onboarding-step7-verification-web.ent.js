@@ -50,7 +50,7 @@ entity._verifyMember = async (token) => {
   }
 
   // Token verifications and validations.
-  const verified = verifyMemberToken(localMember, token);
+  const verified = await verifyMemberToken(localMember, token);
   if (!verified) {
     return entity._failPage();
   }
