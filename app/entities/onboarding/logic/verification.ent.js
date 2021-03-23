@@ -4,10 +4,13 @@
 
 const { validate: uuidValidate, v4: uuid } = require('uuid');
 
-const { canOnboard } = require('../../moderation');
+const { canOnboard: canOnboardModeration } = require('../../moderation');
 const { db } = require('../../../services/postgres.service');
 const discordEnt = require('../../discord');
-const { update: updateMember } = require('../../members');
+const {
+  update: updateMember,
+  getById: getByIdMember,
+} = require('../../members');
 const log = require('../../../services/log.service').get();
 const { getRandomInt } = require('../../../utils/helpers');
 const { welcome: welcomeMessages } = require('../messages');
@@ -85,7 +88,9 @@ entity.canOnboard = async (localMember) => {
     return false;
   }
 
-  return canOnboard(localMember);
+  const canOnboard = await canOnboardModeration(localMember);
+
+  return canOnboard;
 };
 
 /**
@@ -95,7 +100,7 @@ entity.canOnboard = async (localMember) => {
  *
  * @param {DiscordGuildMember} guildMember The incoming message.
  * @param {Member} localMember The local member record.
- * @return {Promise<void>} A Promise.
+ * @return {Promise<Member>} A Promise with the updated localmember record.
  * @private
  */
 entity.enableMember = async (guildMember, localMember) => {
@@ -109,7 +114,11 @@ entity.enableMember = async (guildMember, localMember) => {
   };
   await updateMember(localMember.discord_uid, updateData);
 
+  const updatedLocalMember = await getByIdMember(localMember.discord_uid);
+
   await entity._sendWelcomeMessageToMainChannel(localMember);
+
+  return updatedLocalMember;
 };
 
 /**
