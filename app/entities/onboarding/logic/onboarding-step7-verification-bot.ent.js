@@ -39,10 +39,10 @@ step.handle7 = async (message, localMember) => {
 
   // Everything checks out, allow the member in.
   const guildMember = await discordHelpers.getGuildMember(message);
-  await enableMember(guildMember, localMember);
+  const updatedLocalMember = await enableMember(guildMember, localMember);
 
   await log.info('User verified via bot, joins server', {
-    localMember,
+    localMember: updatedLocalMember,
     relay: true,
     emoji: ':ballot_box_with_check: :robot:',
   });

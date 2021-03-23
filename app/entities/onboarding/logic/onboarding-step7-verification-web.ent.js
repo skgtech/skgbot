@@ -65,11 +65,11 @@ entity._verifyMember = async (token) => {
   }
 
   // Everything checks out, allow the member in.
-  await enableMember(guildMember, localMember);
+  const updatedLocalMember = await enableMember(guildMember, localMember);
 
   // Checks out, member has verified, activate them.
   await log.info('User verified via web, joins server', {
-    localMember,
+    localMember: updatedLocalMember,
     relay: true,
     emoji: ':ballot_box_with_check: :computer:',
   });

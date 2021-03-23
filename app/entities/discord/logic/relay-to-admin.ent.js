@@ -85,7 +85,7 @@ entity._formatMessage = (lc) => {
       message.push(`, nick: "${lm.nickname}"`);
     }
     if (lm.first_name) {
-      message.push(`, "${lm.first_name} ${lm.last_name}"`);
+      message.push(`, Full Name: "${lm.first_name} ${lm.last_name}"`);
     }
     message.push(`, Onboarding State: ${lm.onboarding_state}`);
   }
