@@ -66,5 +66,8 @@ entity.dailyBrief = async () => {
   const allTips = proTips();
   const randomIndex = getRandomInt(allTips.length);
   const finalProTip = `${finalTip()} ${allTips[randomIndex]}`;
-  await mainChannel.send(finalProTip);
+
+  const embedMessage = await mainChannel.send(finalProTip);
+  // Remove any embeds
+  await embedMessage.suppressEmbeds(true);
 };

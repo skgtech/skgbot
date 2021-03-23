@@ -14,6 +14,10 @@ const entity = (module.exports = {});
  * @return {Promise<void>} A Promise.
  */
 entity.init = async () => {
+  // const { getMainChannel } = require('./channels.ent');
+  // const mainChannel = getMainChannel();
+  // const embedMessage = await mainChannel.send('https://skgtech.io');
+  // await embedMessage.suppressEmbeds(true);
   // await entity.addAllRoles();
 };
 
