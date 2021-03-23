@@ -13,6 +13,9 @@ module.exports = (usePath = 'context.localMember') => {
         username: value.username,
         nickname: value.nickname,
         onboarding_state: value.onboarding_state,
+        first_name: value.first_name,
+        last_name: value.last_name,
+        email: value.email,
       },
     };
   };
