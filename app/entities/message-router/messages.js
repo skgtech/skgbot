@@ -22,6 +22,7 @@ Available topic Categories in this server:
 * \`Investor\` Channels related to investing and cryptos.
 * \`Politics\` Politics and Pandemic related channels.
 * \`Sports\` Sports related channels.
+* \`Expats\` If you are, or planning to be an expat, this is the place to be.
 * \`Space\` Add this category if you want to be notified of space events` +
   `(launches, live events, etc).`;
 
