@@ -50,6 +50,7 @@
             "Engineer",
             "Politics",
             "Space",
+            "Expats",
             "Sports"
         ],
         "roles_all_available_lowercase": [
@@ -60,6 +61,7 @@
             "engineer",
             "politics",
             "space",
+            "expats",
             "sports"
         ],
 
@@ -70,6 +72,7 @@
             "Hobbies",
             "Engineer",
             "Politics",
+            "Expats",
             "Sports"
         ]
     }
