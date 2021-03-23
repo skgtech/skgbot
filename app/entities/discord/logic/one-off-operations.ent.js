@@ -33,21 +33,23 @@ entity.addAllRoles = async () => {
   log.info(`Total Joined Members: ${allJoinedMembers.size}`);
 
   const allRoles = [
-    '816985057280524296', // Product
-    '814450728403468309', // Investor
-    '814450733306609694', // Hobbies
-    '814567718434373682', // Engineer
-    '816976643871473685', // Politics
-    '817687869569105990', // Sports
+    // '816985057280524296', // Product
+    // '814450728403468309', // Investor
+    // '814450733306609694', // Hobbies
+    // '814567718434373682', // Engineer
+    // '816976643871473685', // Politics
+    // '817687869569105990', // Sports
+    '823931307468914769',
   ];
 
   const allRoleNames = [
-    'Product',
-    'Investor',
-    'Hobbies',
-    'Engineer',
-    'Politics',
-    'Sports',
+    // 'Product',
+    // 'Investor',
+    // 'Hobbies',
+    // 'Engineer',
+    // 'Politics',
+    // 'Sports',
+    'Expats',
   ];
 
   asyncMapCap(allJoinedMembers, async ([, guildMember]) => {
