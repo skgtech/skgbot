@@ -8,6 +8,7 @@ const format = require('date-fns/format');
 const discordEnt = require('../discord');
 const {
   finalTip,
+  proTips,
   goodmorning,
   greekNamedayMessage,
   intlDayTitle,
@@ -16,6 +17,7 @@ const {
 } = require('./messages');
 const { getDadJoke } = require('./logic/dad-joke.ent');
 const { getIntlDay } = require('./logic/international-day.ent');
+const { getRandomInt } = require('../../utils/helpers');
 const { getGreekNameday } = require('./logic/greek-namedays.ent');
 const log = require('../../services/log.service').get();
 
@@ -61,5 +63,8 @@ entity.dailyBrief = async () => {
   }
 
   // Final tip message
-  await mainChannel.send(finalTip());
+  const allTips = proTips();
+  const randomIndex = getRandomInt(allTips.length);
+  const finalProTip = `${finalTip()} ${allTips[randomIndex]}`;
+  await mainChannel.send(finalProTip);
 };
