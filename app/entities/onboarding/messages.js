@@ -25,6 +25,9 @@ Everyone can use their desired nickname, however, we do not allow anonymous` +
 * Your Bio (Let us know about yourself, what do you do, any social media).
 * Your Desired nickname.
 
+We collect your information in compliance with GDPR and our Privacy Policy:
+https://skgtech.io/privacy-policy/
+
 Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
   `encounter any problems, don't hesitate to contact a Moderator.
 
