@@ -79,7 +79,10 @@ entity.sendFirstOnboardingDM = async (guildMember, localMember) => {
 
   try {
     // Send the message, starting the entity process.
-    await dmChannel.send(messages.welcome1(guildMember));
+    const embedMessage = await dmChannel.send(messages.welcome1(guildMember));
+    // Remove any embeds
+    await embedMessage.suppressEmbeds(true);
+
     await delay(6);
     await dmChannel.send(messages.welcome2(guildMember));
   } catch (ex) {

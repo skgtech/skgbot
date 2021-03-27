@@ -25,6 +25,9 @@ Everyone can use their desired nickname, however, we do not allow anonymous` +
 * Your Bio (Let us know about yourself, what do you do, any social media).
 * Your Desired nickname.
 
+We collect your information in compliance with GDPR and our Privacy Policy:
+https://skgtech.io/privacy-policy/
+
 Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
   `encounter any problems, don't hesitate to contact a Moderator.
 
@@ -34,7 +37,7 @@ Before you start, make sure you have read our rules: https://skgtech.io/rules/`;
 
 messages.welcome2 = () =>
   `If you agree with all of that, please` +
-  ` type \`yes\` to get started! And don't forder, you can always type` +
+  ` type \`yes\` to get started! And don't forget, you can always type` +
   ' `!reset` to start the onboarding process again if you make a typo.';
 
 messages.cannotOnboard = () => 'You are not allowed to join this server.';
