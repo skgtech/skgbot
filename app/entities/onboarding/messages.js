@@ -34,7 +34,7 @@ Before you start, make sure you have read our rules: https://skgtech.io/rules/`;
 
 messages.welcome2 = () =>
   `If you agree with all of that, please` +
-  ` type \`yes\` to get started! And don't forder, you can always type` +
+  ` type \`yes\` to get started! And don't forget, you can always type` +
   ' `!reset` to start the onboarding process again if you make a typo.';
 
 messages.cannotOnboard = () => 'You are not allowed to join this server.';
