@@ -31,7 +31,7 @@ const entity = (module.exports = {});
 entity.dailyBrief = async () => {
   log.info('Starting daily brief...');
   const nowDt = new Date();
-  const dateStr = format(nowDt, "eeee, eo 'of' LLLL uuuu");
+  const dateStr = format(nowDt, "eeee, do 'of' LLLL uuuu");
   const mainChannel = discordEnt.getMainChannel();
 
   // Good morning message
