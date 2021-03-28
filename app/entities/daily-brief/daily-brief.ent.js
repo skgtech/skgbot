@@ -31,7 +31,7 @@ const entity = (module.exports = {});
 entity.dailyBrief = async () => {
   log.info('Starting daily brief...');
   const nowDt = new Date();
-  const dateStr = format(nowDt, "eeee, eo 'of' LLLL uuuu");
+  const dateStr = format(nowDt, "eeee, do 'of' LLLL uuuu");
   const mainChannel = discordEnt.getMainChannel();
 
   // Good morning message
@@ -46,9 +46,8 @@ entity.dailyBrief = async () => {
     intlDays.forEach((intlDay) => {
       intlDayMessages.push(intlDayMessage(intlDay));
     });
+    await mainChannel.send(intlDayMessages.join('\n'));
   }
-
-  await mainChannel.send(intlDayMessages.join('\n'));
 
   // Greek name day message
   const greekNameday = await getGreekNameday();
