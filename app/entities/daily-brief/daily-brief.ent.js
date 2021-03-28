@@ -46,9 +46,8 @@ entity.dailyBrief = async () => {
     intlDays.forEach((intlDay) => {
       intlDayMessages.push(intlDayMessage(intlDay));
     });
+    await mainChannel.send(intlDayMessages.join('\n'));
   }
-
-  await mainChannel.send(intlDayMessages.join('\n'));
 
   // Greek name day message
   const greekNameday = await getGreekNameday();
