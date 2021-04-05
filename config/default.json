@@ -44,36 +44,15 @@
         "main_channel_id": "DO NOT SET - USE ENV VAR: DISCORD_MAIN_CHANNEL_ID",
         "roles_all_available": [
             "Member",
-            "Product",
-            "Investor",
-            "Hobbies",
-            "Engineer",
-            "Politics",
-            "Space",
-            "Expats",
-            "Sports"
+            "Space"
         ],
         "roles_all_available_lowercase": [
             "member",
-            "product",
-            "investor",
-            "hobbies",
-            "engineer",
-            "politics",
-            "space",
-            "expats",
-            "sports"
+            "space"
         ],
 
         "roles_for_new_member": [
-            "Member",
-            "Product",
-            "Investor",
-            "Hobbies",
-            "Engineer",
-            "Politics",
-            "Expats",
-            "Sports"
+            "Member"
         ]
     }
 }
