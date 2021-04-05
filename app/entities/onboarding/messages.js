@@ -13,17 +13,22 @@ const serverName = config.discord.server_name;
 messages.welcome1 = (guildMember) =>
   `Hello ${guildMember}, Welcome to ${serverName}'s Discord Server!
 
-We are a community of professionals, passionate about technology.
+We are a community of professionals, students and technology enthusiasts.
 
-Everyone can use their desired nickname, however, we do not allow anonymous` +
-  ` accounts. As such we'll kindly ask you for the` +
-  ` following information to build your personal profile, that information` +
-  ` will be available to everyone, except your email:
+We'll kindly ask you for some information to build your personal profile.` +
+  ` That information will be available to everyone, except your email. The` +
+  ` purpose is to allow other members to get to know you better.
 
-* Your Real Name.
-* Your email for verification (will not be visible).
-* Your Bio (Let us know about yourself, what do you do, any social media).
-* Your Desired nickname.
+Once you complete this onboarding step, you will be able to talk and react` +
+  ` with other members in this server.
+
+The information we'll ask you for is:
+
+* **Real Name** We do not allow anonymous accounts in this community.
+* **email** To verify your identity (will not be visible).
+* **nickname** You can change that at any time.
+* **Bio** You can change that at any time. Let us know about yourself, ` +
+  ` what do you do, any social media for other members to connect with you).
 
 We collect your information in compliance with GDPR and our Privacy Policy:
 https://skgtech.io/privacy-policy/
@@ -31,7 +36,7 @@ https://skgtech.io/privacy-policy/
 Also, don't forget, I am a robot 🤖, so don't give me a hard time, if you ` +
   `encounter any problems, don't hesitate to contact a Moderator.
 
-You can also type \`!help\` for a list of available commands.
+You can type \`!help\` for a list of available commands.
 
 Before you start, make sure you have read our rules: https://skgtech.io/rules/`;
 

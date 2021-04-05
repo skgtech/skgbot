@@ -11,19 +11,13 @@ messages.help = () =>
 * \`!profile [username]\` :: Show the profile of another member.
 * \`!nickname [nickname]\` :: Update your nickname.
 * \`!bio [bio]\` :: Update your bio, multi-line inputs are allowed.
-* \`!join [Category]\` :: Join a topic category of channels (more below).
-* \`!part [Category]\` :: Leave a topic category of channels (more below).
+* \`!join [Category]\` :: Join a role (more below).
+* \`!part [Category]\` :: Leave a role (more below).
 
-Available topic Categories in this server:
+We use Roles to be able to mention groups of users. Today, the Available` +
+  ` Roles in this server are:
 
-* \`Engineer\` Engineering topics, programming languages, devops, etc.
-* \`Product\` Product, design, remote, business and leadership topics.
-* \`Hobbies\` Real-life hobbies, movies, music, space, IoT, gardening, etc.
-* \`Investor\` Channels related to investing and cryptos.
-* \`Politics\` Politics and Pandemic related channels.
-* \`Sports\` Sports related channels.
-* \`Expats\` If you are, or planning to be an expat, this is the place to be.
-* \`Space\` Add this category if you want to be notified of space events` +
+* \`Space\` Add this role if you want to be notified of space events` +
   `(launches, live events, etc).`;
 
 messages.helpMods = () =>
