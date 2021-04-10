@@ -8,7 +8,10 @@ const discordService = require('../../services/discord.service');
 const globals = require('../../utils/globals');
 const log = require('../../services/log.service').get();
 
-const { registerNewMember } = require('./logic/register-new-member.ent');
+const {
+  registerNewMember,
+  sendFirstOnboardingDM,
+} = require('./logic/register-new-member.ent');
 const { handle1 } = require('./logic/onboarding-step1-approve.ent');
 const { handle2 } = require('./logic/onboarding-step2-first-name.ent');
 const { handle3 } = require('./logic/onboarding-step3-last-name.ent');
@@ -34,6 +37,7 @@ entity.handle7 = handle7;
 entity.verifyMemberWeb = verifyMemberWeb;
 entity.resendVerification = resendVerification;
 entity.registerNewMember = registerNewMember;
+entity.sendFirstOnboardingDM = sendFirstOnboardingDM;
 
 /**
  * Initialize Discord event listeners for performing onboarding.
