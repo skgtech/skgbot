@@ -25,7 +25,7 @@
         "mail_from": "\"SKGTech Bot 🤖\" <hello@skgtech.io>",
         "verification_url": "https://verify.skgtech.io/verify/",
         "verification_expires_days": 10,
-        "max_onboarding_days": 8,
+        "max_onboarding_days": 3,
         "invite_permalink": "https://discord.gg/BtyMYpDacK"
     },
     "options": {
