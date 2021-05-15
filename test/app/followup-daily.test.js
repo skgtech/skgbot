@@ -106,11 +106,6 @@ describe('FollowUp Daily', () => {
       await followUpDailyTask();
       expect(sendMock.mock.calls.length).toBe(8);
     });
-    test('Will remove (kick) 2 members', async () => {
-      // execute the daily follow task.
-      await followUpDailyTask();
-      expect(kickMock.mock.calls.length).toBe(2);
-    });
     test('Will produce expected messages to members', async () => {
       // execute the follow-up-1 task.
       await followUpDailyTask();
