@@ -7,7 +7,6 @@ const config = require('config');
 const messages = (module.exports = {});
 
 const serverName = config.discord.server_name;
-const invitePermalink = config.onboarding.invite_permalink;
 
 /**
  * Onboarding Follow Up messages

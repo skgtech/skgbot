@@ -12,8 +12,6 @@ const {
   followUpDailyJoined,
   followUpDaily,
   followUpDailyVerify,
-  endOfOnboarding,
-  lastDayWarning,
 } = require('../messages');
 
 const log = require('../../../services/log.service').get();
@@ -74,7 +72,6 @@ entity._fetchOboardingMembers = async () => {
 entity._sendDailyFollowUp = async (joinedMembers) => {
   const membersNotified = [];
   const membersMissing = [];
-  const membersRemoved = [];
   const memberMissingIds = [];
 
   const promises = asyncMapCap(joinedMembers, async (localMemberExt) => {
@@ -90,7 +87,6 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     }
 
     const expDays = entity._getExpirationDays(localMemberExt);
-    const { daysDiff, maxDays } = expDays;
     const message = entity._getProperMessage(localMemberExt, expDays);
 
     try {
@@ -100,20 +96,6 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
         error: ex,
         localMember: localMemberExt,
       });
-    }
-
-    if (daysDiff >= maxDays) {
-      membersRemoved.push(
-        `${localMemberExt.discord_uid}:${localMemberExt.username}`,
-      );
-      try {
-        await guildMember.kick('Exceeded maximum onboarding time');
-      } catch (ex) {
-        log.error('_sendDailyFollowUp() Could not kick member.', {
-          localMember: localMemberExt,
-          error: ex,
-        });
-      }
     }
 
     membersNotified.push(
@@ -130,7 +112,6 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     custom: {
       members: membersNotified.join(', '),
       members_missing: membersMissing.join(', '),
-      members_removed: membersRemoved.join(', '),
     },
     relay: true,
     emoji: ':wave:',
@@ -150,7 +131,7 @@ entity._getProperMessage = (localMemberExt, expDays) => {
   const { username } = localMemberExt;
   const { daysDiff, maxDays } = expDays;
   if (daysDiff >= maxDays) {
-    return endOfOnboarding(username);
+    return;
   }
 
   let message = '';
@@ -181,11 +162,6 @@ entity._getProperMessage = (localMemberExt, expDays) => {
         localMember: localMemberExt,
       });
       break;
-  }
-
-  // warn member if this is their last day before onboarding expires.
-  if (maxDays - daysDiff === 1) {
-    message += lastDayWarning();
   }
 
   return message;
