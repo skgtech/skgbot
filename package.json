@@ -1,6 +1,6 @@
 {
     "name": "@skgtech/skgbot",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "main": "./app/",
     "description": "SKGTech's bot",
     "homepage": "https://github.com/skgtech/skgbot",
