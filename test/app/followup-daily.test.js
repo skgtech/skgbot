@@ -101,10 +101,10 @@ describe('FollowUp Daily', () => {
     afterEach(async () => {
       await deleteMulti(allMembers);
     });
-    test('Will produce 8 daily follow up actions', async () => {
+    test('Will produce 2 daily follow up actions', async () => {
       // execute the daily follow task.
       await followUpDailyTask();
-      expect(sendMock.mock.calls.length).toBe(8);
+      expect(sendMock.mock.calls.length).toBe(2);
     });
     test('Will produce expected messages to members', async () => {
       // execute the follow-up-1 task.
@@ -112,16 +112,7 @@ describe('FollowUp Daily', () => {
 
       const { calls } = sendMock.mock;
 
-      const allCallMessages = [
-        calls[0][0],
-        calls[1][0],
-        calls[2][0],
-        calls[3][0],
-        calls[4][0],
-        calls[5][0],
-        calls[6][0],
-        calls[7][0],
-      ];
+      const allCallMessages = [calls[0][0], calls[1][0]];
 
       // tough to replicate this case, just log the messages
       // and manually inspect =)

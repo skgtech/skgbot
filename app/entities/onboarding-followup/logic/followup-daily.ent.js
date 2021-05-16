@@ -89,6 +89,9 @@ entity._sendDailyFollowUp = async (joinedMembers) => {
     const expDays = entity._getExpirationDays(localMemberExt);
     const message = entity._getProperMessage(localMemberExt, expDays);
 
+    if (!message) {
+      return;
+    }
     try {
       await guildMember.send(message);
     } catch (ex) {
