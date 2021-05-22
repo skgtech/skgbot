@@ -39,7 +39,7 @@ messages.proTips = () => [
     ` Check this message https://discord.com/channels/811498668167397416/814452021783560193/817394293714059274`,
   `You can invite your friends using the permalink in the #rules channel.` +
     ` You can find the same link on the https://skgtech.io website. Here it` +
-    ` is for your convenience: https://discord.gg/BtyMYpDacK`,
+    ` is for your convenience: https://discord.gg/bW7rzT4p6H`,
   `If you have a company abroad and need to discuss tax issues, message` +
     ` a moderator to invite you to the relevant channel 🤫.`,
 ];
